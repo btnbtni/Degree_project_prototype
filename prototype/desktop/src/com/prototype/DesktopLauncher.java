@@ -1,3 +1,10 @@
+/*
+*	Basic code setup inspired by the following tutorials:
+*		https://libgdx.com/wiki/start/simple-game-extended
+*		https://libgdx.com/wiki/start/a-simple-game
+*/
+
+
 package com.prototype;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
@@ -10,6 +17,9 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Prototype");
-		new Lwjgl3Application(new Prototype(), config);
+		int windowSizeX = 800;
+		int windowSizeY = 480;
+		config.setWindowedMode(windowSizeX, windowSizeY);
+		new Lwjgl3Application(new Prototype(windowSizeX, windowSizeY), config);
 	}
 }
