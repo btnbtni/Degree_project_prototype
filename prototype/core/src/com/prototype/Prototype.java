@@ -21,11 +21,18 @@ public class Prototype extends Game {
 	int windowSizeX;
 	int windowSizeY;
 	int tileSize;
+	String[] vulnerabilityTypes;
 
 	public Prototype(int windowSizeX, int windowSizeY){
 		this.windowSizeX = windowSizeX;
 		this.windowSizeY = windowSizeY;
 		this.tileSize = 64;
+		vulnerabilityTypes = new String[10];
+		vulnerabilityTypes[0] = "SQL Injection";
+		vulnerabilityTypes[1] = "Buffer overflow";
+		for(int i = 2; i < 10; i++){
+			vulnerabilityTypes[i] = "Placeholder " + i;
+		}
 	}
 
 	public void create() {

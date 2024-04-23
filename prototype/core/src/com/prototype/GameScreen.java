@@ -41,7 +41,7 @@ public class GameScreen implements Screen {
 	public GameScreen(final Prototype game) {
         this.game = game;
 
-		playerImage = new Texture(Gdx.files.internal("player1.png"));
+		playerImage = new Texture(Gdx.files.internal("player1cropped.png"));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
@@ -94,6 +94,9 @@ public class GameScreen implements Screen {
 			offsetY += playerSpeed * Gdx.graphics.getDeltaTime();
 		}
 
+
+		
+
 		player.x += offsetX;
 		player.y += offsetY;
 
@@ -119,6 +122,11 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
 			game.setScreen(new PauseScreen(game, this));
 		}
+		if(Gdx.input.isKeyPressed(Input.Keys.P)){
+			game.setScreen(new ComputerInteractionScreen(game, this));
+		}
+
+		
 
 
 	}

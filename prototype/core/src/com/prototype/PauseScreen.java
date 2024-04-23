@@ -18,7 +18,7 @@ import com.badlogic.gdx.Input;
 public class PauseScreen implements Screen {
     
     final Prototype game;
-    final GameScreen gameScreen;
+    final Screen previouScreen;
 
 	private Array<String> menuItems;
 	OrthographicCamera camera;
@@ -28,11 +28,11 @@ public class PauseScreen implements Screen {
 	private int selectedIndex;
 	private long recentKeyStroke;
 
-	public PauseScreen(final Prototype game, final GameScreen gameScreen) {
+	public PauseScreen(final Prototype game, final Screen screen) {
 		this.game = game;
-        this.gameScreen = gameScreen;
+        this.previouScreen = screen;
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
+		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
 		menuItems = new Array<String>();
 		menuItems.add("Resume");
 		menuItems.add("Options");
@@ -64,7 +64,7 @@ public class PauseScreen implements Screen {
 
 		if(Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
 			if(selectedIndex == 0){
-				game.setScreen(gameScreen);
+				game.setScreen(previouScreen);
 			}
 			if(selectedIndex == 1){
 				
