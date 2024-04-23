@@ -49,8 +49,8 @@ public class GameScreen implements Screen {
 		player = new Rectangle();
 		player.x = (game.windowSizeX / 2) - (game.tileSize/2);
 		player.y = game.windowSizeY/2;
-		player.width = game.tileSize;
-		player.height = game.tileSize;
+		player.width = 28;
+		player.height = 20;
 
 		this.tileMapHelper = new TileMapHelper();
 		this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
@@ -96,6 +96,16 @@ public class GameScreen implements Screen {
 
 		player.x += offsetX;
 		player.y += offsetY;
+
+		if(tileMapHelper.detectCollision(player, "collisions")){
+			player.x -= offsetX;
+			player.y -= offsetY;
+		}
+
+		else if(tileMapHelper.detectInteraction(player, "interaction") && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+			System.out.println("hej");
+		}
+		
 
 		int edgePanDistance = 100;
 

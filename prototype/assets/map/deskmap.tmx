@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="7">
  <tileset firstgid="1" source="alltiles.tsx"/>
  <layer id="1" name="Tile Layer 1" width="20" height="20">
   <data encoding="base64" compression="zlib">
    eJzjZGBg4KYS5gJidiBmoxLmGDVv1LxR80bNGzWPauYxAjEzlTATEAMAUpgJuQ==
   </data>
  </layer>
- <objectgroup id="2" name="Object Layer 1"/>
  <layer id="3" name="Tile Layer 2" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYKAPYKWTPbQAtHQ7OWazUKgen5245IZy/KEDYvxCiX9JjR9qAXraS4ld5OgdjOmPnuFNSb6kZdgBAA+3AFk=
+   eJxjYKAPYKWTPdQALGh8WrqdHLPR3Ueqenx24pIbSvFHCBDjF0r8S2r8UAvQ015K7CJH72BMf/QMb0ryJS3DDgAkZwBd
   </data>
  </layer>
+ <objectgroup id="4" name="collisions">
+  <object id="6" x="576" y="192" width="64" height="64"/>
+ </objectgroup>
 </map>
