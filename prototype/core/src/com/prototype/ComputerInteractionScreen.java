@@ -28,11 +28,11 @@ import com.badlogic.gdx.Screen;
 public class ComputerInteractionScreen implements Screen {
 
     final Prototype game;
-    private Screen previousScreen;
     
 	private Texture backgroundImage;
 	private Texture decisionWindowA;
 	private Texture decisionWindowB;
+	private Texture vulnerabilityWindow;
 
 	private OrthographicCamera camera;
 
@@ -41,19 +41,22 @@ public class ComputerInteractionScreen implements Screen {
 	int startCodeTextX;
 	int startCodeTextY;
 	long recentKeyStroke;
+	int selectedVulnerability;
+	int lineSize;
+	boolean handled;
 
 	int screenPhase;
 	boolean yesMarked;
 
 	String codeTest;
 
-	public ComputerInteractionScreen(final Prototype game, Screen screen) {
+	public ComputerInteractionScreen(final Prototype game) {
         this.game = game;
-        previousScreen = screen;
 
-		backgroundImage = new Texture(Gdx.files.internal("boringcomputerscreen2.png"));
+		backgroundImage = new Texture(Gdx.files.internal("boringcomputerscreen1280.png"));
 		decisionWindowA = new Texture(Gdx.files.internal("judgecodeyes1.png"));
 		decisionWindowB = new Texture(Gdx.files.internal("judgecodeno1.png"));
+		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylist1.png"));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
@@ -66,11 +69,14 @@ public class ComputerInteractionScreen implements Screen {
 
 		screenPhase = 0;
 		yesMarked = true;
+		selectedVulnerability = 0;
+		lineSize = 20;
 
 		startCodeTextX = game.windowSizeX/100;
-		startCodeTextY = game.windowSizeY - (game.windowSizeY / 20);
+		startCodeTextY = game.windowSizeY - 20;
 
 		recentKeyStroke = 0;
+		handled = false;
 
 		codeTest = "Test test test test \nTEST TEST \nasdasd";
 	}
@@ -92,23 +98,70 @@ public class ComputerInteractionScreen implements Screen {
 			}else{
 				game.batch.draw(decisionWindowB, (float)(game.windowSizeX*0.7), (float)(game.windowSizeY*0.7));
 			}
+		}else if(screenPhase == 1){
+			game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 100);
+			for(int i = 0; i < game.vulnerabilityTypes.length; i++){
+				if(selectedVulnerability != i){
+					game.greyFont.draw(game.batch, game.vulnerabilityTypes[i], (float)(game.windowSizeX*0.5) - 50, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize));
+				}else{
+					game.font.draw(game.batch, game.vulnerabilityTypes[i], (float)(game.windowSizeX*0.5) - 50, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize));
+				}
+			}
+		}else if(screenPhase == 2){
+			if(yesMarked){
+				game.font.draw(game.batch, "A developer will re-write this code \nto fix the vulnerability.", (float)(game.windowSizeX*0.5) - 100, (float)(game.windowSizeY*0.7) + 120);
+			}else{
+				game.font.draw(game.batch, "The code is considered safe and will not be changed.", (float)(game.windowSizeX*0.5) - 100, (float)(game.windowSizeY*0.7) + 120);
+			}
+			game.font.draw(game.batch, "Press ENTER to go back", (float)(game.windowSizeX*0.5) - 100, (float)(game.windowSizeY*0.4));
 		}
 		game.batch.end();
 
 
 
-		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
-			game.setScreen(new PauseScreen(game, this));
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+			game.pushPreviousScreen(this);
+			game.setScreen(new PauseScreen(game));
 		}
 
-        if(Gdx.input.isKeyPressed(Input.Keys.O)){
-			game.setScreen(previousScreen);
+        if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
+			game.setScreen(game.popPreviousScreen());
 		}
 
 		if(screenPhase == 0){
 			if((Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))){
 				yesMarked = !yesMarked;
 				recentKeyStroke = TimeUtils.nanoTime();
+			}
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+				if(yesMarked){
+					screenPhase = 1;
+				}else{
+					screenPhase = 2;
+					handled = true;
+				}
+			}
+		}else if(screenPhase == 1){
+			if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
+				if(selectedVulnerability == 0){
+					selectedVulnerability = game.vulnerabilityTypes.length - 1;
+				}else{
+					selectedVulnerability--;
+				}
+			}
+			if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
+				selectedVulnerability++;
+				if(selectedVulnerability >= game.vulnerabilityTypes.length){
+					selectedVulnerability = 0;
+				}
+			}
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+				handled = true;
+				screenPhase = 2;
+			}
+		}else if(screenPhase == 2){
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+				game.setScreen(game.popPreviousScreen());
 			}
 		}
 

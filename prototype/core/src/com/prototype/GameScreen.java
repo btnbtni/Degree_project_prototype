@@ -120,10 +120,20 @@ public class GameScreen implements Screen {
 
 
 		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
-			game.setScreen(new PauseScreen(game, this));
+			game.pushPreviousScreen(this);
+			game.setScreen(new PauseScreen(game));
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.P)){
-			game.setScreen(new ComputerInteractionScreen(game, this));
+			game.pushPreviousScreen(this);
+			game.setScreen(game.interactionScreens[0]);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.K)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.interactionScreens[1]);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.L)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.interactionScreens[2]);
 		}
 
 		
