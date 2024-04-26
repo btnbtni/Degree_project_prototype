@@ -7,6 +7,7 @@
 
 package com.prototype;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -14,6 +15,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -34,10 +40,19 @@ public class GameScreen implements Screen {
 	private Texture playerImageLeft;
 	private Texture playerImageRight;
 	private int movingDirection;
+	private Texture playerImage;
+	private Texture exclamationMarkImage;
+	private Texture usbImage;
+	
+	private Texture openDoorLeft;
+	private Texture closedDoorLeft;
+	private Texture openDoorRight;
+	private Texture closedDoorRight;
 
 	private OrthographicCamera camera;
 
 	private Rectangle player;
+	private Rectangle usb;
 
 	private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
 	private TileMapHelper tileMapHelper;
@@ -49,7 +64,16 @@ public class GameScreen implements Screen {
 		playerImageUp = new Texture(Gdx.files.internal("player1upcropped.png"));
 		playerImageLeft = new Texture(Gdx.files.internal("player1leftcropped.png"));
 		playerImageRight = new Texture(Gdx.files.internal("player1rightcropped.png"));
+		playerImage = new Texture(Gdx.files.internal("player1cropped.png"));
+		exclamationMarkImage = new Texture(Gdx.files.internal("map/exclamationmarklarge.png"));
+		usbImage = new Texture(Gdx.files.internal("map/usb.png"));
 
+		openDoorLeft = new Texture(Gdx.files.internal("map/openDoorLeft.png"));
+		closedDoorLeft = new Texture(Gdx.files.internal("map/closedDoorLeft.png"));
+
+		openDoorRight = new Texture(Gdx.files.internal("map/openDoorRight.png"));
+		closedDoorRight = new Texture(Gdx.files.internal("map/closedDoorRight.png"));
+		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
 
@@ -60,12 +84,57 @@ public class GameScreen implements Screen {
 		player.height = 20;
 		movingDirection = 0;
 
+		
+
 		this.tileMapHelper = new TileMapHelper();
 		this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
 	 
+		usb = tileMapHelper.getUSB();
 	}
 	
 
+	private void usbCollection(){
+		Rectangle tempPlayer = new Rectangle(player.x, player.y, 64, 64);
+	
+		if(usb != null && tempPlayer.overlaps(usb)){
+			usb = null;
+			System.out.println("collected");
+		}
+	}
+
+	private void drawExclamationMarks(){
+		Rectangle exclamationRectangle;
+		for(RectangleMapObject exclamationMark : tileMapHelper.getExclamationMarks()){
+			if(exclamationMark.isVisible()){
+				exclamationRectangle = exclamationMark.getRectangle();
+				game.batch.draw(exclamationMarkImage, exclamationRectangle.getX(), exclamationRectangle.getY());
+			}
+		}
+	}
+
+	private void drawDoors(){
+		Rectangle door;
+		for(RectangleMapObject doorObject : tileMapHelper.getDoors()){
+			MapProperties doorProperties = doorObject.getProperties();
+			door = doorObject.getRectangle();
+			if(doorProperties.get("left", boolean.class)){
+				if(doorProperties.get("open", boolean.class)){
+					game.batch.draw(openDoorLeft, door.getX(), door.getY());
+				}
+				else{
+					game.batch.draw(closedDoorLeft, door.getX(), door.getY());
+				}
+			}
+			else{
+				if(doorProperties.get("open", boolean.class)){
+					game.batch.draw(openDoorRight, door.getX(), door.getY());
+				}
+				else{
+					game.batch.draw(closedDoorRight, door.getX(), door.getY());
+				}
+			}
+		}
+	}
 	@Override
 	public void render(float delta) {
 		
@@ -76,18 +145,21 @@ public class GameScreen implements Screen {
 		orthogonalTiledMapRenderer.setView(camera);
 		orthogonalTiledMapRenderer.render();
 
+		usbCollection();
+
 		game.batch.begin();
-		if(movingDirection == 0){
-			game.batch.draw(playerImageDown, player.x, player.y);
-		}else if(movingDirection == 1){
-			game.batch.draw(playerImageUp, player.x, player.y);
-		}else if(movingDirection == 2){
-			game.batch.draw(playerImageLeft, player.x, player.y);
-		}else if(movingDirection == 3){
-			game.batch.draw(playerImageRight, player.x, player.y);
+		
+
+		drawExclamationMarks();
+		
+		drawDoors();
+		
+
+		if(usb != null){
+			game.batch.draw(usbImage, usb.x, usb.y);
 		}
-		// String progressString =  "Cases handled:\n" + "     " + game.numberOfAnsweredTests + " / " + game.numberOfTests;
-		// game.greyFont.draw(game.batch, progressString, (float)(game.windowSizeX*0.9), (float)(game.windowSizeY*0.9));
+		
+		game.batch.draw(playerImage, player.x, player.y);
 		game.batch.end();
 
 		float offsetX = 0;
@@ -113,9 +185,6 @@ public class GameScreen implements Screen {
 			movingDirection = 1;
 		}
 
-
-		
-
 		player.x += offsetX;
 		player.y += offsetY;
 
@@ -124,8 +193,20 @@ public class GameScreen implements Screen {
 			player.y -= offsetY;
 		}
 
-		else if(tileMapHelper.detectInteraction(player, "interaction") && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
-			System.out.println("hej");
+		else if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+
+			PolygonMapObject interactionObject = tileMapHelper.detectInteraction(player, "interaction");
+			
+			if(interactionObject != null){
+				String objectType = interactionObject.getProperties().get("type", String.class);
+				if(objectType.equals("desk")){
+					tileMapHelper.toggleExclamationMark(interactionObject.getName());
+				}
+				else if(objectType.equals("door")){
+					tileMapHelper.toggleDoor(interactionObject.getName());
+				}
+				
+			}
 		}
 		
 
