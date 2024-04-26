@@ -1,7 +1,10 @@
 package com.prototype;
 
+import java.util.Random;
+
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -12,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Follows the tutorial on https://www.youtube.com/watch?v=PMiodP2q8-4
@@ -30,10 +34,9 @@ public class TileMapHelper {
         return new OrthogonalTiledMapRenderer(tilemap);
     }
 
-    private MapObjects getMapObjects(String tileLayerName){
+    public MapObjects getMapObjects(String tileLayerName){
         return tilemap.getLayers().get(tileLayerName).getObjects();
     }
-
 
     /**
      * Code inspired by: https://stackoverflow.com/questions/20063281/libgdx-collision-detection-with-tiledmap
@@ -55,7 +58,7 @@ public class TileMapHelper {
     /**
      * Code inspired by: https://stackoverflow.com/questions/28522313/java-libgdx-how-to-check-polygon-collision-with-rectangle-or-circle
      */
-    public boolean detectInteraction(Rectangle player, String layer){
+    public PolygonMapObject detectInteraction(Rectangle player, String layer){
 
         MapObjects interactionObjects = getMapObjects(layer);
 
@@ -66,10 +69,43 @@ public class TileMapHelper {
         for (PolygonMapObject polygonObject : interactionObjects.getByType(PolygonMapObject.class)) {
             Polygon polygon = polygonObject.getPolygon();
             if (Intersector.overlapConvexPolygons(polygon, playerPolygon)) {
-                return true;
+                return polygonObject;
             }
         }
 
-        return false;
+        return null;
+    }
+
+    public void toggleExclamationMark(String name){
+        MapObject exlamationMapObject = getMapObjects("exclamationmark").get(name);
+
+        exlamationMapObject.setVisible(false);
+    }
+
+    public Array<RectangleMapObject> getExclamationMarks(){
+        return getMapObjects("exclamationmark").getByType(RectangleMapObject.class);
+    }
+
+    public Rectangle getUSB(){
+        MapObjects usbObjects = getMapObjects("usb");
+
+        Random rnd = new Random();
+
+        int selectedUSBIndex = rnd.nextInt(usbObjects.getCount());
+
+        Rectangle usb = usbObjects.getByType(RectangleMapObject.class).get(selectedUSBIndex).getRectangle();
+
+        usbObjects.remove(selectedUSBIndex);
+        return usb;
+    }
+
+    public Array<RectangleMapObject> getDoors(){
+        return getMapObjects("doors").getByType(RectangleMapObject.class);
+    }
+
+    public void toggleDoor(String name){
+        MapObject doorMapObject = getMapObjects("doors").get(name);
+        boolean open = doorMapObject.getProperties().get("open", boolean.class);
+        doorMapObject.getProperties().put("open", !open);
     }
 }
