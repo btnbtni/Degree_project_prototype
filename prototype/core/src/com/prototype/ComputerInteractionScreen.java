@@ -43,16 +43,19 @@ public class ComputerInteractionScreen implements Screen {
 	long recentKeyStroke;
 	int selectedVulnerability;
 	int lineSize;
+	int screenIndex;
 	boolean handled;
+	boolean hasError;
 
 	int screenPhase;
 	boolean yesMarked;
 
 	String codeTest;
 
-	public ComputerInteractionScreen(final Prototype game) {
+	public ComputerInteractionScreen(final Prototype game, boolean hasError, int index) {
         this.game = game;
-
+		this.hasError = hasError;
+		screenIndex = index;
 		backgroundImage = new Texture(Gdx.files.internal("boringcomputerscreen1280.png"));
 		decisionWindowA = new Texture(Gdx.files.internal("judgecodeyes1.png"));
 		decisionWindowB = new Texture(Gdx.files.internal("judgecodeno1.png"));
@@ -91,7 +94,11 @@ public class ComputerInteractionScreen implements Screen {
 
 		game.batch.begin();
 		game.batch.draw(backgroundImage, background.x, background.y);
-		game.font.draw(game.batch, codeTest, startCodeTextX, startCodeTextY);
+		if(hasError){
+			game.font.draw(game.batch, game.incorrectVersion[screenIndex], startCodeTextX, startCodeTextY);
+		}else{
+			game.font.draw(game.batch, game.correctVersion[screenIndex], startCodeTextX, startCodeTextY);
+		}
 		if(screenPhase == 0){
 			if(yesMarked){
 				game.batch.draw(decisionWindowA, (float)(game.windowSizeX*0.7), (float)(game.windowSizeY*0.7));
@@ -137,6 +144,7 @@ public class ComputerInteractionScreen implements Screen {
 				if(yesMarked){
 					screenPhase = 1;
 				}else{
+					game.registerAnswer(screenIndex);
 					screenPhase = 2;
 					handled = true;
 				}
@@ -157,6 +165,7 @@ public class ComputerInteractionScreen implements Screen {
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
 				handled = true;
+				game.registerAnswer(game.vulnerabilityTypes[selectedVulnerability], screenIndex);
 				screenPhase = 2;
 			}
 		}else if(screenPhase == 2){

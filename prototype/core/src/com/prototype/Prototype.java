@@ -10,6 +10,7 @@ package com.prototype;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import com.badlogic.gdx.graphics.Color;
@@ -23,9 +24,23 @@ public class Prototype extends Game {
 	public BitmapFont font;
 	public BitmapFont greyFont;
 	public Screen[] interactionScreens;
-	public Screen[] screenStack;
+	private Screen[] screenStack;
+	private boolean[] testIsFinished;
+	private boolean[] testNeedsChange;
+	private boolean[] testAnsweredCorrectly;
+	public String[] correctVersion;
+	public String[] incorrectVersion;
+	private String[] correctAnswers;
+	private String[] providedAnswers;
+	public int numberOfAnsweredTests;
+	public int numberOfCorrectlyAnsweredTests;
+
+	private int[] indicesOfNeededChanges;
 	private int screenStackPointer;
 	private int screenStackCapacity;
+	private int numberOfInteractions;
+	public int numberOfTests;
+	private int numberOfNeededChanges;
 
 	int windowSizeX;
 	int windowSizeY;
@@ -36,32 +51,50 @@ public class Prototype extends Game {
 		this.windowSizeX = windowSizeX;
 		this.windowSizeY = windowSizeY;
 		this.tileSize = 64;
-		interactionScreens = new Screen[10];
-		vulnerabilityTypes = new String[10];
+		numberOfInteractions = 10;
+		numberOfTests = 10;
+		numberOfNeededChanges = 5;
 		screenStackPointer = -1;
 		screenStackCapacity = 10;
+		numberOfAnsweredTests = 0;
+		numberOfCorrectlyAnsweredTests = 0;
+		indicesOfNeededChanges = new int[numberOfNeededChanges];
+		interactionScreens = new Screen[numberOfInteractions];
+		vulnerabilityTypes = new String[10];
+		testIsFinished = new boolean[numberOfTests];
+		testNeedsChange = new boolean[numberOfTests];
+		testAnsweredCorrectly = new boolean[numberOfTests];
+		correctVersion = new String[numberOfTests];
+		incorrectVersion = new String[numberOfTests];
+		correctAnswers = new String[numberOfTests];
+		providedAnswers = new String[numberOfTests];
 		screenStack = new Screen[screenStackCapacity];
-		vulnerabilityTypes[0] = "SQL Injection";
-		vulnerabilityTypes[1] = "Buffer overflow";
-		for(int i = 2; i < 10; i++){
-			vulnerabilityTypes[i] = "Placeholder " + i;
-		}
-		
 	}
 
 	public void create() {
 		batch = new SpriteBatch();
-		font = new BitmapFont(); // use libGDX's default Arial font
+		font = new BitmapFont();
 		greyFont = new BitmapFont();
 		greyFont.setColor(Color.DARK_GRAY);
+		vulnerabilityTypes[0] = "SQL Injection";
+		correctAnswers[0] = "SQL Injection";
+		vulnerabilityTypes[1] = "Buffer overflow";
+		correctAnswers[1] = "Buffer overflow";
+		for(int i = 2; i < 10; i++){
+			vulnerabilityTypes[i] = "Placeholder " + i;
+			correctAnswers[i] = "Placeholder " + i;
+		}
+		setRandomValues();
+		setLists();
+		setTexts();
 		for(int i = 0; i < interactionScreens.length; i++){
-			interactionScreens[i] = new ComputerInteractionScreen(this);
+			interactionScreens[i] = new ComputerInteractionScreen(this, testNeedsChange[i], i);
 		}
 		this.setScreen(new MainMenuScreen(this));
 	}
 
 	public void render() {
-		super.render(); // important!
+		super.render();
 	}
 
 	public void dispose() {
@@ -94,4 +127,60 @@ public class Prototype extends Game {
 			screenStackPointer = -1;
 		}
 	}
+
+	private void setRandomValues(){
+		int randomNumber;
+		boolean uniqueNumber;
+		for(int i = 0; i < numberOfNeededChanges; i++){
+			uniqueNumber = false;
+			while(!uniqueNumber){
+				randomNumber = MathUtils.random((numberOfTests - 1));
+				uniqueNumber = true;
+				for(int j = 0; j < i; j++){
+					if(indicesOfNeededChanges[j] == randomNumber){
+						uniqueNumber = false;
+					}
+				}
+				if(uniqueNumber){
+					indicesOfNeededChanges[i] = randomNumber;
+				}
+			}
+		}
+	}
+
+	private void setLists(){
+		for(int i = 0; i < numberOfTests; i++){
+			testNeedsChange[i] = false;
+			testIsFinished[i] = false;
+			testAnsweredCorrectly[i] = false;
+		}
+		for(int i = 0; i < numberOfNeededChanges; i++){
+			testNeedsChange[indicesOfNeededChanges[i]] = true;
+		}
+	}
+
+	private void setTexts(){
+		for(int i = 0; i < numberOfTests; i++){
+			correctVersion[i] = "public function DoSomething(){\n    CORRECT CODE " + i + "\n}";
+			incorrectVersion[i] = "public function DoSomething(){\n    INCORRECT CODE " + i + "\n}";
+		}
+	}
+
+	public void registerAnswer(String answer, int index){
+		providedAnswers[index] = answer;
+		if(testNeedsChange[index] && answer.equals(correctAnswers[index])){
+			testAnsweredCorrectly[index] = true;
+			numberOfCorrectlyAnsweredTests++;
+		}
+		numberOfAnsweredTests++;
+	}
+
+	public void registerAnswer(int index){
+		if(!testNeedsChange[index]){
+			testAnsweredCorrectly[index] = true;
+			numberOfCorrectlyAnsweredTests++;
+		}
+		numberOfAnsweredTests++;
+	}
+
 }

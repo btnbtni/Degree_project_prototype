@@ -29,7 +29,11 @@ public class GameScreen implements Screen {
 
     final Prototype game;
     
-	private Texture playerImage;
+	private Texture playerImageDown;
+	private Texture playerImageUp;
+	private Texture playerImageLeft;
+	private Texture playerImageRight;
+	private int movingDirection;
 
 	private OrthographicCamera camera;
 
@@ -41,7 +45,10 @@ public class GameScreen implements Screen {
 	public GameScreen(final Prototype game) {
         this.game = game;
 
-		playerImage = new Texture(Gdx.files.internal("player1cropped.png"));
+		playerImageDown = new Texture(Gdx.files.internal("player1cropped.png"));
+		playerImageUp = new Texture(Gdx.files.internal("player1upcropped.png"));
+		playerImageLeft = new Texture(Gdx.files.internal("player1leftcropped.png"));
+		playerImageRight = new Texture(Gdx.files.internal("player1rightcropped.png"));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
@@ -51,6 +58,7 @@ public class GameScreen implements Screen {
 		player.y = game.windowSizeY/2;
 		player.width = 28;
 		player.height = 20;
+		movingDirection = 0;
 
 		this.tileMapHelper = new TileMapHelper();
 		this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
@@ -69,7 +77,17 @@ public class GameScreen implements Screen {
 		orthogonalTiledMapRenderer.render();
 
 		game.batch.begin();
-		game.batch.draw(playerImage, player.x, player.y);
+		if(movingDirection == 0){
+			game.batch.draw(playerImageDown, player.x, player.y);
+		}else if(movingDirection == 1){
+			game.batch.draw(playerImageUp, player.x, player.y);
+		}else if(movingDirection == 2){
+			game.batch.draw(playerImageLeft, player.x, player.y);
+		}else if(movingDirection == 3){
+			game.batch.draw(playerImageRight, player.x, player.y);
+		}
+		// String progressString =  "Cases handled:\n" + "     " + game.numberOfAnsweredTests + " / " + game.numberOfTests;
+		// game.greyFont.draw(game.batch, progressString, (float)(game.windowSizeX*0.9), (float)(game.windowSizeY*0.9));
 		game.batch.end();
 
 		float offsetX = 0;
@@ -80,18 +98,19 @@ public class GameScreen implements Screen {
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			offsetX -= playerSpeed * Gdx.graphics.getDeltaTime();
+			movingDirection = 2;
 		} 
    		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 			offsetX += playerSpeed * Gdx.graphics.getDeltaTime();
-
-			
+			movingDirection = 3;
 		} 
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
 			offsetY -= playerSpeed * Gdx.graphics.getDeltaTime();
-			
+			movingDirection = 0;
 		}
    		if(Gdx.input.isKeyPressed(Input.Keys.UP)){
 			offsetY += playerSpeed * Gdx.graphics.getDeltaTime();
+			movingDirection = 1;
 		}
 
 
@@ -123,17 +142,53 @@ public class GameScreen implements Screen {
 			game.pushPreviousScreen(this);
 			game.setScreen(new PauseScreen(game));
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.P)){
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_0)){
 			game.pushPreviousScreen(this);
 			game.setScreen(game.interactionScreens[0]);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.K)){
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
 			game.pushPreviousScreen(this);
 			game.setScreen(game.interactionScreens[1]);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.L)){
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
 			game.pushPreviousScreen(this);
 			game.setScreen(game.interactionScreens[2]);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.interactionScreens[3]);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_4)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.interactionScreens[4]);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_5)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.interactionScreens[5]);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_6)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.interactionScreens[6]);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_7)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.interactionScreens[7]);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_8)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.interactionScreens[8]);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_9)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.interactionScreens[9]);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_0)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.interactionScreens[0]);
+		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.M)){
+			game.pushPreviousScreen(this);
+			game.setScreen(new EndScreen(game));
 		}
 
 		
@@ -144,7 +199,10 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose () {
 		
-      	playerImage.dispose();
+      	playerImageDown.dispose();
+		playerImageUp.dispose();
+		playerImageLeft.dispose();
+		playerImageDown.dispose();
       	// game.batch.dispose();
 	}
 
