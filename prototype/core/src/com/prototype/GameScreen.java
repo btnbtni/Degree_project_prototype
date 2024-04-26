@@ -40,7 +40,6 @@ public class GameScreen implements Screen {
 	private Texture playerImageLeft;
 	private Texture playerImageRight;
 	private int movingDirection;
-	private Texture playerImage;
 	private Texture exclamationMarkImage;
 	private Texture usbImage;
 	
@@ -64,7 +63,6 @@ public class GameScreen implements Screen {
 		playerImageUp = new Texture(Gdx.files.internal("player1upcropped.png"));
 		playerImageLeft = new Texture(Gdx.files.internal("player1leftcropped.png"));
 		playerImageRight = new Texture(Gdx.files.internal("player1rightcropped.png"));
-		playerImage = new Texture(Gdx.files.internal("player1cropped.png"));
 		exclamationMarkImage = new Texture(Gdx.files.internal("map/exclamationmarklarge.png"));
 		usbImage = new Texture(Gdx.files.internal("map/usb.png"));
 
@@ -159,7 +157,17 @@ public class GameScreen implements Screen {
 			game.batch.draw(usbImage, usb.x, usb.y);
 		}
 		
-		game.batch.draw(playerImage, player.x, player.y);
+		if(movingDirection == 0){
+			game.batch.draw(playerImageDown, player.x, player.y);
+		}else if(movingDirection == 1){
+			game.batch.draw(playerImageUp, player.x, player.y);
+		}else if(movingDirection == 2){
+			game.batch.draw(playerImageLeft, player.x, player.y);
+		}else if(movingDirection == 3){
+			game.batch.draw(playerImageRight, player.x, player.y);
+		}
+		// String progressString =  "Cases handled:\n" + "     " + game.numberOfAnsweredTests + " / " + game.numberOfTests;
+		// game.greyFont.draw(game.batch, progressString, (float)(game.windowSizeX*0.9), (float)(game.windowSizeY*0.9));
 		game.batch.end();
 
 		float offsetX = 0;
