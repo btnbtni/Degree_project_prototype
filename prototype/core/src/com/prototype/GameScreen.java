@@ -166,15 +166,18 @@ public class GameScreen implements Screen {
 		}else if(movingDirection == 3){
 			game.batch.draw(playerImageRight, player.x, player.y);
 		}
-		// String progressString =  "Cases handled:\n" + "     " + game.numberOfAnsweredTests + " / " + game.numberOfTests;
-		// game.greyFont.draw(game.batch, progressString, (float)(game.windowSizeX*0.9), (float)(game.windowSizeY*0.9));
+		String progressString =  "Cases handled:\n" + "     " + game.numberOfAnsweredTests + " / " + game.numberOfTests;
+		game.greyFont.draw(game.batch, progressString, (float)(game.windowSizeX*0.9), (float)(game.windowSizeY*0.9));
 		game.batch.end();
+		readInput();
+	}
+
+	private void readInput(){
 
 		float offsetX = 0;
 		float offsetY = 0;
 
 		int playerSpeed = 400;
-
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			offsetX -= playerSpeed * Gdx.graphics.getDeltaTime();
@@ -279,10 +282,6 @@ public class GameScreen implements Screen {
 			game.pushPreviousScreen(this);
 			game.setScreen(new EndScreen(game));
 		}
-
-		
-
-
 	}
 	
 	@Override
