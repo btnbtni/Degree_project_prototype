@@ -34,13 +34,16 @@ public class Prototype extends Game {
 	private String[] providedAnswers;
 	public int numberOfAnsweredTests;
 	public int numberOfCorrectlyAnsweredTests;
+	public int totalScore;
+	public int round;
+	public int totalRounds;
 
 	private int[] indicesOfNeededChanges;
 	private int screenStackPointer;
 	private int screenStackCapacity;
 	private int numberOfInteractions;
 	public int numberOfTests;
-	private int numberOfNeededChanges;
+	public int numberOfNeededChanges;
 
 	int windowSizeX;
 	int windowSizeY;
@@ -57,6 +60,8 @@ public class Prototype extends Game {
 		screenStackPointer = -1;
 		screenStackCapacity = 10;
 		numberOfAnsweredTests = 0;
+		totalScore = 0;
+		round = 0;
 		numberOfCorrectlyAnsweredTests = 0;
 		indicesOfNeededChanges = new int[numberOfNeededChanges];
 		interactionScreens = new Screen[numberOfInteractions];
@@ -84,12 +89,7 @@ public class Prototype extends Game {
 			vulnerabilityTypes[i] = "Placeholder " + i;
 			correctAnswers[i] = "Placeholder " + i;
 		}
-		setRandomValues();
-		setLists();
 		setTexts();
-		for(int i = 0; i < interactionScreens.length; i++){
-			interactionScreens[i] = new ComputerInteractionScreen(this, testNeedsChange[i], i);
-		}
 		this.setScreen(new MainMenuScreen(this));
 	}
 
@@ -100,6 +100,26 @@ public class Prototype extends Game {
 	public void dispose() {
 		batch.dispose();
 		font.dispose();
+	}
+
+	public void startNewSession(int numErrors, int rounds){
+		numberOfNeededChanges = numErrors;
+		totalRounds = rounds;
+		indicesOfNeededChanges = new int[numberOfNeededChanges];
+		numberOfCorrectlyAnsweredTests = 0;
+		round++;
+		setRandomValues();
+		setLists();
+		resetScreenStack();
+		for(int i = 0; i < interactionScreens.length; i++){
+			interactionScreens[i] = new ComputerInteractionScreen(this, testNeedsChange[i], i);
+		}
+	}
+
+	public void fullReset(){
+		numberOfAnsweredTests = 0;
+		totalScore = 0;
+		round = 0;
 	}
 
 	public Screen popPreviousScreen(){
@@ -153,6 +173,7 @@ public class Prototype extends Game {
 			testNeedsChange[i] = false;
 			testIsFinished[i] = false;
 			testAnsweredCorrectly[i] = false;
+			providedAnswers[i] = null;
 		}
 		for(int i = 0; i < numberOfNeededChanges; i++){
 			testNeedsChange[indicesOfNeededChanges[i]] = true;
@@ -172,6 +193,7 @@ public class Prototype extends Game {
 			testAnsweredCorrectly[index] = true;
 			numberOfCorrectlyAnsweredTests++;
 		}
+		testIsFinished[index] = true;
 		numberOfAnsweredTests++;
 	}
 
@@ -180,7 +202,12 @@ public class Prototype extends Game {
 			testAnsweredCorrectly[index] = true;
 			numberOfCorrectlyAnsweredTests++;
 		}
+		testIsFinished[index] = true;
 		numberOfAnsweredTests++;
+	}
+
+	public void finishRound(){
+		totalScore += numberOfCorrectlyAnsweredTests;
 	}
 
 }

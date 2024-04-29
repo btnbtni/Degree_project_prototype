@@ -220,7 +220,7 @@ public class GameScreen implements Screen {
 			player.y -= offsetY;
 		}
 
-		else if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
 
 			PolygonMapObject interactionObject = tileMapHelper.detectInteraction(player, "interaction");
 			
@@ -295,6 +295,7 @@ public class GameScreen implements Screen {
 			game.setScreen(game.interactionScreens[0]);
 		}
 		if(Gdx.input.isKeyJustPressed(Input.Keys.M)){
+			game.finishRound();
 			game.pushPreviousScreen(this);
 			game.setScreen(new EndScreen(game));
 		}
