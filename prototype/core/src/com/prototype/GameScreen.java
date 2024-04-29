@@ -14,6 +14,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -30,6 +31,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.Color;
 
 public class GameScreen implements Screen {
 
@@ -56,6 +61,9 @@ public class GameScreen implements Screen {
 	private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
 	private TileMapHelper tileMapHelper;
 
+	private BitmapFont font;
+
+
 	public GameScreen(final Prototype game) {
         this.game = game;
 
@@ -74,6 +82,8 @@ public class GameScreen implements Screen {
 		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
+		System.out.println("X: " + camera.position.x);
+		System.out.println("Y: " + camera.position.y);
 
 		player = new Rectangle();
 		player.x = (game.windowSizeX / 2) - (game.tileSize/2);
@@ -82,7 +92,12 @@ public class GameScreen implements Screen {
 		player.height = 20;
 		movingDirection = 0;
 
-		
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("joystix monospace.otf"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = 12;
+		parameter.color = Color.BLACK;
+        font = generator.generateFont(parameter);
+        generator.dispose();
 
 		this.tileMapHelper = new TileMapHelper();
 		this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
@@ -167,9 +182,10 @@ public class GameScreen implements Screen {
 			game.batch.draw(playerImageRight, player.x, player.y);
 		}
 		String progressString =  "Cases handled:\n" + "     " + game.numberOfAnsweredTests + " / " + game.numberOfTests;
-		game.greyFont.draw(game.batch, progressString, (float)(game.windowSizeX*0.9), (float)(game.windowSizeY*0.9));
+		font.draw(game.batch, progressString, camera.position.x - 512 + (float)(game.windowSizeX*0.85),camera.position.y - 384 + (float)(game.windowSizeY*0.9));
 		game.batch.end();
 		readInput();
+
 	}
 
 	private void readInput(){
