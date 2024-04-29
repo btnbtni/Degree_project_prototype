@@ -19,6 +19,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.Gdx;
+
 public class Prototype extends Game {
 	public SpriteBatch batch;
 	public BitmapFont font;
@@ -78,9 +82,14 @@ public class Prototype extends Game {
 
 	public void create() {
 		batch = new SpriteBatch();
-		font = new BitmapFont();
-		greyFont = new BitmapFont();
-		greyFont.setColor(Color.DARK_GRAY);
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("joystix monospace.otf"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		//font = new BitmapFont();
+        font = generator.generateFont(parameter);
+		//greyFont = new BitmapFont();
+		parameter.color = Color.DARK_GRAY;
+        greyFont = generator.generateFont(parameter);
+		//greyFont.setColor(Color.DARK_GRAY);
 		vulnerabilityTypes[0] = "SQL Injection";
 		correctAnswers[0] = "SQL Injection";
 		vulnerabilityTypes[1] = "Buffer overflow";
