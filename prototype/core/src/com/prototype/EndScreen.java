@@ -30,13 +30,9 @@ public class EndScreen implements Screen {
     final Prototype game;
     
 	private Texture backgroundImage;
-	private Texture decisionWindowA;
-	private Texture decisionWindowB;
-	private Texture vulnerabilityWindow;
 
 	private OrthographicCamera camera;
 
-	private Rectangle background;
 
 	int startCodeTextX;
 	int startCodeTextY;
@@ -65,13 +61,34 @@ public class EndScreen implements Screen {
 		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
-		String resultString = "Results:\n" + game.numberOfCorrectlyAnsweredTests + " / " + game.numberOfTests;
+		String resultString = "Result: " + game.numberOfCorrectlyAnsweredTests + " / " + game.numberOfTests;
+		String roundString = "Round " + game.round + " of " + game.totalRounds + " finished";
+		String totalScoreString = "Total score: " + game.totalScore;
+		game.font.draw(game.batch, roundString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5 + 25));
 		game.font.draw(game.batch, resultString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5));
+		game.font.draw(game.batch, totalScoreString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5 - 25));
+		game.font.draw(game.batch, "Press enter to start next round", (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.2));
+		if(game.round >= game.totalRounds){
+			String lastRoundString = "Game over! Press ENTER to return to main menu";
+			game.font.draw(game.batch, lastRoundString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5 - 50));
+		}
 		game.batch.end();
 
-		if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
-			game.setScreen(game.popPreviousScreen());
+		if(game.round < game.totalRounds){
+			if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
+				game.setScreen(game.popPreviousScreen());
+			}
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+				game.startNewSession(game.numberOfNeededChanges, game.totalRounds);
+				game.setScreen(new GameScreen(game));
+			}
+		}else{
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+				game.fullReset();
+				game.setScreen(new MainMenuScreen(game));
+			}
 		}
+
 
 	}
 	

@@ -25,7 +25,6 @@ public class PauseScreen implements Screen {
 	private int midAlignY;
 	private int optionOffsetY;
 	private int selectedIndex;
-	private long recentKeyStroke;
 
 	public PauseScreen(final Prototype game) {
 		this.game = game;
@@ -35,11 +34,10 @@ public class PauseScreen implements Screen {
 		menuItems.add("Resume");
 		menuItems.add("Options");
 		menuItems.add("Quit");
-		midAlignX = 400;
-		midAlignY = 240;
+		midAlignX = game.windowSizeX/2;
+		midAlignY = game.windowSizeY/2;
 		optionOffsetY = 50;
 		selectedIndex = 0;
-		recentKeyStroke = 0;
 	}
 
     @Override
@@ -60,7 +58,7 @@ public class PauseScreen implements Screen {
 		
 		game.batch.end();
 
-		if(Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
 			if(selectedIndex == 0){
 				game.setScreen(game.popPreviousScreen());
 			}
@@ -72,23 +70,21 @@ public class PauseScreen implements Screen {
 			}
 		}
 
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && ((TimeUtils.nanoTime() - recentKeyStroke) > 100000000)) {
+		if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
 			selectedIndex++;
 			if(selectedIndex > 2){
 				selectedIndex = 0;
 			}
-			recentKeyStroke = TimeUtils.nanoTime();
 		}
 
-		if(Gdx.input.isKeyPressed(Input.Keys.UP) && ((TimeUtils.nanoTime() - recentKeyStroke) > 100000000)) {
+		if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 			selectedIndex--;
 			if(selectedIndex < 0){
 				selectedIndex = 2;
 			}
-			recentKeyStroke = TimeUtils.nanoTime();
 		}
 
-		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && ((TimeUtils.nanoTime() - recentKeyStroke) > 100000000)) {
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			System.out.println(selectedIndex);
 		}
 

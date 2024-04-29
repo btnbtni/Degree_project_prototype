@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.Input;
 
-public class MainMenuScreen implements Screen {
+public class StartNewGameScreen implements Screen {
     
     final Prototype game;
 
@@ -25,20 +25,23 @@ public class MainMenuScreen implements Screen {
 	private int midAlignY;
 	private int optionOffsetY;
 	private int selectedIndex;
+    private int numOptions;
 
-	public MainMenuScreen(final Prototype game) {
+	public StartNewGameScreen(final Prototype game) {
 		this.game = game;
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
 		menuItems = new Array<String>();
-		menuItems.add("Start game");
-		menuItems.add("Options");
-		menuItems.add("Quit");
+		menuItems.add("Easy");
+		menuItems.add("Medium");
+		menuItems.add("Hard");
+        menuItems.add("Back");
 		midAlignX = game.windowSizeX/2;
 		midAlignY = game.windowSizeY/2;
 		optionOffsetY = 50;
 		selectedIndex = 0;
+        numOptions = menuItems.size;
 	}
 
     @Override
@@ -61,20 +64,25 @@ public class MainMenuScreen implements Screen {
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
 			if(selectedIndex == 0){
-				game.pushPreviousScreen(this);
-				game.setScreen(new StartNewGameScreen(game));
+				game.startNewSession(2, 5);
+				game.setScreen(new GameScreen(game));
 			}
 			if(selectedIndex == 1){
-				
+				game.startNewSession(5, 5);
+				game.setScreen(new GameScreen(game));
 			}
 			if(selectedIndex == 2){
-				Gdx.app.exit();
+				game.startNewSession(8, 5);
+				game.setScreen(new GameScreen(game));
+			}
+            if(selectedIndex == 3){
+				game.setScreen(game.popPreviousScreen());
 			}
 		}
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
 			selectedIndex++;
-			if(selectedIndex > 2){
+			if(selectedIndex >= numOptions){
 				selectedIndex = 0;
 			}
 		}
@@ -82,7 +90,7 @@ public class MainMenuScreen implements Screen {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 			selectedIndex--;
 			if(selectedIndex < 0){
-				selectedIndex = 2;
+				selectedIndex = numOptions - 1;
 			}
 		}
 

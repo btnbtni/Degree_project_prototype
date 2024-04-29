@@ -57,8 +57,8 @@ public class ComputerInteractionScreen implements Screen {
 		this.hasError = hasError;
 		screenIndex = index;
 		backgroundImage = new Texture(Gdx.files.internal("boringcomputerscreen1280.png"));
-		decisionWindowA = new Texture(Gdx.files.internal("judgecodeyes1.png"));
-		decisionWindowB = new Texture(Gdx.files.internal("judgecodeno1.png"));
+		decisionWindowA = new Texture(Gdx.files.internal("judgecodeyesbig1.png"));
+		decisionWindowB = new Texture(Gdx.files.internal("judgecodenobig1.png"));
 		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylist1.png"));
 
 		camera = new OrthographicCamera();

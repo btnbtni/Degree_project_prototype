@@ -166,8 +166,8 @@ public class GameScreen implements Screen {
 		}else if(movingDirection == 3){
 			game.batch.draw(playerImageRight, player.x, player.y);
 		}
-		String progressString =  "Cases handled:\n" + "     " + game.numberOfAnsweredTests + " / " + game.numberOfTests;
-		game.greyFont.draw(game.batch, progressString, (float)(game.windowSizeX*0.9), (float)(game.windowSizeY*0.9));
+		// String progressString =  "Cases handled:\n" + "     " + game.numberOfAnsweredTests + " / " + game.numberOfTests;
+		// game.greyFont.draw(game.batch, progressString, (float)(game.windowSizeX*0.9), (float)(game.windowSizeY*0.9));
 		game.batch.end();
 		readInput();
 	}
@@ -204,7 +204,7 @@ public class GameScreen implements Screen {
 			player.y -= offsetY;
 		}
 
-		else if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
 
 			PolygonMapObject interactionObject = tileMapHelper.detectInteraction(player, "interaction");
 			
@@ -279,6 +279,7 @@ public class GameScreen implements Screen {
 			game.setScreen(game.interactionScreens[0]);
 		}
 		if(Gdx.input.isKeyJustPressed(Input.Keys.M)){
+			game.finishRound();
 			game.pushPreviousScreen(this);
 			game.setScreen(new EndScreen(game));
 		}
