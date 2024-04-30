@@ -67,18 +67,31 @@ public class GameScreen implements Screen {
 	public GameScreen(final Prototype game) {
         this.game = game;
 
-		playerImageDown = new Texture(Gdx.files.internal("player1cropped.png"));
-		playerImageUp = new Texture(Gdx.files.internal("player1upcropped.png"));
-		playerImageLeft = new Texture(Gdx.files.internal("player1leftcropped.png"));
-		playerImageRight = new Texture(Gdx.files.internal("player1rightcropped.png"));
-		exclamationMarkImage = new Texture(Gdx.files.internal("map/exclamationmarklarge.png"));
-		usbImage = new Texture(Gdx.files.internal("map/usb.png"));
+		// playerImageDown = new Texture(Gdx.files.internal("player1cropped.png"));
+		// playerImageUp = new Texture(Gdx.files.internal("player1upcropped.png"));
+		// playerImageLeft = new Texture(Gdx.files.internal("player1leftcropped.png"));
+		// playerImageRight = new Texture(Gdx.files.internal("player1rightcropped.png"));
+		// exclamationMarkImage = new Texture(Gdx.files.internal("map/exclamationmarklarge.png"));
+		// usbImage = new Texture(Gdx.files.internal("map/usb.png"));
+
+		// openDoorLeft = new Texture(Gdx.files.internal("map/openDoorLeft.png"));
+		// closedDoorLeft = new Texture(Gdx.files.internal("map/closedDoorLeft.png"));
+
+		// openDoorRight = new Texture(Gdx.files.internal("map/openDoorRight.png"));
+		// closedDoorRight = new Texture(Gdx.files.internal("map/closedDoorRight.png"));
+
+		playerImageDown = new Texture(Gdx.files.internal("player96cropped.png"));
+		playerImageUp = new Texture(Gdx.files.internal("player1up96cropped.png"));
+		playerImageLeft = new Texture(Gdx.files.internal("player1left96cropped.png"));
+		playerImageRight = new Texture(Gdx.files.internal("player1right96cropped.png"));
+		exclamationMarkImage = new Texture(Gdx.files.internal("tileMap/exclamationmark96.png"));
+		usbImage = new Texture(Gdx.files.internal("tileMap/usb96.png"));
 
 		openDoorLeft = new Texture(Gdx.files.internal("map/openDoorLeft.png"));
 		closedDoorLeft = new Texture(Gdx.files.internal("map/closedDoorLeft.png"));
 
-		openDoorRight = new Texture(Gdx.files.internal("map/openDoorRight.png"));
-		closedDoorRight = new Texture(Gdx.files.internal("map/closedDoorRight.png"));
+		openDoorRight = new Texture(Gdx.files.internal("tileMap/openDoorRight96.png"));
+		closedDoorRight = new Texture(Gdx.files.internal("tileMap/closedDoorRight96.png"));
 		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
@@ -88,14 +101,16 @@ public class GameScreen implements Screen {
 		player = new Rectangle();
 		player.x = (game.windowSizeX / 2) - (game.tileSize/2);
 		player.y = game.windowSizeY/2;
-		player.width = 28;
-		player.height = 20;
+		//player.x = 128;
+		//player.y = 128;
+		player.width = 42;
+		player.height = 30;
 		movingDirection = 0;
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("joystix monospace.otf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 12;
-		parameter.color = Color.BLACK;
+		parameter.color = Color.WHITE;
         font = generator.generateFont(parameter);
         generator.dispose();
 
@@ -237,7 +252,7 @@ public class GameScreen implements Screen {
 		}
 		
 
-		int edgePanDistance = 100;
+		int edgePanDistance = 200;
 
 		if(camera.position.x + ((game.windowSizeX / 2) - edgePanDistance) - game.tileSize/2 < player.x || camera.position.x - ((game.windowSizeX / 2) - edgePanDistance) - game.tileSize/2 > player.x) 
 			camera.translate(offsetX, 0);
