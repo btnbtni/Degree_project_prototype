@@ -35,9 +35,9 @@ public class MainMenuScreen implements Screen {
 		menuItems.add("Start game");
 		menuItems.add("Options");
 		menuItems.add("Quit");
-		midAlignX = game.windowSizeX/2;
-		midAlignY = game.windowSizeY/2;
 		optionOffsetY = 50;
+		midAlignX = game.windowSizeX/2 - 50;
+		midAlignY = game.windowSizeY/2 + 50;
 		selectedIndex = 0;
 	}
 

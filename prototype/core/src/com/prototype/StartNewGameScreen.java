@@ -37,9 +37,9 @@ public class StartNewGameScreen implements Screen {
 		menuItems.add("Medium");
 		menuItems.add("Hard");
         menuItems.add("Back");
-		midAlignX = game.windowSizeX/2;
-		midAlignY = game.windowSizeY/2;
 		optionOffsetY = 50;
+		midAlignX = game.windowSizeX/2 - 50;
+		midAlignY = game.windowSizeY/2 + 50;
 		selectedIndex = 0;
         numOptions = menuItems.size;
 	}

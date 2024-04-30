@@ -59,7 +59,7 @@ public class ComputerInteractionScreen implements Screen {
 		backgroundImage = new Texture(Gdx.files.internal("boringcomputerscreen1280.png"));
 		decisionWindowA = new Texture(Gdx.files.internal("judgecodeyesbig1.png"));
 		decisionWindowB = new Texture(Gdx.files.internal("judgecodenobig1.png"));
-		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylist1.png"));
+		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylistbig1.png"));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
@@ -106,7 +106,7 @@ public class ComputerInteractionScreen implements Screen {
 				game.batch.draw(decisionWindowB, (float)(game.windowSizeX*0.7), (float)(game.windowSizeY*0.7));
 			}
 		}else if(screenPhase == 1){
-			game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 100);
+			game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 300);
 			for(int i = 0; i < game.vulnerabilityTypes.length; i++){
 				if(selectedVulnerability != i){
 					game.greyFont.draw(game.batch, game.vulnerabilityTypes[i], (float)(game.windowSizeX*0.5) - 50, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize));
