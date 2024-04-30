@@ -30,7 +30,8 @@ public class TileMapHelper {
     }
 
     public OrthogonalTiledMapRenderer setupMap(){
-        tilemap = new TmxMapLoader().load("map/deskmap2.tmx");
+        // tilemap = new TmxMapLoader().load("map/deskmap2.tmx");
+        tilemap = new TmxMapLoader().load("tileMap/office.tmx");
         return new OrthogonalTiledMapRenderer(tilemap);
     }
 

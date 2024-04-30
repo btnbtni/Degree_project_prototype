@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="35" height="35" tilewidth="96" tileheight="96" infinite="0" nextlayerid="9" nextobjectid="28">
+ <tileset firstgid="1" source="alltiles_96.tsx"/>
+ <layer id="1" name="background" width="35" height="35">
+  <data encoding="base64" compression="zlib">
+   eJzt1qENACAMAMFOwQ6E/ffDgiGkBII48f7kt4hoUqLyOBYWFhYWFpY9S/3AUodYWFhYWFhYZstuq+84KWO55clabhg7OlaMxg==
+  </data>
+ </layer>
+ <layer id="2" name="stuff" width="35" height="35">
+  <data encoding="base64" compression="zlib">
+   eJzt1kEKgCAURVGtQaU7ifa/Ph1GPOELnw/GvfAgGh1pYCnRKl19NXhlYDm8D2foHLzHosOiw6LDosOiw6LDosOiy327YREW6z9mhOX7je7X8+NsmLVEhEWHRYdFt4LFegd4bvM+3E9rYAkEEw==
+  </data>
+ </layer>
+ <objectgroup id="4" name="collisions">
+  <object id="1" x="192" y="2112" width="960" height="96"/>
+  <object id="5" x="192" y="2208" width="96" height="960"/>
+  <object id="6" x="288" y="3072" width="2784" height="96"/>
+  <object id="7" x="2976" y="1056" width="96" height="2016"/>
+  <object id="8" x="2976" y="288" width="96" height="768"/>
+  <object id="9" x="192" y="288" width="2784" height="96"/>
+  <object id="10" x="192" y="384" width="96" height="1728"/>
+  <object id="11" x="288" y="2016" width="864" height="96"/>
+  <object id="12" x="576" y="2208" width="96" height="96"/>
+  <object id="13" x="864" y="2208" width="96" height="96"/>
+ </objectgroup>
+ <objectgroup id="5" name="usb">
+  <object id="22" x="1152" y="2400" width="96" height="96"/>
+ </objectgroup>
+ <objectgroup id="6" name="doors">
+  <object id="25" name="door" x="192" y="1632" width="96" height="96">
+   <properties>
+    <property name="left" type="bool" value="false"/>
+    <property name="open" type="bool" value="false"/>
+    <property name="type" value="door"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="interaction">
+  <object id="18" name="deskOne" x="480" y="2208">
+   <properties>
+    <property name="type" value="desk"/>
+   </properties>
+   <polygon points="0,0 0,192 288,192 288,0 192,0 192,96 96,96 96,0 0,0"/>
+  </object>
+  <object id="19" name="deskTwo" x="768" y="2208">
+   <properties>
+    <property name="type" value="desk"/>
+   </properties>
+   <polygon points="0,0 0,192 288,192 288,0 192,0 192,96 96,96 96,0 0,0"/>
+  </object>
+  <object id="27" name="door" x="288" y="1536">
+   <properties>
+    <property name="type" value="door"/>
+   </properties>
+   <polygon points="0,0 0,288 96,288 96,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="exclamationmark">
+  <object id="15" name="deskOne" x="576" y="2112" width="96" height="96"/>
+  <object id="20" name="deskTwo" x="864" y="2112" width="96" height="96"/>
+ </objectgroup>
+</map>
