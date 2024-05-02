@@ -25,7 +25,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 
-public class EndScreen implements Screen {
+public class RoundBreakdownScreen implements Screen {
 
     final Prototype game;
     
@@ -40,24 +40,21 @@ public class EndScreen implements Screen {
 	int selectedVulnerability;
 	int lineSize;
 	int screenIndex;
+    int lineOffset;
 	boolean handled;
 	boolean hasError;
 
 	int screenPhase;
 	boolean yesMarked;
+    int yCoordinate;
 
 	String codeTest;
-	String resultString;
-	String roundString;
-	String totalScoreString;
 
-	public EndScreen(final Prototype game) {
+	public RoundBreakdownScreen(final Prototype game) {
         this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
-		resultString = "Result: " + game.numberOfCorrectlyAnsweredTests + " / " + game.numberOfTests;
-		roundString = "Round " + game.round + " of " + game.totalRounds + " finished";
-		totalScoreString = "Total score: " + game.totalScore;
+        lineOffset = 25;
 	}
 	
 
@@ -67,14 +64,21 @@ public class EndScreen implements Screen {
 		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
-		
-		game.font.draw(game.batch, roundString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5 + 25));
-		game.font.draw(game.batch, resultString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5));
-		game.font.draw(game.batch, totalScoreString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5 - 25));
-		game.font.draw(game.batch, "Press enter to start next round", (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.2));
+        for(int i = 0; i < game.testNames.length; i++){
+            yCoordinate = 700 - i*lineOffset;
+            game.font.draw(game.batch, game.testNames[i], 100, yCoordinate);
+            if(game.testIsFinished[i]){
+                if(game.testAnsweredCorrectly[i]){
+                    game.goodFont.draw(game.batch, "Correct", 400, yCoordinate);
+                }else{
+                    game.badFont.draw(game.batch, "Incorrect", 400, yCoordinate);
+                }
+            }else{
+                game.neutralFont.draw(game.batch, "Unhandled", 400, yCoordinate);
+            }
+        }
 		if(game.round >= game.totalRounds){
-			String lastRoundString = "Game over! Press ENTER to return to main menu";
-			game.font.draw(game.batch, lastRoundString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5 - 50));
+
 		}
 		game.batch.end();
 
@@ -83,28 +87,20 @@ public class EndScreen implements Screen {
 				game.setScreen(game.popPreviousScreen());
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-				game.startNewSession(game.numberOfNeededChanges, game.totalRounds);
-				game.setScreen(new GameScreen(game));
+				
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-				game.pushPreviousScreen(this);
-				game.setScreen(new RoundBreakdownScreen(game));
+				
 			}
 		}else{
-			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-				game.fullReset();
-				game.setScreen(new MainMenuScreen(game));
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
+            if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
 				game.setScreen(game.popPreviousScreen());
 			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-				game.pushPreviousScreen(this);
-				game.setScreen(new RoundBreakdownScreen(game));
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+				
 			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.G)){
-				game.pushPreviousScreen(this);
-				game.setScreen(new GameBreakdownScreen(game));
+			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
+				
 			}
 		}
 

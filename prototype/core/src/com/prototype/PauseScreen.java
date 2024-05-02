@@ -25,6 +25,7 @@ public class PauseScreen implements Screen {
 	private int midAlignY;
 	private int optionOffsetY;
 	private int selectedIndex;
+	private int numOptions;
 
 	public PauseScreen(final Prototype game) {
 		this.game = game;
@@ -38,6 +39,7 @@ public class PauseScreen implements Screen {
 		midAlignX = game.windowSizeX/2 - 50;
 		midAlignY = game.windowSizeY/2 + 50;
 		selectedIndex = 0;
+		numOptions = menuItems.size;
 	}
 
     @Override
@@ -72,7 +74,7 @@ public class PauseScreen implements Screen {
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
 			selectedIndex++;
-			if(selectedIndex > 2){
+			if(selectedIndex >= numOptions){
 				selectedIndex = 0;
 			}
 		}
@@ -80,7 +82,7 @@ public class PauseScreen implements Screen {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 			selectedIndex--;
 			if(selectedIndex < 0){
-				selectedIndex = 2;
+				selectedIndex = numOptions - 1;
 			}
 		}
 

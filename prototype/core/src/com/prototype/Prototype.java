@@ -27,20 +27,26 @@ public class Prototype extends Game {
 	public SpriteBatch batch;
 	public BitmapFont font;
 	public BitmapFont greyFont;
+	public BitmapFont goodFont;
+	public BitmapFont neutralFont;
+	public BitmapFont badFont;
 	public Screen[] interactionScreens;
 	private Screen[] screenStack;
-	private boolean[] testIsFinished;
+	public boolean[] testIsFinished;
 	private boolean[] testNeedsChange;
-	private boolean[] testAnsweredCorrectly;
+	public boolean[] testAnsweredCorrectly;
 	public String[] correctVersion;
 	public String[] incorrectVersion;
 	private String[] correctAnswers;
 	private String[] providedAnswers;
+	public String[] testNames;
+	public int[] totalTestScores;
 	public int numberOfAnsweredTests;
 	public int numberOfCorrectlyAnsweredTests;
 	public int totalScore;
 	public int round;
 	public int totalRounds;
+	public ResultSummary resultSummary;
 
 	private int[] indicesOfNeededChanges;
 	private int screenStackPointer;
@@ -67,17 +73,20 @@ public class Prototype extends Game {
 		totalScore = 0;
 		round = 0;
 		numberOfCorrectlyAnsweredTests = 0;
+		testNames = new String[numberOfTests];
 		indicesOfNeededChanges = new int[numberOfNeededChanges];
 		interactionScreens = new Screen[numberOfInteractions];
 		vulnerabilityTypes = new String[10];
 		testIsFinished = new boolean[numberOfTests];
 		testNeedsChange = new boolean[numberOfTests];
+		totalTestScores = new int[numberOfTests];
 		testAnsweredCorrectly = new boolean[numberOfTests];
 		correctVersion = new String[numberOfTests];
 		incorrectVersion = new String[numberOfTests];
 		correctAnswers = new String[numberOfTests];
 		providedAnswers = new String[numberOfTests];
 		screenStack = new Screen[screenStackCapacity];
+		resultSummary = new ResultSummary(numberOfTests);
 	}
 
 	public void create() {
@@ -89,14 +98,26 @@ public class Prototype extends Game {
 		//greyFont = new BitmapFont();
 		parameter.color = Color.DARK_GRAY;
         greyFont = generator.generateFont(parameter);
+		parameter.color = Color.YELLOW;
+		neutralFont = generator.generateFont(parameter);
+		parameter.color = Color.GREEN;
+		goodFont = generator.generateFont(parameter);
+		parameter.color = Color.RED;
+		badFont = generator.generateFont(parameter);
 		//greyFont.setColor(Color.DARK_GRAY);
 		vulnerabilityTypes[0] = "SQL Injection";
 		correctAnswers[0] = "SQL Injection";
+		testNames[0] = "SQL Injection";
 		vulnerabilityTypes[1] = "Buffer overflow";
 		correctAnswers[1] = "Buffer overflow";
+		testNames[1] = "Buffer overflow";
 		for(int i = 2; i < 10; i++){
 			vulnerabilityTypes[i] = "Placeholder " + i;
 			correctAnswers[i] = "Placeholder " + i;
+			testNames[i] = "Placeholder " + i;
+		}
+		for(int i = 0; i < numberOfTests; i++){
+			totalTestScores[i] = 0;
 		}
 		setTexts();
 		this.setScreen(new MainMenuScreen(this));
@@ -217,6 +238,14 @@ public class Prototype extends Game {
 
 	public void finishRound(){
 		totalScore += numberOfCorrectlyAnsweredTests;
+		resultSummary.totalNumberOfRounds++;
+		for(int i = 0; i < numberOfTests; i++){
+			if(testAnsweredCorrectly[i]){
+				totalTestScores[i]++;
+				resultSummary.testResults[i]++;
+			}
+			resultSummary.percentCorrect[i] = (int)((resultSummary.testResults[i]*100) / resultSummary.totalNumberOfRounds);
+		}
 	}
 
 }
