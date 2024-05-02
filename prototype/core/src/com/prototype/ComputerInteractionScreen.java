@@ -33,6 +33,7 @@ public class ComputerInteractionScreen implements Screen {
 	private Texture decisionWindowA;
 	private Texture decisionWindowB;
 	private Texture vulnerabilityWindow;
+	private Texture codeImage;
 
 	private OrthographicCamera camera;
 
@@ -56,10 +57,11 @@ public class ComputerInteractionScreen implements Screen {
         this.game = game;
 		this.hasError = hasError;
 		screenIndex = index;
-		backgroundImage = new Texture(Gdx.files.internal("boringcomputerscreen1280.png"));
+		backgroundImage = new Texture(Gdx.files.internal("emptycomputerscreenlarge.png"));
 		decisionWindowA = new Texture(Gdx.files.internal("judgecodeyesbig1.png"));
 		decisionWindowB = new Texture(Gdx.files.internal("judgecodenobig1.png"));
 		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylistbig1.png"));
+		codeImage = new Texture(Gdx.files.internal("imagetexttest2.png"));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
@@ -76,7 +78,7 @@ public class ComputerInteractionScreen implements Screen {
 		lineSize = 20;
 
 		startCodeTextX = game.windowSizeX/100;
-		startCodeTextY = game.windowSizeY - 20;
+		startCodeTextY = game.windowSizeY - 40;
 
 		recentKeyStroke = 0;
 		handled = false;
@@ -99,6 +101,7 @@ public class ComputerInteractionScreen implements Screen {
 		}else{
 			game.font.draw(game.batch, game.correctVersion[screenIndex], startCodeTextX, startCodeTextY);
 		}
+		game.batch.draw(codeImage, startCodeTextX, startCodeTextY - 300);
 		if(screenPhase == 0){
 			if(yesMarked){
 				game.batch.draw(decisionWindowA, (float)(game.windowSizeX*0.7), (float)(game.windowSizeY*0.7));
