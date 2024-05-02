@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="35" height="35" tilewidth="96" tileheight="96" infinite="0" nextlayerid="9" nextobjectid="28">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="35" height="35" tilewidth="96" tileheight="96" infinite="0" nextlayerid="9" nextobjectid="32">
  <tileset firstgid="1" source="alltiles_96.tsx"/>
+ <tileset firstgid="401" source="npc.tsx"/>
  <layer id="1" name="background" width="35" height="35">
   <data encoding="base64" compression="zlib">
    eJzt1qENACAMAMFOwQ6E/ffDgiGkBII48f7kt4hoUqLyOBYWFhYWFpY9S/3AUodYWFhYWFhYZstuq+84KWO55clabhg7OlaMxg==
@@ -8,7 +9,7 @@
  </layer>
  <layer id="2" name="stuff" width="35" height="35">
   <data encoding="base64" compression="zlib">
-   eJzt1kEKgCAURVGtQaU7ifa/Ph1GPOELnw/GvfAgGh1pYCnRKl19NXhlYDm8D2foHLzHosOiw6LDosOiw6LDosOiy327YREW6z9mhOX7je7X8+NsmLVEhEWHRYdFt4LFegd4bvM+3E9rYAkEEw==
+   eJzt1jsKgDAURNFEC387ETfrjk0pYQJPGAKRe2BArG6wiClhFFvZ0Xl7o2VxHy5gbbynRaNFo0WjRaNFo0WjRaNFy2VzYLU7+1ui/5hO0W90vp4vc8PXlh5o0WjRaNFGaIneAc5N7sP91AOZlASl
   </data>
  </layer>
  <objectgroup id="4" name="collisions">
@@ -22,6 +23,7 @@
   <object id="11" x="288" y="2016" width="864" height="96"/>
   <object id="12" x="576" y="2208" width="96" height="96"/>
   <object id="13" x="864" y="2208" width="96" height="96"/>
+  <object id="31" x="1536" y="2016" width="96" height="96"/>
  </objectgroup>
  <objectgroup id="5" name="usb">
   <object id="22" x="1152" y="2400" width="96" height="96"/>
@@ -48,6 +50,12 @@
    </properties>
    <polygon points="0,0 0,192 288,192 288,0 192,0 192,96 96,96 96,0 0,0"/>
   </object>
+  <object id="29" name="npc1" x="1440" y="2016">
+   <properties>
+    <property name="type" value="npc"/>
+   </properties>
+   <polygon points="0,0 0,192 288,192 288,0 192,0 192,96 96,96 96,0 0,0"/>
+  </object>
   <object id="27" name="door" x="288" y="1536">
    <properties>
     <property name="type" value="door"/>
@@ -58,5 +66,6 @@
  <objectgroup id="8" name="exclamationmark">
   <object id="15" name="deskOne" x="576" y="2112" width="96" height="96"/>
   <object id="20" name="deskTwo" x="864" y="2112" width="96" height="96"/>
+  <object id="30" name="npc1" x="1536" y="1920" width="96" height="96"/>
  </objectgroup>
 </map>
