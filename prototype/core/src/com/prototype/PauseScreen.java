@@ -33,8 +33,8 @@ public class PauseScreen implements Screen {
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
 		menuItems = new Array<String>();
 		menuItems.add("Resume");
-		menuItems.add("Options");
-		menuItems.add("Quit");
+		menuItems.add("Exit to main menu");
+		menuItems.add("Exit to desktop");
 		optionOffsetY = 50;
 		midAlignX = game.windowSizeX/2 - 50;
 		midAlignY = game.windowSizeY/2 + 50;
@@ -65,11 +65,16 @@ public class PauseScreen implements Screen {
 				game.setScreen(game.popPreviousScreen());
 			}
 			if(selectedIndex == 1){
-				
+				game.resetScreenStack();
+				game.setScreen(new MainMenuScreen(game));
 			}
 			if(selectedIndex == 2){
 				Gdx.app.exit();
 			}
+		}
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+			game.setScreen(game.popPreviousScreen());
 		}
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {

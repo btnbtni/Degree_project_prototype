@@ -83,7 +83,7 @@ public class RoundBreakdownScreen implements Screen {
 		game.batch.end();
 
 		if(game.round < game.totalRounds){
-			if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
 				game.setScreen(game.popPreviousScreen());
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
@@ -93,7 +93,7 @@ public class RoundBreakdownScreen implements Screen {
 				
 			}
 		}else{
-            if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
+            if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
 				game.setScreen(game.popPreviousScreen());
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){

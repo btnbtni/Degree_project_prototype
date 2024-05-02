@@ -33,6 +33,8 @@ public class ComputerInteractionScreen implements Screen {
 	private Texture decisionWindowA;
 	private Texture decisionWindowB;
 	private Texture vulnerabilityWindow;
+	private Texture codeImage;
+	private Texture infoTextBox;
 
 	private OrthographicCamera camera;
 
@@ -46,6 +48,12 @@ public class ComputerInteractionScreen implements Screen {
 	int screenIndex;
 	boolean handled;
 	boolean hasError;
+	int choiceWindowX;
+	int choiceWindowY;
+	int choiceWindowTextX;
+	int choiceWindowTextY;
+	int infoBoxX;
+	int infoBoxY;
 
 	int screenPhase;
 	boolean yesMarked;
@@ -56,10 +64,12 @@ public class ComputerInteractionScreen implements Screen {
         this.game = game;
 		this.hasError = hasError;
 		screenIndex = index;
-		backgroundImage = new Texture(Gdx.files.internal("boringcomputerscreen1280.png"));
-		decisionWindowA = new Texture(Gdx.files.internal("judgecodeyesbig1.png"));
-		decisionWindowB = new Texture(Gdx.files.internal("judgecodenobig1.png"));
+		backgroundImage = new Texture(Gdx.files.internal("emptycomputerscreenlarge.png"));
+		decisionWindowA = new Texture(Gdx.files.internal("yesempty1.png"));
+		decisionWindowB = new Texture(Gdx.files.internal("noempty1.png"));
 		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylistbig1.png"));
+		codeImage = new Texture(Gdx.files.internal("imagetexttest2.png"));
+		infoTextBox = new Texture(Gdx.files.internal("infotext1.png"));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
@@ -70,13 +80,21 @@ public class ComputerInteractionScreen implements Screen {
 		background.width = game.windowSizeX;
 		background.height = game.windowSizeY;
 
+		choiceWindowX = 700;
+		choiceWindowY = 500;
+		choiceWindowTextX = choiceWindowX + 25;
+		choiceWindowTextY = choiceWindowY + 85;
+		infoBoxX = (int)(game.windowSizeX*0.5) - 100;
+		infoBoxY = (int)(game.windowSizeY*0.5);
+
+
 		screenPhase = 0;
 		yesMarked = true;
 		selectedVulnerability = 0;
 		lineSize = 20;
 
 		startCodeTextX = game.windowSizeX/100;
-		startCodeTextY = game.windowSizeY - 20;
+		startCodeTextY = game.windowSizeY - 40;
 
 		recentKeyStroke = 0;
 		handled = false;
@@ -99,12 +117,15 @@ public class ComputerInteractionScreen implements Screen {
 		}else{
 			game.font.draw(game.batch, game.correctVersion[screenIndex], startCodeTextX, startCodeTextY);
 		}
+		// game.batch.draw(codeImage, 10, 0);
+		// game.batch.draw(codeImage, startCodeTextX, startCodeTextY - 300);
 		if(screenPhase == 0){
 			if(yesMarked){
-				game.batch.draw(decisionWindowA, (float)(game.windowSizeX*0.7), (float)(game.windowSizeY*0.7));
+				game.batch.draw(decisionWindowA, choiceWindowX, choiceWindowY);
 			}else{
-				game.batch.draw(decisionWindowB, (float)(game.windowSizeX*0.7), (float)(game.windowSizeY*0.7));
+				game.batch.draw(decisionWindowB, choiceWindowX, choiceWindowY);
 			}
+			game.blackFont.draw(game.batch, "Would you like to\nchange this code?", choiceWindowTextX, choiceWindowTextY);
 		}else if(screenPhase == 1){
 			game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 300);
 			for(int i = 0; i < game.vulnerabilityTypes.length; i++){
@@ -115,23 +136,28 @@ public class ComputerInteractionScreen implements Screen {
 				}
 			}
 		}else if(screenPhase == 2){
+			game.batch.draw(infoTextBox, infoBoxX, infoBoxY);
 			if(yesMarked){
-				game.font.draw(game.batch, "A developer will re-write this code \nto fix the vulnerability.", (float)(game.windowSizeX*0.5) - 100, (float)(game.windowSizeY*0.7) + 120);
+				game.blackFont.draw(game.batch, "A developer will re-write this code \nto fix the vulnerability.\nPress ENTER to leave computer\nor R to reset task.", infoBoxX + 20, infoBoxY + 90);
 			}else{
-				game.font.draw(game.batch, "The code is considered safe and will not be changed.", (float)(game.windowSizeX*0.5) - 100, (float)(game.windowSizeY*0.7) + 120);
+				game.blackFont.draw(game.batch, "The code is considered safe\nand will not be changed.\nPress ENTER to leave computer\nor R to reset task.", infoBoxX + 20, infoBoxY + 90);
 			}
-			game.font.draw(game.batch, "Press ENTER to go back", (float)(game.windowSizeX*0.5) - 100, (float)(game.windowSizeY*0.4));
+			// game.font.draw(game.batch, "Press ENTER to go back\nor R to reset task.", (float)(game.windowSizeX*0.5) - 100, (float)(game.windowSizeY*0.4));
 		}
 		game.batch.end();
 
 
 
-		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-			game.pushPreviousScreen(this);
-			game.setScreen(new PauseScreen(game));
-		}
+		// if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+		// 	game.pushPreviousScreen(this);
+		// 	game.setScreen(new PauseScreen(game));
+		// }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
+			game.setScreen(game.popPreviousScreen());
+		}
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
 			game.setScreen(game.popPreviousScreen());
 		}
 
@@ -171,6 +197,10 @@ public class ComputerInteractionScreen implements Screen {
 		}else if(screenPhase == 2){
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
 				game.setScreen(game.popPreviousScreen());
+			}
+			if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
+				game.resetAnswer(screenIndex);
+				screenPhase = 0;
 			}
 		}
 

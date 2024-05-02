@@ -45,6 +45,10 @@ public class EndScreen implements Screen {
 
 	int screenPhase;
 	boolean yesMarked;
+	int textStartX;
+	int textStartY;
+	int controlTextStartX;
+	int controlTextStartY;
 
 	String codeTest;
 	String resultString;
@@ -58,6 +62,10 @@ public class EndScreen implements Screen {
 		resultString = "Result: " + game.numberOfCorrectlyAnsweredTests + " / " + game.numberOfTests;
 		roundString = "Round " + game.round + " of " + game.totalRounds + " finished";
 		totalScoreString = "Total score: " + game.totalScore;
+		textStartX = (int)(game.windowSizeX*0.35);
+		textStartY = (int)(game.windowSizeY*0.7);
+		controlTextStartX = (int)(game.windowSizeX*0.3);
+		controlTextStartY = (int)(game.windowSizeY*0.2);
 	}
 	
 
@@ -68,20 +76,20 @@ public class EndScreen implements Screen {
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
 		
-		game.font.draw(game.batch, roundString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5 + 25));
-		game.font.draw(game.batch, resultString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5));
-		game.font.draw(game.batch, totalScoreString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5 - 25));
-		game.font.draw(game.batch, "Press enter to start next round", (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.2));
+		game.font.draw(game.batch, roundString, textStartX, textStartY);
+		game.font.draw(game.batch, resultString, textStartX, textStartY - 25);
+		game.font.draw(game.batch, totalScoreString, textStartX, textStartY - 50);
+		game.font.draw(game.batch, "Press enter to start next round", controlTextStartX, controlTextStartY);
+		game.font.draw(game.batch, "Press B to view round breakdown", controlTextStartX, controlTextStartY - 25);
+		
 		if(game.round >= game.totalRounds){
-			String lastRoundString = "Game over! Press ENTER to return to main menu";
-			game.font.draw(game.batch, lastRoundString, (float)(game.windowSizeX*0.5), (float)(game.windowSizeY*0.5 - 50));
+			// String lastRoundString = "Game over!";
+			// game.font.draw(game.batch, lastRoundString, controlTextStartX, controlTextStartY);
+			game.font.draw(game.batch, "Press G to view game breakdown", controlTextStartX, controlTextStartY - 50);
 		}
 		game.batch.end();
 
 		if(game.round < game.totalRounds){
-			if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
-				game.setScreen(game.popPreviousScreen());
-			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
 				game.startNewSession(game.numberOfNeededChanges, game.totalRounds);
 				game.setScreen(new GameScreen(game));
@@ -92,11 +100,9 @@ public class EndScreen implements Screen {
 			}
 		}else{
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+				game.updateTopTenList();
 				game.fullReset();
 				game.setScreen(new MainMenuScreen(game));
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
-				game.setScreen(game.popPreviousScreen());
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
 				game.pushPreviousScreen(this);

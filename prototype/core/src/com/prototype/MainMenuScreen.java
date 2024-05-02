@@ -36,6 +36,7 @@ public class MainMenuScreen implements Screen {
 		menuItems.add("Start game");
 		menuItems.add("Options");
 		menuItems.add("Results");
+		menuItems.add("High scores");
 		menuItems.add("Quit");
 		optionOffsetY = 50;
 		midAlignX = game.windowSizeX/2 - 50;
@@ -75,6 +76,10 @@ public class MainMenuScreen implements Screen {
 				game.setScreen(new ResultSummaryScreen(game));
 			}
 			if(selectedIndex == 3){
+				game.pushPreviousScreen(this);
+				game.setScreen(new HighScoreScreen(game));
+			}
+			if(selectedIndex == 4){
 				Gdx.app.exit();
 			}
 		}

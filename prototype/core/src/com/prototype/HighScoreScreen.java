@@ -25,54 +25,43 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 
-public class GameBreakdownScreen implements Screen {
+public class HighScoreScreen implements Screen {
 
     final Prototype game;
-    
-	private Texture backgroundImage;
-
 	private OrthographicCamera camera;
-
-
-	int startCodeTextX;
-	int startCodeTextY;
-	long recentKeyStroke;
-	int selectedVulnerability;
-	int lineSize;
-	int screenIndex;
     int lineOffset;
-	boolean handled;
-	boolean hasError;
+    int textStartX;
+	int textStartY;
 
-	int screenPhase;
-	boolean yesMarked;
-    int yCoordinate;
 
-	String codeTest;
 
-	public GameBreakdownScreen(final Prototype game) {
+	public HighScoreScreen(final Prototype game) {
         this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
         lineOffset = 25;
+        textStartX = (int)(game.windowSizeX*0.35);
+		textStartY = (int)(game.windowSizeY*0.7);
 	}
 	
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(0, 0.2f, 0, 1);
+		ScreenUtils.clear(0, 0.2f, 0.1f, 1);
 		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
+        game.font.draw(game.batch, "Highscore table", 400, 650);
         for(int i = 0; i < game.testNames.length; i++){
-            yCoordinate = 700 - i*lineOffset;
-            game.font.draw(game.batch, game.testNames[i], 100, yCoordinate);
-            if(game.totalTestScores[i] > 3){
-                game.goodFont.draw(game.batch, game.totalTestScores[i] + " / " + game.totalRounds, 400, yCoordinate);
-            }else if(game.totalTestScores[i] > 1){
-                game.neutralFont.draw(game.batch, game.totalTestScores[i] + " / " + game.totalRounds, 400, yCoordinate);
+            if(i < 9){
+                game.font.draw(game.batch, (i+1) + ".", textStartX, textStartY - i*lineOffset);
             }else{
-                game.badFont.draw(game.batch, game.totalTestScores[i] + " / " + game.totalRounds, 400, yCoordinate);
+                game.font.draw(game.batch, (i+1) + ".", textStartX - 12, textStartY - i*lineOffset);
+            }
+            if(game.topTenScores[i] >= 0){
+                game.font.draw(game.batch, game.topTenScores[i] + "", textStartX + 120, textStartY - i*lineOffset);
+            }else{
+                game.greyFont.draw(game.batch, "N/A", textStartX + 120, textStartY - i*lineOffset);
             }
         }
 		if(game.round >= game.totalRounds){
@@ -80,27 +69,9 @@ public class GameBreakdownScreen implements Screen {
 		}
 		game.batch.end();
 
-		if(game.round < game.totalRounds){
-			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-				game.setScreen(game.popPreviousScreen());
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-				
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-				
-			}
-		}else{
-            if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-				game.setScreen(game.popPreviousScreen());
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-				
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-				
-			}
-		}
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            game.setScreen(game.popPreviousScreen());
+        }
 
 
 	}
@@ -108,7 +79,6 @@ public class GameBreakdownScreen implements Screen {
 	@Override
 	public void dispose () {
 		
-      	backgroundImage.dispose();
       	// game.batch.dispose();
 	}
 
