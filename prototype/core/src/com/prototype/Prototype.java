@@ -27,6 +27,7 @@ public class Prototype extends Game {
 	public SpriteBatch batch;
 	public BitmapFont font;
 	public BitmapFont greyFont;
+	public BitmapFont blackFont;
 	public BitmapFont goodFont;
 	public BitmapFont neutralFont;
 	public BitmapFont badFont;
@@ -47,6 +48,7 @@ public class Prototype extends Game {
 	public int round;
 	public int totalRounds;
 	public ResultSummary resultSummary;
+	public int[] topTenScores;
 
 	private int[] indicesOfNeededChanges;
 	private int screenStackPointer;
@@ -86,6 +88,7 @@ public class Prototype extends Game {
 		correctAnswers = new String[numberOfTests];
 		providedAnswers = new String[numberOfTests];
 		screenStack = new Screen[screenStackCapacity];
+		topTenScores = new int[10];
 		resultSummary = new ResultSummary(numberOfTests);
 	}
 
@@ -104,6 +107,8 @@ public class Prototype extends Game {
 		goodFont = generator.generateFont(parameter);
 		parameter.color = Color.RED;
 		badFont = generator.generateFont(parameter);
+		parameter.color = Color.BLACK;
+		blackFont = generator.generateFont(parameter);
 		//greyFont.setColor(Color.DARK_GRAY);
 		vulnerabilityTypes[0] = "SQL Injection";
 		correctAnswers[0] = "SQL Injection";
@@ -119,6 +124,7 @@ public class Prototype extends Game {
 		for(int i = 0; i < numberOfTests; i++){
 			totalTestScores[i] = 0;
 		}
+		resetTopTenList();
 		setTexts();
 		this.setScreen(new MainMenuScreen(this));
 	}
@@ -143,6 +149,28 @@ public class Prototype extends Game {
 		resetScreenStack();
 		for(int i = 0; i < interactionScreens.length; i++){
 			interactionScreens[i] = new ComputerInteractionScreen(this, testNeedsChange[i], i);
+		}
+	}
+
+	public void updateTopTenList(){
+		int newIndex = -1;
+		for(int i = 0; i < 10; i++){
+			if(totalScore > topTenScores[i]){
+				newIndex = i;
+				for(int j = 9; j > i; j--){
+					topTenScores[j] = topTenScores[j-1];
+				}
+				break;
+			}
+		}
+		if(newIndex >= 0){
+			topTenScores[newIndex] = totalScore;
+		}
+	}
+
+	public void resetTopTenList(){
+		for(int i = 0; i < 10; i++){
+			topTenScores[i] = -1;
 		}
 	}
 
@@ -234,6 +262,15 @@ public class Prototype extends Game {
 		}
 		testIsFinished[index] = true;
 		numberOfAnsweredTests++;
+	}
+
+	public void resetAnswer(int index){
+		if(testAnsweredCorrectly[index]){
+			testAnsweredCorrectly[index] = false;
+			numberOfCorrectlyAnsweredTests--;
+		}
+		testIsFinished[index] = false;
+		numberOfAnsweredTests--;
 	}
 
 	public void finishRound(){

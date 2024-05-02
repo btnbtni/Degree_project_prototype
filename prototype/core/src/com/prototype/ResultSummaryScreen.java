@@ -43,7 +43,7 @@ public class ResultSummaryScreen implements Screen {
 		
 		game.batch.end();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(game.popPreviousScreen());
         }
 

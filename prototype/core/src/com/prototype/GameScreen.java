@@ -261,7 +261,7 @@ public class GameScreen implements Screen {
 			camera.translate(0, offsetY);
 
 
-		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
 			game.pushPreviousScreen(this);
 			game.setScreen(new PauseScreen(game));
 		}
@@ -323,6 +323,12 @@ public class GameScreen implements Screen {
 		playerImageUp.dispose();
 		playerImageLeft.dispose();
 		playerImageDown.dispose();
+		exclamationMarkImage.dispose();
+		usbImage.dispose();
+		openDoorLeft.dispose();
+		closedDoorLeft.dispose();
+		openDoorRight.dispose();
+		closedDoorRight.dispose();
       	// game.batch.dispose();
 	}
 
