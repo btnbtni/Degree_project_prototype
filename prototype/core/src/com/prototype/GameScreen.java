@@ -247,7 +247,9 @@ public class GameScreen implements Screen {
 				else if(objectType.equals("door")){
 					tileMapHelper.toggleDoor(interactionObject.getName());
 				}
-				
+				else if(objectType.equals("npc")){
+					tileMapHelper.toggleExclamationMark(interactionObject.getName());
+				}
 			}
 		}
 		
