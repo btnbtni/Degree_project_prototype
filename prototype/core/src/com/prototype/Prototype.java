@@ -35,12 +35,12 @@ public class Prototype extends Game {
 	public Screen usbInteractionScreen;
 	private Screen[] screenStack;
 	public boolean[] testIsFinished;
-	private boolean[] testNeedsChange;
+	public boolean[] testNeedsChange;
 	public boolean[] testAnsweredCorrectly;
 	public String[] correctVersion;
 	public String[] incorrectVersion;
-	private String[] correctAnswers;
-	private String[] providedAnswers;
+	public String[] correctAnswers;
+	public String[] providedAnswers;
 	public String[] testNames;
 	public int[] totalTestScores;
 	public int numberOfAnsweredTests;

@@ -64,22 +64,38 @@ public class RoundBreakdownScreen implements Screen {
 		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
+		game.blackFont.draw(game.batch, "Test name", 10, 725);
+		game.blackFont.draw(game.batch, "Result", 280, 725);
+		game.blackFont.draw(game.batch, "Correct answer", 430, 725);
+		game.blackFont.draw(game.batch, "Provided answer", 730, 725);
         for(int i = 0; i < game.testNames.length; i++){
             yCoordinate = 700 - i*lineOffset;
-            game.font.draw(game.batch, game.testNames[i], 100, yCoordinate);
+            game.font.draw(game.batch, game.testNames[i], 10, yCoordinate);
+			if(game.testNeedsChange[i]){
+				game.font.draw(game.batch, game.correctAnswers[i], 430, yCoordinate);
+			}else{
+				game.font.draw(game.batch, "Safe", 430, yCoordinate);
+			}
+			if(game.testIsFinished[i]){
+				if(game.providedAnswers[i] != null){
+					game.font.draw(game.batch, game.providedAnswers[i], 730, yCoordinate);
+				}else{
+					game.font.draw(game.batch, "Safe", 730, yCoordinate);
+				}
+			}else{
+				game.font.draw(game.batch, "N/A", 730, yCoordinate);
+			}
+			
             if(game.testIsFinished[i]){
                 if(game.testAnsweredCorrectly[i]){
-                    game.goodFont.draw(game.batch, "Correct", 400, yCoordinate);
+                    game.goodFont.draw(game.batch, "Correct", 280, yCoordinate);
                 }else{
-                    game.badFont.draw(game.batch, "Incorrect", 400, yCoordinate);
+                    game.badFont.draw(game.batch, "Incorrect", 280, yCoordinate);
                 }
             }else{
-                game.neutralFont.draw(game.batch, "Unhandled", 400, yCoordinate);
+                game.neutralFont.draw(game.batch, "Unhandled", 280, yCoordinate);
             }
         }
-		if(game.round >= game.totalRounds){
-
-		}
 		game.batch.end();
 
 		if(game.round < game.totalRounds){
