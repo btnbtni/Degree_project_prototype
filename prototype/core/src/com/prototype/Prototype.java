@@ -32,6 +32,7 @@ public class Prototype extends Game {
 	public BitmapFont neutralFont;
 	public BitmapFont badFont;
 	public Screen[] interactionScreens;
+	public Screen usbInteractionScreen;
 	private Screen[] screenStack;
 	public boolean[] testIsFinished;
 	private boolean[] testNeedsChange;
@@ -150,6 +151,7 @@ public class Prototype extends Game {
 		for(int i = 0; i < interactionScreens.length; i++){
 			interactionScreens[i] = new ComputerInteractionScreen(this, testNeedsChange[i], i);
 		}
+		usbInteractionScreen = new USBInteractionScreen(this);
 	}
 
 	public void updateTopTenList(){

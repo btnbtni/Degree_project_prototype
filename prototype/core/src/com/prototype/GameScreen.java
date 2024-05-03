@@ -126,6 +126,8 @@ public class GameScreen implements Screen {
 	
 		if(usb != null && tempPlayer.overlaps(usb)){
 			usb = null;
+			game.pushPreviousScreen(this);
+			game.setScreen(game.usbInteractionScreen);
 			System.out.println("collected");
 		}
 	}
