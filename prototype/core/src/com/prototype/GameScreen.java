@@ -103,6 +103,8 @@ public class GameScreen implements Screen {
 		this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
 	 
 		usb = tileMapHelper.getUSB();
+
+		tileMapHelper.setExclamationMarks(game.indicesOfTests);
 	}
 	
 

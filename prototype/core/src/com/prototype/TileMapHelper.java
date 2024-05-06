@@ -114,7 +114,8 @@ public class TileMapHelper {
         Array<RectangleMapObject> exclamationMarksArray = getExclamationMarks();
 
         for(int i = 0; i < exclamationMarksArray.size; i++){
-            if(testArray[i] == null){
+            
+            if(exclamationMarksArray.get(i).getProperties.get("desk", boolean.class) && testArray[i] == null){
                 exclamationMarksArray.get(i).setVisible(false);
             }
         }
