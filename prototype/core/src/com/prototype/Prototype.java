@@ -117,13 +117,18 @@ public class Prototype extends Game {
 		vulnerabilityTypes[1] = "Buffer overflow";
 		vulnerabilityTypes[2] = "Side channel attack";
 		vulnerabilityTypes[3] = "Memory leak";
-		testList[0] = new TestScenario(0, "correctcodeexample1.png", "incorrectcodeexample1.png", "SQL Injection", "Database handler");
-		testList[1] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Buffer overflow", "User input handler");
-		testList[2] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Side channel attack", "Password authenticator");
-		testList[3] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Memory leak", "Memory handler");
+		testList[0] = new TestScenario(0, "correctcodeexample1.png", "incorrectcodeexample1.png", "SQL Injection", "Database handler",
+		"Explanation of how SQL injections work. Filler text to see how wrapping works, hello, goodbye.");
+		testList[1] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Buffer overflow", "User input handler",
+		"Here will soon be an explanation of how buffer overflow works, as well as how to avoid them.");
+		testList[2] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Side channel attack", "Password authenticator",
+		"Easy to overlook etc.");
+		testList[3] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Memory leak", "Memory handler",
+		"Will mention that it is not usually a very dangerous vulnerability but it can crash servers etc.");
 		for(int i = 4; i < numberOfTests; i++){
 			vulnerabilityTypes[i] = "Placeholder " + i;
-			testList[i] = new TestScenario(i, "correctcodeexample1.png", "incorrectcodeexample1.png", "Placeholder " + i, "Sample handler " + i);
+			testList[i] = new TestScenario(i, "correctcodeexample1.png", "incorrectcodeexample1.png",
+			 "Placeholder " + i, "Sample handler " + i, "Test description for vulnerability number " + i + ".");
 		}
 		resetTopTenList();
 		this.setScreen(new MainMenuScreen(this));
@@ -140,6 +145,7 @@ public class Prototype extends Game {
 
 	public void startNewSession(int numErrors, int rounds){
 		numberOfNeededChanges = numErrors;
+		numberOfAnsweredTests = 0;
 		totalRounds = rounds;
 		indicesOfNeededChanges = new int[numberOfNeededChanges];
 		numberOfCorrectlyAnsweredTests = 0;

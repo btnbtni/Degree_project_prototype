@@ -34,7 +34,7 @@ public class MainMenuScreen implements Screen {
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
 		menuItems = new Array<String>();
 		menuItems.add("Start game");
-		menuItems.add("Options");
+		menuItems.add("Information centre");
 		menuItems.add("Results");
 		menuItems.add("High scores");
 		menuItems.add("Quit");
@@ -69,7 +69,8 @@ public class MainMenuScreen implements Screen {
 				game.setScreen(new StartNewGameScreen(game));
 			}
 			if(selectedIndex == 1){
-				
+				game.pushPreviousScreen(this);
+				game.setScreen(new InformationScreen(game));
 			}
 			if(selectedIndex == 2){
 				game.pushPreviousScreen(this);

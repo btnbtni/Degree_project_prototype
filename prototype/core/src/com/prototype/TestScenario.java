@@ -15,8 +15,9 @@ public class TestScenario {
     public int testIndex;
     public Texture correctCodeImage;
     public Texture incorrectCodeImage;
+    public String description;
 
-    public TestScenario(int index, String correctPath, String incorrectPath, String correctAnswer, String name){
+    public TestScenario(int index, String correctPath, String incorrectPath, String correctAnswer, String name, String description){
         testIndex = index;
         correctCodeImage = new Texture(Gdx.files.internal(correctPath));
         incorrectCodeImage = new Texture(Gdx.files.internal(incorrectPath));
@@ -27,6 +28,7 @@ public class TestScenario {
         totalTestScore = 0;
         testAnsweredCorrectly = false;
         providedAnswer = null;
+        this.description = description;
     }
 
     public void resetValues(){
