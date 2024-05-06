@@ -260,6 +260,8 @@ public class GameScreen implements Screen {
 				}
 				else if(objectType.equals("npc")){
 					tileMapHelper.toggleExclamationMark(interactionObject.getName());
+					game.pushPreviousScreen(this);
+					game.setScreen(game.npcInteractionScreen);
 				}
 			}
 		}
@@ -329,6 +331,10 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyPressed(Input.Keys.NUM_0)){
 			game.pushPreviousScreen(this);
 			game.setScreen(game.interactionScreens[0]);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.P)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.npcInteractionScreen);
 		}
 		if(Gdx.input.isKeyJustPressed(Input.Keys.M)){
 			game.finishRound();
