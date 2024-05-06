@@ -231,6 +231,7 @@ public class GameScreen implements Screen {
 				String objectType = interactionObject.getProperties().get("type", String.class);
 				if(objectType.equals("desk")){
 					tileMapHelper.toggleExclamationMark(interactionObject.getName());
+					System.out.println(interactionObject.getName());
 				}
 				else if(objectType.equals("door")){
 					tileMapHelper.toggleDoor(interactionObject.getName());
