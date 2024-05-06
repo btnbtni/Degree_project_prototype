@@ -109,4 +109,14 @@ public class TileMapHelper {
         boolean open = doorMapObject.getProperties().get("open", boolean.class);
         doorMapObject.getProperties().put("open", !open);
     }
+
+    public void setExclamationMarks(Integer[] testArray){
+        Array<RectangleMapObject> exclamationMarksArray = getExclamationMarks();
+
+        for(int i = 0; i < exclamationMarksArray.size; i++){
+            if(testArray[i] == null){
+                exclamationMarksArray.get(i).setVisible(false);
+            }
+        }
+    }
 }

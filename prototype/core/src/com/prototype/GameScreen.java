@@ -67,19 +67,6 @@ public class GameScreen implements Screen {
 	public GameScreen(final Prototype game) {
         this.game = game;
 
-		// playerImageDown = new Texture(Gdx.files.internal("player1cropped.png"));
-		// playerImageUp = new Texture(Gdx.files.internal("player1upcropped.png"));
-		// playerImageLeft = new Texture(Gdx.files.internal("player1leftcropped.png"));
-		// playerImageRight = new Texture(Gdx.files.internal("player1rightcropped.png"));
-		// exclamationMarkImage = new Texture(Gdx.files.internal("map/exclamationmarklarge.png"));
-		// usbImage = new Texture(Gdx.files.internal("map/usb.png"));
-
-		// openDoorLeft = new Texture(Gdx.files.internal("map/openDoorLeft.png"));
-		// closedDoorLeft = new Texture(Gdx.files.internal("map/closedDoorLeft.png"));
-
-		// openDoorRight = new Texture(Gdx.files.internal("map/openDoorRight.png"));
-		// closedDoorRight = new Texture(Gdx.files.internal("map/closedDoorRight.png"));
-
 		playerImageDown = new Texture(Gdx.files.internal("player96cropped.png"));
 		playerImageUp = new Texture(Gdx.files.internal("player1up96cropped.png"));
 		playerImageLeft = new Texture(Gdx.files.internal("player1left96cropped.png"));
@@ -95,8 +82,6 @@ public class GameScreen implements Screen {
 		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
-		System.out.println("X: " + camera.position.x);
-		System.out.println("Y: " + camera.position.y);
 
 		player = new Rectangle();
 		player.x = (game.windowSizeX / 2) - (game.tileSize/2);
@@ -128,7 +113,6 @@ public class GameScreen implements Screen {
 			usb = null;
 			game.pushPreviousScreen(this);
 			game.setScreen(game.usbInteractionScreen);
-			System.out.println("collected");
 		}
 	}
 
