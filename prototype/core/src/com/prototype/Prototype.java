@@ -82,7 +82,7 @@ public class Prototype extends Game {
 		numberOfCorrectlyAnsweredTests = 0;
 		numberOfComputerScreens = 18;
 
-		testList = new TestScenario[10];
+		testList = new TestScenario[numberOfTests];
 
 		indicesOfNeededChanges = new int[numberOfNeededChanges];
 		interactionScreens = new Screen[numberOfInteractions];
@@ -115,9 +115,13 @@ public class Prototype extends Game {
 		//greyFont.setColor(Color.DARK_GRAY);
 		vulnerabilityTypes[0] = "SQL Injection";
 		vulnerabilityTypes[1] = "Buffer overflow";
+		vulnerabilityTypes[2] = "Side channel attack";
+		vulnerabilityTypes[3] = "Memory leak";
 		testList[0] = new TestScenario(0, "correctcodeexample1.png", "incorrectcodeexample1.png", "SQL Injection", "Database handler");
 		testList[1] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Buffer overflow", "User input handler");
-		for(int i = 2; i < 10; i++){
+		testList[2] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Side channel attack", "Password authenticator");
+		testList[3] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Memory leak", "Memory handler");
+		for(int i = 4; i < numberOfTests; i++){
 			vulnerabilityTypes[i] = "Placeholder " + i;
 			testList[i] = new TestScenario(i, "correctcodeexample1.png", "incorrectcodeexample1.png", "Placeholder " + i, "Sample handler " + i);
 		}

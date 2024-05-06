@@ -144,11 +144,15 @@ public class GameScreen implements Screen {
 			else{
 				if(doorProperties.get("open", boolean.class)){
 					game.batch.draw(openDoorRight, door.getX(), door.getY());
+					if(doorObject.getName().equals("exitDoor")){
+						font.draw(game.batch, "Press ENTER to finish this round!", 400, 300);
+					}
 				}
 				else{
 					game.batch.draw(closedDoorRight, door.getX(), door.getY());
 				}
 			}
+			
 		}
 	}
 	@Override
