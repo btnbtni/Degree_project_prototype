@@ -52,7 +52,7 @@ public class HighScoreScreen implements Screen {
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
         game.font.draw(game.batch, "Highscore table", 400, 650);
-        for(int i = 0; i < game.testNames.length; i++){
+        for(int i = 0; i < 10; i++){
             if(i < 9){
                 game.font.draw(game.batch, (i+1) + ".", textStartX, textStartY - i*lineOffset);
             }else{

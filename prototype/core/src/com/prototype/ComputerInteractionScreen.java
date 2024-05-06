@@ -33,7 +33,6 @@ public class ComputerInteractionScreen implements Screen {
 	private Texture decisionWindowA;
 	private Texture decisionWindowB;
 	private Texture vulnerabilityWindow;
-	private Texture codeImage;
 	private Texture infoTextBox;
 
 	private OrthographicCamera camera;
@@ -58,8 +57,6 @@ public class ComputerInteractionScreen implements Screen {
 	int screenPhase;
 	boolean yesMarked;
 
-	String codeTest;
-
 	public ComputerInteractionScreen(final Prototype game, boolean hasError, int index) {
         this.game = game;
 		this.hasError = hasError;
@@ -68,7 +65,6 @@ public class ComputerInteractionScreen implements Screen {
 		decisionWindowA = new Texture(Gdx.files.internal("yesempty1.png"));
 		decisionWindowB = new Texture(Gdx.files.internal("noempty1.png"));
 		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylistbig1.png"));
-		codeImage = new Texture(Gdx.files.internal("imagetexttest2.png"));
 		infoTextBox = new Texture(Gdx.files.internal("infotext1.png"));
 
 		camera = new OrthographicCamera();
@@ -99,7 +95,6 @@ public class ComputerInteractionScreen implements Screen {
 		recentKeyStroke = 0;
 		handled = false;
 
-		codeTest = "Test test test test \nTEST TEST \nasdasd";
 	}
 	
 
@@ -113,9 +108,9 @@ public class ComputerInteractionScreen implements Screen {
 		game.batch.begin();
 		game.batch.draw(backgroundImage, background.x, background.y);
 		if(hasError){
-			game.font.draw(game.batch, game.incorrectVersion[screenIndex], startCodeTextX, startCodeTextY);
+			game.batch.draw(game.testList[screenIndex].incorrectCodeImage, 10, 0);
 		}else{
-			game.font.draw(game.batch, game.correctVersion[screenIndex], startCodeTextX, startCodeTextY);
+			game.batch.draw(game.testList[screenIndex].correctCodeImage, 10, 0);
 		}
 		// game.batch.draw(codeImage, 10, 0);
 		// game.batch.draw(codeImage, startCodeTextX, startCodeTextY - 300);
@@ -209,8 +204,11 @@ public class ComputerInteractionScreen implements Screen {
 	@Override
 	public void dispose () {
 		
-      	backgroundImage.dispose();
-      	// game.batch.dispose();
+		backgroundImage.dispose();
+		decisionWindowA.dispose();
+		decisionWindowB.dispose();
+		vulnerabilityWindow.dispose();
+		infoTextBox.dispose();
 	}
 
     @Override

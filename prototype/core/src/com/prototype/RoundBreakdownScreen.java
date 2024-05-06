@@ -68,17 +68,17 @@ public class RoundBreakdownScreen implements Screen {
 		game.blackFont.draw(game.batch, "Result", 280, 725);
 		game.blackFont.draw(game.batch, "Correct answer", 430, 725);
 		game.blackFont.draw(game.batch, "Provided answer", 730, 725);
-        for(int i = 0; i < game.testNames.length; i++){
+        for(int i = 0; i < game.testList.length; i++){
             yCoordinate = 700 - i*lineOffset;
-            game.font.draw(game.batch, game.testNames[i], 10, yCoordinate);
-			if(game.testNeedsChange[i]){
-				game.font.draw(game.batch, game.correctAnswers[i], 430, yCoordinate);
+            game.font.draw(game.batch, game.testList[i].testName, 10, yCoordinate);
+			if(game.testList[i].testNeedsChange){
+				game.font.draw(game.batch, game.testList[i].correctAnswer, 430, yCoordinate);
 			}else{
 				game.font.draw(game.batch, "Safe", 430, yCoordinate);
 			}
-			if(game.testIsFinished[i]){
-				if(game.providedAnswers[i] != null){
-					game.font.draw(game.batch, game.providedAnswers[i], 730, yCoordinate);
+			if(game.testList[i].testIsFinished){
+				if(game.testList[i].providedAnswer != null){
+					game.font.draw(game.batch, game.testList[i].providedAnswer, 730, yCoordinate);
 				}else{
 					game.font.draw(game.batch, "Safe", 730, yCoordinate);
 				}
@@ -86,8 +86,8 @@ public class RoundBreakdownScreen implements Screen {
 				game.font.draw(game.batch, "N/A", 730, yCoordinate);
 			}
 			
-            if(game.testIsFinished[i]){
-                if(game.testAnsweredCorrectly[i]){
+            if(game.testList[i].testIsFinished){
+                if(game.testList[i].testAnsweredCorrectly){
                     game.goodFont.draw(game.batch, "Correct", 280, yCoordinate);
                 }else{
                     game.badFont.draw(game.batch, "Incorrect", 280, yCoordinate);

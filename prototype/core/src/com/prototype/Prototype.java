@@ -50,6 +50,7 @@ public class Prototype extends Game {
 	public int totalRounds;
 	public ResultSummary resultSummary;
 	public int[] topTenScores;
+	public TestScenario[] testList;
 
 	private int[] indicesOfNeededChanges;
 	private int screenStackPointer;
@@ -76,18 +77,12 @@ public class Prototype extends Game {
 		totalScore = 0;
 		round = 0;
 		numberOfCorrectlyAnsweredTests = 0;
-		testNames = new String[numberOfTests];
+
+		testList = new TestScenario[10];
+
 		indicesOfNeededChanges = new int[numberOfNeededChanges];
 		interactionScreens = new Screen[numberOfInteractions];
 		vulnerabilityTypes = new String[10];
-		testIsFinished = new boolean[numberOfTests];
-		testNeedsChange = new boolean[numberOfTests];
-		totalTestScores = new int[numberOfTests];
-		testAnsweredCorrectly = new boolean[numberOfTests];
-		correctVersion = new String[numberOfTests];
-		incorrectVersion = new String[numberOfTests];
-		correctAnswers = new String[numberOfTests];
-		providedAnswers = new String[numberOfTests];
 		screenStack = new Screen[screenStackCapacity];
 		topTenScores = new int[10];
 		resultSummary = new ResultSummary(numberOfTests);
@@ -112,21 +107,14 @@ public class Prototype extends Game {
 		blackFont = generator.generateFont(parameter);
 		//greyFont.setColor(Color.DARK_GRAY);
 		vulnerabilityTypes[0] = "SQL Injection";
-		correctAnswers[0] = "SQL Injection";
-		testNames[0] = "SQL Injection";
 		vulnerabilityTypes[1] = "Buffer overflow";
-		correctAnswers[1] = "Buffer overflow";
-		testNames[1] = "Buffer overflow";
+		testList[0] = new TestScenario(0, "correctcodeexample1.png", "incorrectcodeexample1.png", "SQL Injection", "Database handler");
+		testList[1] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Buffer overflow", "User input handler");
 		for(int i = 2; i < 10; i++){
 			vulnerabilityTypes[i] = "Placeholder " + i;
-			correctAnswers[i] = "Placeholder " + i;
-			testNames[i] = "Placeholder " + i;
-		}
-		for(int i = 0; i < numberOfTests; i++){
-			totalTestScores[i] = 0;
+			testList[i] = new TestScenario(i, "correctcodeexample1.png", "incorrectcodeexample1.png", "Placeholder " + i, "Sample handler " + i);
 		}
 		resetTopTenList();
-		setTexts();
 		this.setScreen(new MainMenuScreen(this));
 	}
 
@@ -149,7 +137,7 @@ public class Prototype extends Game {
 		setLists();
 		resetScreenStack();
 		for(int i = 0; i < interactionScreens.length; i++){
-			interactionScreens[i] = new ComputerInteractionScreen(this, testNeedsChange[i], i);
+			interactionScreens[i] = new ComputerInteractionScreen(this, testList[i].testNeedsChange, i);
 		}
 		usbInteractionScreen = new USBInteractionScreen(this);
 	}
@@ -229,49 +217,40 @@ public class Prototype extends Game {
 	}
 
 	private void setLists(){
-		for(int i = 0; i < numberOfTests; i++){
-			testNeedsChange[i] = false;
-			testIsFinished[i] = false;
-			testAnsweredCorrectly[i] = false;
-			providedAnswers[i] = null;
+		for(int i = 0; i < testList.length; i++){
+			testList[i].resetValues();
 		}
 		for(int i = 0; i < numberOfNeededChanges; i++){
-			testNeedsChange[indicesOfNeededChanges[i]] = true;
+			testList[indicesOfNeededChanges[i]].testNeedsChange = true;
 		}
 	}
 
-	private void setTexts(){
-		for(int i = 0; i < numberOfTests; i++){
-			correctVersion[i] = "public function DoSomething(){\n    CORRECT CODE " + i + "\n}";
-			incorrectVersion[i] = "public function DoSomething(){\n    INCORRECT CODE " + i + "\n}";
-		}
-	}
 
 	public void registerAnswer(String answer, int index){
-		providedAnswers[index] = answer;
-		if(testNeedsChange[index] && answer.equals(correctAnswers[index])){
-			testAnsweredCorrectly[index] = true;
+		testList[index].providedAnswer = answer;
+		if(testList[index].testNeedsChange && answer.equals(testList[index].correctAnswer)){
+			testList[index].testAnsweredCorrectly = true;
 			numberOfCorrectlyAnsweredTests++;
 		}
-		testIsFinished[index] = true;
+		testList[index].testIsFinished = true;
 		numberOfAnsweredTests++;
 	}
 
 	public void registerAnswer(int index){
-		if(!testNeedsChange[index]){
-			testAnsweredCorrectly[index] = true;
+		if(!testList[index].testNeedsChange){
+			testList[index].testAnsweredCorrectly = true;
 			numberOfCorrectlyAnsweredTests++;
 		}
-		testIsFinished[index] = true;
+		testList[index].testIsFinished = true;
 		numberOfAnsweredTests++;
 	}
 
 	public void resetAnswer(int index){
-		if(testAnsweredCorrectly[index]){
-			testAnsweredCorrectly[index] = false;
+		if(testList[index].testAnsweredCorrectly){
+			testList[index].testAnsweredCorrectly = false;
 			numberOfCorrectlyAnsweredTests--;
 		}
-		testIsFinished[index] = false;
+		testList[index].testIsFinished = false;
 		numberOfAnsweredTests--;
 	}
 
@@ -279,8 +258,8 @@ public class Prototype extends Game {
 		totalScore += numberOfCorrectlyAnsweredTests;
 		resultSummary.totalNumberOfRounds++;
 		for(int i = 0; i < numberOfTests; i++){
-			if(testAnsweredCorrectly[i]){
-				totalTestScores[i]++;
+			if(testList[i].testAnsweredCorrectly){
+				testList[i].totalTestScore++;
 				resultSummary.testResults[i]++;
 			}
 			resultSummary.percentCorrect[i] = (int)((resultSummary.testResults[i]*100) / resultSummary.totalNumberOfRounds);

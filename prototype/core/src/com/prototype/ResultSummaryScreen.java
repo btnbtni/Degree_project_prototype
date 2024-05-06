@@ -30,7 +30,7 @@ public class ResultSummaryScreen implements Screen {
 
 		for(int i = 0; i < game.numberOfTests; i++){
             yCoordinate = 700 - i*lineOffset;
-            game.font.draw(game.batch, game.testNames[i] + ": ", 100, yCoordinate);
+            game.font.draw(game.batch, game.testList[i].testName + ": ", 100, yCoordinate);
             game.font.draw(game.batch, game.resultSummary.testResults[i] + " / " + game.resultSummary.totalNumberOfRounds , 400, yCoordinate);
             if(game.resultSummary.percentCorrect[i] > 69){
                 game.goodFont.draw(game.batch, game.resultSummary.percentCorrect[i] + "%", 600, yCoordinate);
