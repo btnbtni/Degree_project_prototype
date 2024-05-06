@@ -107,6 +107,7 @@ public class ComputerInteractionScreen implements Screen {
 
 		game.batch.begin();
 		game.batch.draw(backgroundImage, background.x, background.y);
+		game.font.draw(game.batch, game.testList[screenIndex].testName, 8, 761);
 		if(hasError){
 			game.batch.draw(game.testList[screenIndex].incorrectCodeImage, 10, 0);
 		}else{
