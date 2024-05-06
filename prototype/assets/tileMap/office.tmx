@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="35" height="35" tilewidth="96" tileheight="96" infinite="0" nextlayerid="9" nextobjectid="108">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="35" height="35" tilewidth="96" tileheight="96" infinite="0" nextlayerid="9" nextobjectid="123">
  <tileset firstgid="1" source="alltiles_96.tsx"/>
  <tileset firstgid="401" source="npc1.tsx"/>
  <layer id="1" name="background" width="35" height="35">
@@ -9,7 +9,7 @@
  </layer>
  <layer id="2" name="stuff" width="35" height="35">
   <data encoding="base64" compression="zlib">
-   eJztlUsKwCAMRLVd9HeT0sv2xrWg4GJSo5KFdB4MhmBgEIc4RwghtmxBh6H2Ci9LPK+sd2Z13kdIc6leG7xYQS+YUb34oFkhhGZuqvCizTTCKtMojy+lTEt3melv6AXDTNtkWtq9CGku1aP+F3rB9Hi5ffnOH99FA71gLHZAj0gbD60PCDE=
+   eJztld0KgCAMhbUu+nsTCd+1N87AQGTWZs2y9sEhMYcH8zSlBEEQeBmcJkaNBC+df87BnAnG4bz1Uon3Bhj3GV64EC8wVC/xHbgLS/SinVqEIL+YuobgBZvpGIusy8k0lMeNMLMQqbWS6WNq9lJbpqF9nso0dHYlMp3qvRCpun1c893l5I9eFn2+5i3nQv2/fOUbYSjRAzA1XD3gioQ8VgcSCrU=
   </data>
  </layer>
  <objectgroup id="4" name="collisions">
@@ -46,6 +46,20 @@
   <object id="38" x="1632" y="1440" width="864" height="96"/>
   <object id="39" x="288" y="1344" width="864" height="96"/>
   <object id="40" x="288" y="1440" width="864" height="96"/>
+  <object id="108" x="1248" y="864" width="96" height="96"/>
+  <object id="109" x="1344" y="864" width="96" height="96"/>
+  <object id="110" x="288" y="1248" width="96" height="96"/>
+  <object id="111" x="1152" y="1344" width="96" height="96"/>
+  <object id="112" x="1536" y="1440" width="96" height="96"/>
+  <object id="113" x="1536" y="2016" width="96" height="96"/>
+  <object id="114" x="288" y="1920" width="96" height="96"/>
+  <object id="115" x="1152" y="2112" width="96" height="96"/>
+  <object id="116" x="2400" y="1248" width="96" height="96"/>
+  <object id="118" x="2400" y="1920" width="96" height="96"/>
+  <object id="119" x="2400" y="2688" width="96" height="96"/>
+  <object id="120" x="2400" y="2976" width="96" height="96"/>
+  <object id="121" x="1536" y="2976" width="96" height="96"/>
+  <object id="122" x="288" y="2976" width="96" height="96"/>
  </objectgroup>
  <objectgroup id="5" name="usb">
   <object id="22" x="2174" y="2652.67" width="96" height="96"/>
