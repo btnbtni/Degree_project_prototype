@@ -194,7 +194,7 @@ public class GameScreen implements Screen {
 		}else if(movingDirection == 3){
 			game.batch.draw(playerImageRight, player.x, player.y);
 		}
-		String progressString =  "Cases handled:\n" + "     " + game.numberOfAnsweredTests + " / " + game.numberOfTests;
+		String progressString =  "Cases handled:\n" + "     " + game.numberOfAnsweredTests + " / " + game.numberOfTotalTests;
 		font.draw(game.batch, progressString, camera.position.x - 512 + (float)(game.windowSizeX*0.85),camera.position.y - 384 + (float)(game.windowSizeY*0.9));
 		game.batch.end();
 		readInput();
@@ -287,59 +287,6 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
 			game.pushPreviousScreen(this);
 			game.setScreen(new PauseScreen(game));
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_0)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.interactionScreens[0]);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.interactionScreens[1]);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.interactionScreens[2]);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.interactionScreens[3]);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_4)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.interactionScreens[4]);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_5)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.interactionScreens[5]);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_6)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.interactionScreens[6]);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_7)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.interactionScreens[7]);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_8)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.interactionScreens[8]);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_9)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.interactionScreens[9]);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_0)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.interactionScreens[0]);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.P)){
-			game.pushPreviousScreen(this);
-			game.setScreen(game.npcInteractionScreen);
-		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.M)){
-			game.finishRound();
-			game.pushPreviousScreen(this);
-			game.setScreen(new EndScreen(game));
 		}
 	}
 	

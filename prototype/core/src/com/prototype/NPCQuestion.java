@@ -9,6 +9,7 @@ public class NPCQuestion {
     private Integer selectedOption;
     private ArrayList<String> options;
     private boolean result;
+    private String explanation;
 
     public NPCQuestion(String question){
         this.question = question;
@@ -49,8 +50,33 @@ public class NPCQuestion {
         }
     }
 
+    public String getOptionString(){
+        String selected = "[X] ";
+		String notSelected = "[ ] ";
+        StringBuilder optionString = new StringBuilder();
+        for(int i = 0; i < options.size(); i++){
+            if(i == selectedOption){
+                optionString.append(selected);
+            }
+            else{
+                optionString.append(notSelected);
+            }
+            optionString.append(options.get(i));
+            optionString.append("\n");
+        }
+        return optionString.toString();
+    }
+
     public boolean getResult(){
         return this.result;
+    }
+
+    public String getExplanation(){
+        return this.explanation;
+    }
+
+    public void setExplanation(String expl){
+        this.explanation = expl;
     }
 
 }

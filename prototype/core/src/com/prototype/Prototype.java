@@ -61,6 +61,7 @@ public class Prototype extends Game {
 	private int screenStackCapacity;
 	private int numberOfInteractions;
 	public int numberOfTests;
+	public int numberOfTotalTests;
 	public int numberOfNeededChanges;
 
 	int windowSizeX;
@@ -74,6 +75,7 @@ public class Prototype extends Game {
 		this.tileSize = 64;
 		numberOfInteractions = 10;
 		numberOfTests = 10;
+		numberOfTotalTests = numberOfTests + 2;
 		numberOfNeededChanges = 5;
 		screenStackPointer = -1;
 		screenStackCapacity = 10;

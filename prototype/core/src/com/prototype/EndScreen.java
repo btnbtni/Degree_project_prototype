@@ -59,7 +59,7 @@ public class EndScreen implements Screen {
         this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
-		resultString = "Result: " + game.numberOfCorrectlyAnsweredTests + " / " + game.numberOfTests;
+		resultString = "Result: " + game.numberOfCorrectlyAnsweredTests + " / " + game.numberOfTotalTests;
 		roundString = "Round " + game.round + " of " + game.totalRounds + " finished";
 		totalScoreString = "Total score: " + game.totalScore;
 		textStartX = (int)(game.windowSizeX*0.35);

@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -69,7 +70,7 @@ public class InformationScreen implements Screen {
                 game.greyFont.draw(game.batch, game.vulnerabilityTypes[i], listTextStartX, listTextStartY - i*lineOffset);
             }
         }
-        game.font.draw(game.batch, game.testList[listPointer].description, descriptionTextStartX, descriptionTextStartY, 660, 600, true);
+        game.blackFont.draw(game.batch, game.testList[listPointer].description, descriptionTextStartX, descriptionTextStartY, 660, Align.left, true);
 		game.batch.end();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){

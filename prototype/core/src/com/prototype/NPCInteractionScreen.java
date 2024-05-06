@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 
@@ -54,7 +55,7 @@ public class NPCInteractionScreen implements Screen {
 
 	public NPCInteractionScreen(final Prototype game) {
         this.game = game;
-		backgroundImage = new Texture(Gdx.files.internal("boringcomputerscreen1280.png"));
+		backgroundImage = new Texture(Gdx.files.internal("npcinteractionbackground.png"));
 		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylistbig1.png"));
 		npcImage = new Texture(Gdx.files.internal("interaction/girlnpc96.png"));
 
@@ -73,7 +74,7 @@ public class NPCInteractionScreen implements Screen {
 		lineSize = 20;
 
 		startCodeTextX = game.windowSizeX/100;
-		startCodeTextY = game.windowSizeY - 20;
+		startCodeTextY = game.windowSizeY - 40;
 
 		recentKeyStroke = 0;
 		handled = false;
@@ -93,12 +94,13 @@ public class NPCInteractionScreen implements Screen {
 
 		ArrayList<NPCQuestion> socialEngineeringQuestions = new ArrayList<>();
 
-		String questionString = "Carl stood outside the building when I arrived at work this morning. \nHe had forgotten his access credentials for the building and asked \nif I could let him in. \nI said no since that's against the rules.";
+		String questionString = "Carl stood outside the building when I arrived at work this morning. He had forgotten his access credentials for the building and asked if I could let him in. I said no since that's against the rules.";
 		NPCQuestion question = new NPCQuestion(questionString);
 		question.putOption("You should've let him in, Carl is our friend!", false);
-		question.putOption("You acted correctly, social engineering attacks are often carried out by exploiting the trust of others.", true);
+		question.putOption("You acted correctly.", true);
 		question.putOption("Who's Carl?", false);
 		question.putOption("Who are you?", false);
+		question.setExplanation("Social engineering attacks are often carried out by exploiting the trust of others.");
 		
 		socialEngineeringQuestions.add(question);
 
@@ -136,11 +138,11 @@ public class NPCInteractionScreen implements Screen {
 		game.batch.begin();
 		game.batch.draw(backgroundImage, background.x, background.y);
 		
-		game.font.draw(game.batch, informationString, startCodeTextX, startCodeTextY);
+		game.blackFont.draw(game.batch, informationString, startCodeTextX, startCodeTextY, 800, Align.left, true);
 
 		StringBuilder quizQuestionBuilder = new StringBuilder();
 		if(screenPhase == 1){
-			game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 300);
+			//game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 300);
 			game.batch.draw(npcImage, (float)(game.windowSizeX*0.5) - 70 + 400, (float)(game.windowSizeY*0.7) - 300 + 200);
 			float yOffset = 30;
 			if(phishingQuestion){
@@ -159,9 +161,9 @@ public class NPCInteractionScreen implements Screen {
 				}
 				quizQuestionBuilder.append(options.get(i));
 				if(selectedVulnerability != i){
-					game.greyFont.draw(game.batch, quizQuestionBuilder.toString(), startCodeTextX + 30, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize) - yOffset);
+					game.blackFont.draw(game.batch, quizQuestionBuilder.toString(), startCodeTextX + 30, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize) - yOffset, 700, Align.left, true);
 				}else{
-					game.font.draw(game.batch, quizQuestionBuilder.toString(), startCodeTextX + 30, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize) - yOffset);
+					game.font.draw(game.batch, quizQuestionBuilder.toString(), startCodeTextX + 30, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize) - yOffset, 700, Align.left, true);
 				}
 			}
 			if(selectedVulnerability == options.size()){
@@ -172,18 +174,13 @@ public class NPCInteractionScreen implements Screen {
 			}
 		}else if(screenPhase == 2){
 
-			game.font.draw(game.batch, resultString, startCodeTextX+30, (float)(game.windowSizeY*0.4));
+			game.blackFont.draw(game.batch, resultString, startCodeTextX+30, (float)(game.windowSizeY*0.4), 700, Align.left, true);
 		}
 		game.batch.end();
 
 
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-			game.pushPreviousScreen(this);
-			game.setScreen(new PauseScreen(game));
-		}
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
 			game.setScreen(game.popPreviousScreen());
 		}
 
@@ -203,12 +200,19 @@ public class NPCInteractionScreen implements Screen {
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
 				if(selectedVulnerability == npcQuestion.getOptions().size()){
+					StringBuilder resultStringBuilder = new StringBuilder();
 					if(npcQuestion.correctQuestion()){
-						resultString = "You answered correctly\nPress ENTER to continue";
+						resultStringBuilder.append("You answered correctly\n");
+						game.numberOfCorrectlyAnsweredTests++;
 					}
 					else{
-						resultString = "You answered incorrectly\nPress ENTER to continue";
+						resultStringBuilder.append("You answered incorrectly\n");
 					}
+					if(npcQuestion.getExplanation() != null)
+						resultStringBuilder.append(npcQuestion.getExplanation());
+					resultStringBuilder.append("\nPress ENTER to continue");
+					resultString = resultStringBuilder.toString();
+					game.numberOfAnsweredTests++;
 					screenPhase = 2;
 				}
 				if(selectedVulnerability < npcQuestion.getOptions().size()){

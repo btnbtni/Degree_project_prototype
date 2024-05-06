@@ -60,7 +60,7 @@ public class USBInteractionScreen implements Screen {
 
 	public USBInteractionScreen(final Prototype game) {
         this.game = game;
-		backgroundImage = new Texture(Gdx.files.internal("boringcomputerscreen1280.png"));
+		backgroundImage = new Texture(Gdx.files.internal("npcinteractionbackground.png"));
 		decisionWindowA = new Texture(Gdx.files.internal("judgecodeyesbig1.png"));
 		decisionWindowB = new Texture(Gdx.files.internal("judgecodenobig1.png"));
 		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylistbig1.png"));
@@ -81,7 +81,7 @@ public class USBInteractionScreen implements Screen {
 		lineSize = 20;
 
 		startCodeTextX = game.windowSizeX/100;
-		startCodeTextY = game.windowSizeY - 20;
+		startCodeTextY = game.windowSizeY - 40;
 
 		recentKeyStroke = 0;
 		handled = false;
@@ -123,11 +123,11 @@ public class USBInteractionScreen implements Screen {
 		game.batch.begin();
 		game.batch.draw(backgroundImage, background.x, background.y);
 		
-		game.font.draw(game.batch, informationString, startCodeTextX, startCodeTextY);
+		game.blackFont.draw(game.batch, informationString, startCodeTextX, startCodeTextY);
 
 		StringBuilder quizQuestionBuilder = new StringBuilder();
 		if(screenPhase == 1){
-			game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 300);
+			//game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 300);
 			for(int i = 0; i < quizQuestions.length; i++){
 				quizQuestionBuilder.setLength(0);
 				if(quizQuestions[i].getSelectedAnswer()){
@@ -138,7 +138,7 @@ public class USBInteractionScreen implements Screen {
 				}
 				quizQuestionBuilder.append(quizQuestions[i].getQuestion());
 				if(selectedVulnerability != i){
-					game.greyFont.draw(game.batch, quizQuestionBuilder.toString(), startCodeTextX + 30, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize));
+					game.blackFont.draw(game.batch, quizQuestionBuilder.toString(), startCodeTextX + 30, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize));
 				}else{
 					game.font.draw(game.batch, quizQuestionBuilder.toString(), startCodeTextX + 30, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize));
 				}
@@ -151,7 +151,7 @@ public class USBInteractionScreen implements Screen {
 			}
 		}else if(screenPhase == 2){
 
-			game.font.draw(game.batch, resultString, startCodeTextX+30, (float)(game.windowSizeY*0.4));
+			game.blackFont.draw(game.batch, resultString, startCodeTextX+30, (float)(game.windowSizeY*0.4));
 		}
 		game.batch.end();
 
@@ -197,7 +197,11 @@ public class USBInteractionScreen implements Screen {
 					if(result != quizQuestions.length){
 						resultStringBuilder.insert(21, "The following options were marked incorrectly: \n");
 					}
+					else{
+						game.numberOfCorrectlyAnsweredTests++;
+					}
 					resultStringBuilder.append("\n\nPress ENTER to continue");
+					game.numberOfAnsweredTests++;
 					resultString = resultStringBuilder.toString();
 					screenPhase = 2;
 				}
