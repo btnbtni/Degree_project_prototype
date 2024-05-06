@@ -103,7 +103,7 @@ public class USBInteractionScreen implements Screen {
 		else{
 			informationMessageBuilder.append("CORRECT ");
 		}
-		informationMessageBuilder.append("to handle it below:");
+		informationMessageBuilder.append(" way(s) to handle it below:");
 		informationString= informationMessageBuilder.toString();
 		selected = "[X] ";
 		notSelected = "[ ] ";
