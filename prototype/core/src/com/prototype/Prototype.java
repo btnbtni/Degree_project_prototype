@@ -51,8 +51,11 @@ public class Prototype extends Game {
 	public ResultSummary resultSummary;
 	public int[] topTenScores;
 	public TestScenario[] testList;
+	public int numberOfComputerScreens;
 
 	private int[] indicesOfNeededChanges;
+	public int[] indicesOfScreens;
+	public Integer[] indicesOfTests;
 	private int screenStackPointer;
 	private int screenStackCapacity;
 	private int numberOfInteractions;
@@ -77,6 +80,7 @@ public class Prototype extends Game {
 		totalScore = 0;
 		round = 0;
 		numberOfCorrectlyAnsweredTests = 0;
+		numberOfComputerScreens = 18;
 
 		testList = new TestScenario[10];
 
@@ -86,6 +90,9 @@ public class Prototype extends Game {
 		screenStack = new Screen[screenStackCapacity];
 		topTenScores = new int[10];
 		resultSummary = new ResultSummary(numberOfTests);
+		indicesOfScreens = new int[numberOfTests];
+		indicesOfTests = new Integer[numberOfComputerScreens];
+
 	}
 
 	public void create() {
@@ -136,6 +143,7 @@ public class Prototype extends Game {
 		setRandomValues();
 		setLists();
 		resetScreenStack();
+		generateIndicesForScreens();
 		for(int i = 0; i < interactionScreens.length; i++){
 			interactionScreens[i] = new ComputerInteractionScreen(this, testList[i].testNeedsChange, i);
 		}
@@ -216,12 +224,38 @@ public class Prototype extends Game {
 		}
 	}
 
+	private void generateIndicesForScreens(){
+		int randomNumber;
+		boolean uniqueNumber;
+		for(int i = 0; i < numberOfTests; i++){
+			uniqueNumber = false;
+			while(!uniqueNumber){
+				randomNumber = MathUtils.random((numberOfComputerScreens - 1));
+				uniqueNumber = true;
+				for(int j = 0; j < i; j++){
+					if(indicesOfScreens[j] == randomNumber){
+						uniqueNumber = false;
+					}
+				}
+				if(uniqueNumber){
+					indicesOfScreens[i] = randomNumber;
+				}
+			}
+		}
+		for(int i = 0; i < numberOfTests; i++){
+			indicesOfTests[indicesOfScreens[i]] = i;
+		}
+	}
+
 	private void setLists(){
 		for(int i = 0; i < testList.length; i++){
 			testList[i].resetValues();
 		}
 		for(int i = 0; i < numberOfNeededChanges; i++){
 			testList[indicesOfNeededChanges[i]].testNeedsChange = true;
+		}
+		for(int i = 0; i < numberOfComputerScreens; i++){
+			indicesOfTests[i] = null;
 		}
 	}
 
