@@ -148,6 +148,11 @@ public class Prototype extends Game {
 			interactionScreens[i] = new ComputerInteractionScreen(this, testList[i].testNeedsChange, i);
 		}
 		usbInteractionScreen = new USBInteractionScreen(this);
+		System.out.println("START OF ARRAY");
+		for(int i = 0; i < indicesOfTests.length; i++){
+			System.out.println(indicesOfTests[i]);
+		}
+		System.out.println("END OF ARRAY");
 	}
 
 	public void updateTopTenList(){

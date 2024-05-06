@@ -113,11 +113,14 @@ public class TileMapHelper {
     public void setExclamationMarks(Integer[] testArray){
         Array<RectangleMapObject> exclamationMarksArray = getExclamationMarks();
 
-        // for(int i = 0; i < exclamationMarksArray.size; i++){
-            
-        //     if(exclamationMarksArray.get(i).getProperties.get("desk", boolean.class) && testArray[i] == null){
-        //         exclamationMarksArray.get(i).setVisible(false);
-        //     }
-        // }
+        for(int i = 0; i < exclamationMarksArray.size; i++){
+            if(exclamationMarksArray.get(i).getProperties().get("desk", boolean.class)){
+                if(testArray[Integer.parseInt(exclamationMarksArray.get(i).getName())] == null){
+                    exclamationMarksArray.get(i).setVisible(false);
+                }
+            }
+        }
+
+
     }
 }
