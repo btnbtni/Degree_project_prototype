@@ -63,6 +63,8 @@ public class GameScreen implements Screen {
 
 	private BitmapFont font;
 
+	private boolean exitGame;
+
 
 	public GameScreen(final Prototype game) {
         this.game = game;
@@ -145,7 +147,11 @@ public class GameScreen implements Screen {
 				if(doorProperties.get("open", boolean.class)){
 					game.batch.draw(openDoorRight, door.getX(), door.getY());
 					if(doorObject.getName().equals("exitDoor")){
-						font.draw(game.batch, "Press ENTER to finish this round!", 400, 300);
+						PolygonMapObject exitDoor = tileMapHelper.detectInteraction(player, "interaction");
+						if(exitDoor != null && exitDoor.getName().equals("exitDoor")){
+							font.draw(game.batch, "Press F to finish this round!", door.getX() + 150, door.getY()+200);
+						}
+						
 					}
 				}
 				else{
@@ -243,6 +249,14 @@ public class GameScreen implements Screen {
 				}
 				else if(objectType.equals("door")){
 					tileMapHelper.toggleDoor(interactionObject.getName());
+					if(interactionObject.getName().equals("exitDoor")){
+						if(tileMapHelper.getMapObjects("doors").get("exitDoor").getProperties().get("open", boolean.class)){
+							exitGame = true;
+						}
+						else{
+							exitGame = false;
+						}
+					}
 				}
 				else if(objectType.equals("npc")){
 					tileMapHelper.toggleExclamationMark(interactionObject.getName());
@@ -250,6 +264,14 @@ public class GameScreen implements Screen {
 			}
 		}
 		
+		if(exitGame && Gdx.input.isKeyJustPressed(Input.Keys.F)){
+			PolygonMapObject interactionObject = tileMapHelper.detectInteraction(player, "interaction");
+			if(interactionObject != null && interactionObject.getName().equals("exitDoor")){
+				game.finishRound();
+				game.pushPreviousScreen(this);
+				game.setScreen(new EndScreen(game));
+			}
+		}
 
 		int edgePanDistance = 200;
 
