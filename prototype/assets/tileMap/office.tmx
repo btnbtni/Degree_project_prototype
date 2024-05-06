@@ -9,7 +9,7 @@
  </layer>
  <layer id="2" name="stuff" width="35" height="35">
   <data encoding="base64" compression="zlib">
-   eJztld0KgCAMhbUu+nsTCd+1N87AQGTWZs2y9sEhMYcH8zSlBEEQeBmcJkaNBC+df87BnAnG4bz1Uon3Bhj3GV64EC8wVC/xHbgLS/SinVqEIL+YuobgBZvpGIusy8k0lMeNMLMQqbWS6WNq9lJbpqF9nso0dHYlMp3qvRCpun1c893l5I9eFn2+5i3nQv2/fOUbYSjRAzA1XD3gioQ8VgcSCrU=
+   eJztlesKgDAIhVf96PYmESMies/euKKCsbR0ZRfwA0mW0mF5NmMURVFkyacoCdEh+VkUDC3p+qydtcrJ3XW7hkHeV0CeBWiRgqOlEVOx0DJqv7QvsxZ/Bu7CMrVEUySEgPRS+mKGFqqnfSyxL8TTkB9nXM9CYLXq6WPU03ukPA195y1PQ3v3hKexuxcC69ty9TTMnz0dyhCd13xlXrjni/Q/4syL9Ow+cQdQeq7eAb3Zn+P+GrdGCWME0rMNUg==
   </data>
  </layer>
  <objectgroup id="4" name="collisions">
