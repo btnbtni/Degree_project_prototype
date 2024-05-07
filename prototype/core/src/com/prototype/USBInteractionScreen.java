@@ -98,18 +98,23 @@ public class USBInteractionScreen implements Screen {
 		StringBuilder informationMessageBuilder = new StringBuilder();
 		informationMessageBuilder.append("You've found a USB-Stick! Select the ");
 		if(invertedQuestions){
-			informationMessageBuilder.append("INCORRECT ");
+			informationMessageBuilder.append("_INCORRECT_ ");
 		}
 		else{
-			informationMessageBuilder.append("CORRECT ");
+			informationMessageBuilder.append("_CORRECT_ ");
 		}
-		informationMessageBuilder.append(" way(s) to handle it below:");
+		informationMessageBuilder.append("way(s) to handle it below:");
 		informationString= informationMessageBuilder.toString();
 		selected = "[X] ";
 		notSelected = "[ ] ";
-		quizQuestions = new QuizQuestion[2];
+		quizQuestions = new QuizQuestion[6];
 		quizQuestions[0] = new QuizQuestion("Plug it into a computer to see what's on it", false, invertedQuestions);
 		quizQuestions[1] = new QuizQuestion("Disable autorun on a computer before plugging it in", true, invertedQuestions);
+		quizQuestions[2] = new QuizQuestion("Inspect the USB-drive for suspicious marks or labels.", true, invertedQuestions);
+		quizQuestions[3] = new QuizQuestion("Plug it in to a buffer device to scan for malware.", true, invertedQuestions);
+		quizQuestions[4] = new QuizQuestion("Update the computer before plugging it in.", true, invertedQuestions);
+		quizQuestions[5] = new QuizQuestion("Disable autorun on a computer before plugging it in", true, invertedQuestions);
+		
 	}
 	
 
