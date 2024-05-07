@@ -59,7 +59,7 @@ public class Prototype extends Game {
 	public Integer[] indicesOfTests;
 	private int screenStackPointer;
 	private int screenStackCapacity;
-	private int numberOfInteractions;
+	// private int numberOfInteractions;
 	public int numberOfTests;
 	public int numberOfTotalTests;
 	public int numberOfNeededChanges;
@@ -73,8 +73,8 @@ public class Prototype extends Game {
 		this.windowSizeX = windowSizeX;
 		this.windowSizeY = windowSizeY;
 		this.tileSize = 64;
-		numberOfInteractions = 10;
-		numberOfTests = 10;
+		// numberOfInteractions = 10;
+		numberOfTests = 4;
 		numberOfTotalTests = numberOfTests + 2;
 		numberOfNeededChanges = 5;
 		screenStackPointer = -1;
@@ -88,8 +88,8 @@ public class Prototype extends Game {
 		testList = new TestScenario[numberOfTests];
 
 		indicesOfNeededChanges = new int[numberOfNeededChanges];
-		interactionScreens = new Screen[numberOfInteractions];
-		vulnerabilityTypes = new String[10];
+		interactionScreens = new Screen[numberOfTests];
+		vulnerabilityTypes = new String[numberOfTests];
 		screenStack = new Screen[screenStackCapacity];
 		topTenScores = new int[10];
 		resultSummary = new ResultSummary(numberOfTests);
@@ -120,13 +120,13 @@ public class Prototype extends Game {
 		vulnerabilityTypes[1] = "Buffer overflow";
 		vulnerabilityTypes[2] = "Side channel attack";
 		vulnerabilityTypes[3] = "Memory leak";
-		testList[0] = new TestScenario(0, "correctcodeexample1.png", "incorrectcodeexample1.png", "SQL Injection", "Database handler",
+		testList[0] = new TestScenario(0, "sqlcorrect.png", "sqlincorrect.png", "SQL Injection", "Database handler",
 		"Explanation of how SQL injections work. Filler text to see how wrapping works, hello, goodbye.");
-		testList[1] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Buffer overflow", "User input handler",
+		testList[1] = new TestScenario(1, "buffercorrect.png", "bufferincorrect.png", "Buffer overflow", "User input handler",
 		"Here will soon be an explanation of how buffer overflow works, as well as how to avoid them.");
-		testList[2] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Side channel attack", "Password authenticator",
+		testList[2] = new TestScenario(1, "sidecorrect.png", "sideincorrect.png", "Side channel attack", "Password authenticator",
 		"Easy to overlook etc.");
-		testList[3] = new TestScenario(1, "correctcodeexample1.png", "incorrectcodeexample1.png", "Memory leak", "Memory handler",
+		testList[3] = new TestScenario(1, "memorycorrect.png", "memoryincorrect.png", "Memory leak", "Memory handler",
 		"Will mention that it is not usually a very dangerous vulnerability but it can crash servers etc.");
 		for(int i = 4; i < numberOfTests; i++){
 			vulnerabilityTypes[i] = "Placeholder " + i;
@@ -147,6 +147,9 @@ public class Prototype extends Game {
 	}
 
 	public void startNewSession(int numErrors, int rounds){
+		if(numErrors > numberOfTests){
+			numErrors = numberOfTests;
+		}
 		numberOfNeededChanges = numErrors;
 		numberOfAnsweredTests = 0;
 		totalRounds = rounds;
