@@ -16,8 +16,9 @@ public class TestScenario {
     public Texture correctCodeImage;
     public Texture incorrectCodeImage;
     public String description;
+    public int vulnerabilityIndex;
 
-    public TestScenario(int index, String correctPath, String incorrectPath, String correctAnswer, String name, String description){
+    public TestScenario(int index, String correctPath, String incorrectPath, String correctAnswer, String name, String description, String[] vulnList){
         testIndex = index;
         correctCodeImage = new Texture(Gdx.files.internal(correctPath));
         incorrectCodeImage = new Texture(Gdx.files.internal(incorrectPath));
@@ -29,6 +30,13 @@ public class TestScenario {
         testAnsweredCorrectly = false;
         providedAnswer = null;
         this.description = description;
+        vulnerabilityIndex = 0;
+        for(int i = 0; i < vulnList.length; i++){
+            if(correctAnswer.equals(vulnList[i])){
+                vulnerabilityIndex = i;
+                break;
+            }
+        }
     }
 
     public void resetValues(){

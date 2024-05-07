@@ -63,6 +63,7 @@ public class Prototype extends Game {
 	public int numberOfTests;
 	public int numberOfTotalTests;
 	public int numberOfNeededChanges;
+	public int numberOfVulnerabilities;
 
 	int windowSizeX;
 	int windowSizeY;
@@ -74,7 +75,8 @@ public class Prototype extends Game {
 		this.windowSizeY = windowSizeY;
 		this.tileSize = 64;
 		// numberOfInteractions = 10;
-		numberOfTests = 4;
+		numberOfTests = 5;
+		numberOfVulnerabilities = 4;
 		numberOfTotalTests = numberOfTests + 2;
 		numberOfNeededChanges = 5;
 		screenStackPointer = -1;
@@ -89,10 +91,10 @@ public class Prototype extends Game {
 
 		indicesOfNeededChanges = new int[numberOfNeededChanges];
 		interactionScreens = new Screen[numberOfTests];
-		vulnerabilityTypes = new String[numberOfTests];
+		vulnerabilityTypes = new String[numberOfVulnerabilities];
 		screenStack = new Screen[screenStackCapacity];
 		topTenScores = new int[10];
-		resultSummary = new ResultSummary(numberOfTests);
+		resultSummary = new ResultSummary(numberOfVulnerabilities);
 		indicesOfScreens = new int[numberOfTests];
 		indicesOfTests = new Integer[numberOfComputerScreens];
 
@@ -121,18 +123,20 @@ public class Prototype extends Game {
 		vulnerabilityTypes[2] = "Side channel attack";
 		vulnerabilityTypes[3] = "Memory leak";
 		testList[0] = new TestScenario(0, "sqlcorrect.png", "sqlincorrect.png", "SQL Injection", "Database handler",
-		"Explanation of how SQL injections work. Filler text to see how wrapping works, hello, goodbye.");
+		"Explanation of how SQL injections work. Filler text to see how wrapping works, hello, goodbye.", vulnerabilityTypes);
 		testList[1] = new TestScenario(1, "buffercorrect.png", "bufferincorrect.png", "Buffer overflow", "User input handler",
-		"Here will soon be an explanation of how buffer overflow works, as well as how to avoid them.");
+		"Here will soon be an explanation of how buffer overflow works, as well as how to avoid them.", vulnerabilityTypes);
 		testList[2] = new TestScenario(1, "sidecorrect.png", "sideincorrect.png", "Side channel attack", "Password authenticator",
-		"Easy to overlook etc.");
+		"Easy to overlook etc.", vulnerabilityTypes);
 		testList[3] = new TestScenario(1, "memorycorrect.png", "memoryincorrect.png", "Memory leak", "Memory handler",
-		"Will mention that it is not usually a very dangerous vulnerability but it can crash servers etc.");
-		for(int i = 4; i < numberOfTests; i++){
-			vulnerabilityTypes[i] = "Placeholder " + i;
-			testList[i] = new TestScenario(i, "correctcodeexample1.png", "incorrectcodeexample1.png",
-			 "Placeholder " + i, "Sample handler " + i, "Test description for vulnerability number " + i + ".");
-		}
+		"Will mention that it is not usually a very dangerous vulnerability but it can crash servers etc.", vulnerabilityTypes);
+		testList[4] = new TestScenario(1, "memorycorrect.png", "memoryincorrect.png", "Memory leak", "Memory handler 2",
+		"Will mention that it is not usually a very dangerous vulnerability but it can crash servers etc.", vulnerabilityTypes);
+		// for(int i = 4; i < numberOfTests; i++){
+		// 	vulnerabilityTypes[i] = "Placeholder " + i;
+		// 	testList[i] = new TestScenario(i, "correctcodeexample1.png", "incorrectcodeexample1.png",
+		// 	 "Placeholder " + i, "Sample handler " + i, "Test description for vulnerability number " + i + ".");
+		// }
 		resetTopTenList();
 		this.setScreen(new MainMenuScreen(this));
 	}
@@ -314,11 +318,14 @@ public class Prototype extends Game {
 		totalScore += numberOfCorrectlyAnsweredTests;
 		resultSummary.totalNumberOfRounds++;
 		for(int i = 0; i < numberOfTests; i++){
+			resultSummary.totalTestInstances[testList[i].vulnerabilityIndex]++;
 			if(testList[i].testAnsweredCorrectly){
 				testList[i].totalTestScore++;
-				resultSummary.testResults[i]++;
+				resultSummary.testResults[testList[i].vulnerabilityIndex]++;
 			}
-			resultSummary.percentCorrect[i] = (int)((resultSummary.testResults[i]*100) / resultSummary.totalNumberOfRounds);
+		}
+		for(int i = 0; i < numberOfVulnerabilities; i++){
+			resultSummary.percentCorrect[i] = (int)((resultSummary.testResults[i]*100) / resultSummary.totalTestInstances[i]);
 		}
 	}
 
