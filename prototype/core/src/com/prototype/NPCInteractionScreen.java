@@ -24,7 +24,6 @@ public class NPCInteractionScreen implements Screen {
     final Prototype game;
     
 	private Texture backgroundImage;
-	private Texture vulnerabilityWindow;
 
 	private OrthographicCamera camera;
 
@@ -39,11 +38,9 @@ public class NPCInteractionScreen implements Screen {
 	int selectedVulnerability;
 	int lineSize;
 	int screenIndex;
-	boolean handled;
 	boolean hasError;
 
 	int screenPhase;
-	boolean yesMarked;
 
 	String informationString;
 	String resultString;
@@ -56,7 +53,6 @@ public class NPCInteractionScreen implements Screen {
 	public NPCInteractionScreen(final Prototype game) {
         this.game = game;
 		backgroundImage = new Texture(Gdx.files.internal("npcinteractionbackground.png"));
-		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylistbig1.png"));
 		npcImage = new Texture(Gdx.files.internal("interaction/girlnpc96.png"));
 
 		camera = new OrthographicCamera();
@@ -69,7 +65,6 @@ public class NPCInteractionScreen implements Screen {
 		background.height = game.windowSizeY;
 
 		screenPhase = 1;
-		yesMarked = true;
 		selectedVulnerability = 0;
 		lineSize = 20;
 
@@ -77,7 +72,6 @@ public class NPCInteractionScreen implements Screen {
 		startCodeTextY = game.windowSizeY - 40;
 
 		recentKeyStroke = 0;
-		handled = false;
 
 		
 
@@ -100,16 +94,30 @@ public class NPCInteractionScreen implements Screen {
 		question.putOption("You acted correctly.", true);
 		question.putOption("Who's Carl?", false);
 		question.putOption("Who are you?", false);
-		question.setExplanation("Social engineering attacks are often carried out by exploiting the trust of others.");
+		question.setExplanation("Social engineering attacks are often carried out by exploiting the trust of others. People that have lost access to the building are a security threat.");
 		
 		socialEngineeringQuestions.add(question);
+
+		questionString = "The new intern, Vera, called in this morning. Her supervisor forgot to give her access to the shared company drive so she wasn't able to work on her assigned project. No problem though, I gave her temporary credentials so that she could get to work.";
+		question = new NPCQuestion(questionString);
+		question.putOption("Great work!", false);
+		question.putOption("You're very nice.", false);
+		question.putOption("Oh, no, you shouldn't have done that.", true);
+		question.setExplanation("Social engineering attacks are often carried out by exploiting the trust of others. Company credentials should only be given out through proper channels.");
+		socialEngineeringQuestions.add(question);
+
 
 		ArrayList<NPCQuestion> phishingQuestions = new ArrayList<>();
 		question = new NPCQuestion("phishing/phish1.png");
 		question.putOption("This looks like a phishing email.", true);
 		question.putOption("This email looks legitimate.", false);
+		question.setExplanation("You should always verify the email address of the sender!");
 
 		phishingQuestions.add(question);
+		question = new NPCQuestion("phishing/phish3.png");
+		question.putOption("This looks like a phishing email.", true);
+		question.putOption("This email looks legitimate.", false);
+		question.setExplanation("It is common to lure victims with the promise of money.");
 		phishingQuestions.add(question);
 
 		if(MathUtils.random(0,100) % 2 == 0){
@@ -144,10 +152,10 @@ public class NPCInteractionScreen implements Screen {
 		if(screenPhase == 1){
 			//game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 300);
 			game.batch.draw(npcImage, (float)(game.windowSizeX*0.5) - 70 + 400, (float)(game.windowSizeY*0.7) - 300 + 200);
-			float yOffset = 30;
+			float yOffset = 150;
 			if(phishingQuestion){
 				yOffset = 500;
-				game.batch.draw(phishingImage, startCodeTextX+30, (float)(game.windowSizeY*0.7) - 290);
+				game.batch.draw(phishingImage, startCodeTextX+30, (float)(game.windowSizeY*0.7) - 350);
 			}
 			
 			ArrayList<String> options = npcQuestion.getOptions();
