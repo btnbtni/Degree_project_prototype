@@ -17,12 +17,14 @@ public class TestScenario {
     public Texture incorrectCodeImage;
     public String description;
     public int vulnerabilityIndex;
+    public String explanation;
 
-    public TestScenario(int index, String correctPath, String incorrectPath, String correctAnswer, String name, String description, String[] vulnList){
+    public TestScenario(int index, String correctPath, String incorrectPath, String correctAnswer, String name, String description, String[] vulnList, String explanation){
         testIndex = index;
         correctCodeImage = new Texture(Gdx.files.internal(correctPath));
         incorrectCodeImage = new Texture(Gdx.files.internal(incorrectPath));
         this.correctAnswer = correctAnswer;
+        this.explanation = explanation;
         testName = name;
         testIsFinished = false;
         testNeedsChange = false;

@@ -43,10 +43,17 @@ public class RoundBreakdownScreen implements Screen {
     int lineOffset;
 	boolean handled;
 	boolean hasError;
+	int textOneX;
+	int textTwoX;
+	int textThreeX;
+	int textFourX;
+	int textStartY;
 
 	int screenPhase;
 	boolean yesMarked;
     int yCoordinate;
+	int selectedIndex;
+	int numOptions;
 
 	String codeTest;
 
@@ -55,6 +62,12 @@ public class RoundBreakdownScreen implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
         lineOffset = 25;
+		textOneX = 35;
+		textTwoX = textOneX + 270;
+		textThreeX = textTwoX + 150;
+		textFourX = textThreeX + 300;
+		selectedIndex = 0;
+		numOptions = game.testList.length;
 	}
 	
 
@@ -64,61 +77,68 @@ public class RoundBreakdownScreen implements Screen {
 		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
-		game.blackFont.draw(game.batch, "Test name", 10, 725);
-		game.blackFont.draw(game.batch, "Result", 280, 725);
-		game.blackFont.draw(game.batch, "Correct answer", 430, 725);
-		game.blackFont.draw(game.batch, "Provided answer", 730, 725);
+		game.font.draw(game.batch, "Press ENTER to view explanation of selected test", 200, 200);
+		game.blackFont.draw(game.batch, "Test name", textOneX, 725);
+		game.blackFont.draw(game.batch, "Result", textTwoX, 725);
+		game.blackFont.draw(game.batch, "Correct answer", textThreeX, 725);
+		game.blackFont.draw(game.batch, "Provided answer", textFourX, 725);
         for(int i = 0; i < game.testList.length; i++){
             yCoordinate = 700 - i*lineOffset;
-            game.font.draw(game.batch, game.testList[i].testName, 10, yCoordinate);
+			if(i == selectedIndex){
+				game.font.draw(game.batch, "->", 5, yCoordinate);
+			}
+            game.font.draw(game.batch, game.testList[i].testName, textOneX, yCoordinate);
 			if(game.testList[i].testNeedsChange){
-				game.font.draw(game.batch, game.testList[i].correctAnswer, 430, yCoordinate);
+				game.font.draw(game.batch, game.testList[i].correctAnswer, textThreeX, yCoordinate);
 			}else{
-				game.font.draw(game.batch, "Safe", 430, yCoordinate);
+				game.font.draw(game.batch, "Safe", textThreeX, yCoordinate);
 			}
 			if(game.testList[i].testIsFinished){
 				if(game.testList[i].providedAnswer != null){
-					game.font.draw(game.batch, game.testList[i].providedAnswer, 730, yCoordinate);
+					game.font.draw(game.batch, game.testList[i].providedAnswer, textFourX, yCoordinate);
 				}else{
-					game.font.draw(game.batch, "Safe", 730, yCoordinate);
+					game.font.draw(game.batch, "Safe", textFourX, yCoordinate);
 				}
 			}else{
-				game.font.draw(game.batch, "N/A", 730, yCoordinate);
+				game.font.draw(game.batch, "N/A", textFourX, yCoordinate);
 			}
 			
             if(game.testList[i].testIsFinished){
                 if(game.testList[i].testAnsweredCorrectly){
-                    game.goodFont.draw(game.batch, "Correct", 280, yCoordinate);
+                    game.goodFont.draw(game.batch, "Correct", textTwoX, yCoordinate);
                 }else{
-                    game.badFont.draw(game.batch, "Incorrect", 280, yCoordinate);
+                    game.badFont.draw(game.batch, "Incorrect", textTwoX, yCoordinate);
                 }
             }else{
-                game.neutralFont.draw(game.batch, "Unhandled", 280, yCoordinate);
+                game.neutralFont.draw(game.batch, "Unhandled", textTwoX, yCoordinate);
             }
         }
 		game.batch.end();
 
-		if(game.round < game.totalRounds){
-			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-				game.setScreen(game.popPreviousScreen());
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-				
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-				
-			}
-		}else{
-            if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-				game.setScreen(game.popPreviousScreen());
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-				
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-				
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+			game.setScreen(game.popPreviousScreen());
+		}
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+			game.pushPreviousScreen(this);
+			game.setScreen(new TestExplanationScreen(game, selectedIndex));
+		}
+
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+			selectedIndex++;
+			if(selectedIndex >= numOptions){
+				selectedIndex = 0;
 			}
 		}
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+			selectedIndex--;
+			if(selectedIndex < 0){
+				selectedIndex = numOptions - 1;
+			}
+		}
+
 
 
 	}

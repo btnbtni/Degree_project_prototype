@@ -123,15 +123,29 @@ public class Prototype extends Game {
 		vulnerabilityTypes[2] = "Side channel attack";
 		vulnerabilityTypes[3] = "Memory leak";
 		testList[0] = new TestScenario(0, "sqlcorrect.png", "sqlincorrect.png", "SQL Injection", "Database handler",
-		"Explanation of how SQL injections work. Filler text to see how wrapping works, hello, goodbye.", vulnerabilityTypes);
+		"Explanation of how SQL injections work. Filler text to see how wrapping works, hello, goodbye.", vulnerabilityTypes,
+		"This code takes an unchecked string from the user and appends it to the query string. While the program asks for a single parameter, a " +
+		"malicious user could enter a string which ends the intended query, then they could start their own custom command, for instance inserting " +
+		"or deleting data from the database.");
 		testList[1] = new TestScenario(1, "buffercorrect.png", "bufferincorrect.png", "Buffer overflow", "User input handler",
-		"Here will soon be an explanation of how buffer overflow works, as well as how to avoid them.", vulnerabilityTypes);
-		testList[2] = new TestScenario(1, "sidecorrect.png", "sideincorrect.png", "Side channel attack", "Password authenticator",
-		"Easy to overlook etc.", vulnerabilityTypes);
+		"Here will soon be an explanation of how buffer overflow works, as well as how to avoid them.", vulnerabilityTypes,
+		"This program defines an input limit of size 100, then uses this limit when reading input into a buffer of size 25. This means that the user can " +
+		"write data outside the buffer, affecting parts of the memory which can belong to other variables or even code to be executed.");
+		testList[2] = new TestScenario(1, "sidecorrect.png", "sideincorrect.png", "Side channel attack", "Authenticator",
+		"Easy to overlook etc.", vulnerabilityTypes,
+		"This code example has a subtle vulnerability. The function examines the provided password character by character and returns the value representing an " +
+		"incorrect password as soon as a check fails. This means that there is a correlation between the execution time and the number of correct starting characters in the " +
+		"provided password.");
 		testList[3] = new TestScenario(1, "memorycorrect.png", "memoryincorrect.png", "Memory leak", "Memory handler",
-		"Will mention that it is not usually a very dangerous vulnerability but it can crash servers etc.", vulnerabilityTypes);
+		"Will mention that it is not usually a very dangerous vulnerability but it can crash servers etc.", vulnerabilityTypes,
+		"In this example, the program allocates memory 10 times within a loop, and stores the pointer to that memory in the same variable each time. " +
+		"After the loop has finished, the allocated memory pointed to by the variable is freed. This will only be the memory allocated in the last loop iteration, " +
+		"however, which means that the program will leak memory every time this function is called.");
 		testList[4] = new TestScenario(1, "memorycorrect.png", "memoryincorrect.png", "Memory leak", "Memory handler 2",
-		"Will mention that it is not usually a very dangerous vulnerability but it can crash servers etc.", vulnerabilityTypes);
+		"Will mention that it is not usually a very dangerous vulnerability but it can crash servers etc.", vulnerabilityTypes,
+		"In this example, the program allocates memory 10 times within a loop, and stores the pointer to that memory in the same variable each time. " +
+		"After the loop has finished, the allocated memory pointed to by the variable is freed. This will only be the memory allocated in the last loop iteration, " +
+		"however, which means that the program will leak memory every time this function is called.");
 		// for(int i = 4; i < numberOfTests; i++){
 		// 	vulnerabilityTypes[i] = "Placeholder " + i;
 		// 	testList[i] = new TestScenario(i, "correctcodeexample1.png", "incorrectcodeexample1.png",
