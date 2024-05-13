@@ -33,7 +33,9 @@ public class MainMenuScreen implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
 		menuItems = new Array<String>();
+		
 		menuItems.add("Start game");
+		menuItems.add("How to play");
 		menuItems.add("Information centre");
 		menuItems.add("Results");
 		menuItems.add("High scores");
@@ -70,17 +72,21 @@ public class MainMenuScreen implements Screen {
 			}
 			if(selectedIndex == 1){
 				game.pushPreviousScreen(this);
-				game.setScreen(new InformationScreen(game));
+				game.setScreen(new HelpScreen(game));
 			}
 			if(selectedIndex == 2){
 				game.pushPreviousScreen(this);
-				game.setScreen(new ResultSummaryScreen(game));
+				game.setScreen(new InformationScreen(game));
 			}
 			if(selectedIndex == 3){
 				game.pushPreviousScreen(this);
-				game.setScreen(new HighScoreScreen(game));
+				game.setScreen(new ResultSummaryScreen(game));
 			}
 			if(selectedIndex == 4){
+				game.pushPreviousScreen(this);
+				game.setScreen(new HighScoreScreen(game));
+			}
+			if(selectedIndex == 5){
 				Gdx.app.exit();
 			}
 		}

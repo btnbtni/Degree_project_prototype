@@ -288,6 +288,10 @@ public class GameScreen implements Screen {
 			game.pushPreviousScreen(this);
 			game.setScreen(new PauseScreen(game));
 		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
+			game.pushPreviousScreen(this);
+			game.setScreen(game.helpScreen);
+		}
 	}
 	
 	@Override
