@@ -97,11 +97,11 @@ public class ComputerInteractionScreen implements Screen {
 
 		game.batch.begin();
 		game.batch.draw(backgroundImage, background.x, background.y);
-		game.font.draw(game.batch, game.testList[screenIndex].testName, 8, 761);
+		game.font.draw(game.batch, game.testList.get(screenIndex).testName, 8, 761);
 		if(hasError){
-			game.batch.draw(game.testList[screenIndex].incorrectCodeImage, 10, 0);
+			game.batch.draw(game.testList.get(screenIndex).incorrectCodeImage, 10, 0);
 		}else{
-			game.batch.draw(game.testList[screenIndex].correctCodeImage, 10, 0);
+			game.batch.draw(game.testList.get(screenIndex).correctCodeImage, 10, 0);
 		}
 		if(screenPhase == 0){
 			if(yesMarked){
@@ -112,11 +112,11 @@ public class ComputerInteractionScreen implements Screen {
 			game.blackFont.draw(game.batch, "Would you like to\nchange this code?", choiceWindowTextX, choiceWindowTextY);
 		}else if(screenPhase == 1){
 			game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 300);
-			for(int i = 0; i < game.vulnerabilityTypes.length; i++){
+			for(int i = 0; i < game.vulnerabilityTypes.size; i++){
 				if(selectedVulnerability != i){
-					game.greyFont.draw(game.batch, game.vulnerabilityTypes[i], (float)(game.windowSizeX*0.5) - 50, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize));
+					game.greyFont.draw(game.batch, game.vulnerabilityTypes.get(i), (float)(game.windowSizeX*0.5) - 50, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize));
 				}else{
-					game.font.draw(game.batch, game.vulnerabilityTypes[i], (float)(game.windowSizeX*0.5) - 50, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize));
+					game.font.draw(game.batch, game.vulnerabilityTypes.get(i), (float)(game.windowSizeX*0.5) - 50, (float)(game.windowSizeY*0.7) + 100 - (i * lineSize));
 				}
 			}
 		}else if(screenPhase == 2){
@@ -151,20 +151,20 @@ public class ComputerInteractionScreen implements Screen {
 		}else if(screenPhase == 1){
 			if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
 				if(selectedVulnerability == 0){
-					selectedVulnerability = game.vulnerabilityTypes.length - 1;
+					selectedVulnerability = game.vulnerabilityTypes.size - 1;
 				}else{
 					selectedVulnerability--;
 				}
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
 				selectedVulnerability++;
-				if(selectedVulnerability >= game.vulnerabilityTypes.length){
+				if(selectedVulnerability >= game.vulnerabilityTypes.size){
 					selectedVulnerability = 0;
 				}
 			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
 				handled = true;
-				game.registerAnswer(game.vulnerabilityTypes[selectedVulnerability], screenIndex);
+				game.registerAnswer(game.vulnerabilityTypes.get(selectedVulnerability), screenIndex);
 				screenPhase = 2;
 			}
 		}else if(screenPhase == 2){

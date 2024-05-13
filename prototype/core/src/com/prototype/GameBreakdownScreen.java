@@ -50,15 +50,15 @@ public class GameBreakdownScreen implements Screen {
 		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
-        for(int i = 0; i < game.testList.length; i++){
+        for(int i = 0; i < game.testList.size; i++){
             yCoordinate = 700 - i*lineOffset;
-            game.font.draw(game.batch, game.testList[i].testName, 100, yCoordinate);
-            if(game.testList[i].totalTestScore > 3){
-                game.goodFont.draw(game.batch, game.testList[i].totalTestScore + " / " + game.totalRounds, 400, yCoordinate);
-            }else if(game.testList[i].totalTestScore > 1){
-                game.neutralFont.draw(game.batch, game.testList[i].totalTestScore + " / " + game.totalRounds, 400, yCoordinate);
+            game.font.draw(game.batch, game.testList.get(i).testName, 100, yCoordinate);
+            if(game.testList.get(i).totalTestScore > 3){
+                game.goodFont.draw(game.batch, game.testList.get(i).totalTestScore + " / " + game.totalRounds, 400, yCoordinate);
+            }else if(game.testList.get(i).totalTestScore > 1){
+                game.neutralFont.draw(game.batch, game.testList.get(i).totalTestScore + " / " + game.totalRounds, 400, yCoordinate);
             }else{
-                game.badFont.draw(game.batch, game.testList[i].totalTestScore + " / " + game.totalRounds, 400, yCoordinate);
+                game.badFont.draw(game.batch, game.testList.get(i).totalTestScore + " / " + game.totalRounds, 400, yCoordinate);
             }
         }
 		if(game.round >= game.totalRounds){

@@ -52,14 +52,14 @@ public class InformationScreen implements Screen {
         game.batch.draw(backgroundPicture, 0, 0);
         game.font.draw(game.batch, "List", 20, 753);
         game.font.draw(game.batch, "Description", 312, 753);
-        for(int i = 0; i < game.vulnerabilityTypes.length; i++){
+        for(int i = 0; i < game.vulnerabilityTypes.size; i++){
             if(i == listPointer){
-                game.font.draw(game.batch, game.vulnerabilityTypes[i], listTextStartX, listTextStartY - i*lineOffset);
+                game.font.draw(game.batch, game.vulnerabilityTypes.get(i), listTextStartX, listTextStartY - i*lineOffset);
             }else{
-                game.greyFont.draw(game.batch, game.vulnerabilityTypes[i], listTextStartX, listTextStartY - i*lineOffset);
+                game.greyFont.draw(game.batch, game.vulnerabilityTypes.get(i), listTextStartX, listTextStartY - i*lineOffset);
             }
         }
-        game.blackFont.draw(game.batch, game.testList[listPointer].description, descriptionTextStartX, descriptionTextStartY, 660, Align.left, true);
+        game.blackFont.draw(game.batch, game.testList.get(listPointer).description, descriptionTextStartX, descriptionTextStartY, 660, Align.left, true);
 		game.batch.end();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
@@ -69,14 +69,14 @@ public class InformationScreen implements Screen {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
             if(listPointer == 0){
-                listPointer = game.vulnerabilityTypes.length - 1;
+                listPointer = game.vulnerabilityTypes.size - 1;
             }else{
                 listPointer--;
             }
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
             listPointer++;
-            if(listPointer >= game.vulnerabilityTypes.length){
+            if(listPointer >= game.vulnerabilityTypes.size){
                 listPointer = 0;
             }
         }

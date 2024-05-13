@@ -3,6 +3,7 @@ package com.prototype;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 
 public class TestScenario implements Screen{
 
@@ -20,7 +21,7 @@ public class TestScenario implements Screen{
     public int vulnerabilityIndex;
     public String explanation;
 
-    public TestScenario(int index, String correctPath, String incorrectPath, String correctAnswer, String name, String description, String[] vulnList, String explanation){
+    public TestScenario(int index, String correctPath, String incorrectPath, String correctAnswer, String name, String description, Array<String> vulnList, String explanation){
         testIndex = index;
         correctCodeImage = new Texture(Gdx.files.internal(correctPath));
         incorrectCodeImage = new Texture(Gdx.files.internal(incorrectPath));
@@ -34,8 +35,8 @@ public class TestScenario implements Screen{
         providedAnswer = null;
         this.description = description;
         vulnerabilityIndex = 0;
-        for(int i = 0; i < vulnList.length; i++){
-            if(correctAnswer.equals(vulnList[i])){
+        for(int i = 0; i < vulnList.size; i++){
+            if(correctAnswer.equals(vulnList.get(i))){
                 vulnerabilityIndex = i;
                 break;
             }

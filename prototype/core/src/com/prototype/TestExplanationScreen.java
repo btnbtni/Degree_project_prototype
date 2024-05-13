@@ -48,11 +48,11 @@ public class TestExplanationScreen implements Screen {
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
         game.batch.draw(backgroundPicture, 0, 0);
-        if(game.testList[testIndex].testNeedsChange){
-			game.batch.draw(game.testList[testIndex].incorrectCodeImage, 10, 0);
-            game.font.draw(game.batch, game.testList[testIndex].explanation, textStartX, textStartY, textWidth, Align.left, true);
+        if(game.testList.get(testIndex).testNeedsChange){
+			game.batch.draw(game.testList.get(testIndex).incorrectCodeImage, 10, 0);
+            game.font.draw(game.batch, game.testList.get(testIndex).explanation, textStartX, textStartY, textWidth, Align.left, true);
 		}else{
-			game.batch.draw(game.testList[testIndex].correctCodeImage, 10, 0);
+			game.batch.draw(game.testList.get(testIndex).correctCodeImage, 10, 0);
             game.font.draw(game.batch, explanationIfCorrect, textStartX, textStartY, textWidth, Align.left, true);
 		}
 		game.batch.end();

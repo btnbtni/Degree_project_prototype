@@ -45,7 +45,7 @@ public class RoundBreakdownScreen implements Screen {
 		textThreeX = textTwoX + 150;
 		textFourX = textThreeX + 300;
 		selectedIndex = 0;
-		numOptions = game.testList.length;
+		numOptions = game.testList.size;
 	}
 	
 
@@ -60,20 +60,20 @@ public class RoundBreakdownScreen implements Screen {
 		game.blackFont.draw(game.batch, "Result", textTwoX, 725);
 		game.blackFont.draw(game.batch, "Correct answer", textThreeX, 725);
 		game.blackFont.draw(game.batch, "Provided answer", textFourX, 725);
-        for(int i = 0; i < game.testList.length; i++){
+        for(int i = 0; i < game.testList.size; i++){
             yCoordinate = 700 - i*lineOffset;
 			if(i == selectedIndex){
 				game.font.draw(game.batch, "->", 5, yCoordinate);
 			}
-            game.font.draw(game.batch, game.testList[i].testName, textOneX, yCoordinate);
-			if(game.testList[i].testNeedsChange){
-				game.font.draw(game.batch, game.testList[i].correctAnswer, textThreeX, yCoordinate);
+            game.font.draw(game.batch, game.testList.get(i).testName, textOneX, yCoordinate);
+			if(game.testList.get(i).testNeedsChange){
+				game.font.draw(game.batch, game.testList.get(i).correctAnswer, textThreeX, yCoordinate);
 			}else{
 				game.font.draw(game.batch, "Safe", textThreeX, yCoordinate);
 			}
-			if(game.testList[i].testIsFinished){
-				if(game.testList[i].providedAnswer != null){
-					game.font.draw(game.batch, game.testList[i].providedAnswer, textFourX, yCoordinate);
+			if(game.testList.get(i).testIsFinished){
+				if(game.testList.get(i).providedAnswer != null){
+					game.font.draw(game.batch, game.testList.get(i).providedAnswer, textFourX, yCoordinate);
 				}else{
 					game.font.draw(game.batch, "Safe", textFourX, yCoordinate);
 				}
@@ -81,8 +81,8 @@ public class RoundBreakdownScreen implements Screen {
 				game.font.draw(game.batch, "N/A", textFourX, yCoordinate);
 			}
 			
-            if(game.testList[i].testIsFinished){
-                if(game.testList[i].testAnsweredCorrectly){
+            if(game.testList.get(i).testIsFinished){
+                if(game.testList.get(i).testAnsweredCorrectly){
                     game.goodFont.draw(game.batch, "Correct", textTwoX, yCoordinate);
                 }else{
                     game.badFont.draw(game.batch, "Incorrect", textTwoX, yCoordinate);
@@ -132,9 +132,6 @@ public class RoundBreakdownScreen implements Screen {
 
 	@Override
 	public void show() {
-		// start the playback of the background music
-		// when the screen is shown
-		//rainMusic.play();
 	}
 
 	@Override

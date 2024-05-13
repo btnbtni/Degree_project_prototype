@@ -46,8 +46,8 @@ public class HighScoreScreen implements Screen {
             }else{
                 game.font.draw(game.batch, (i+1) + ".", textStartX - 12, textStartY - i*lineOffset);
             }
-            if(game.topTenScores[i] >= 0){
-                game.font.draw(game.batch, game.topTenScores[i] + "", textStartX + 120, textStartY - i*lineOffset);
+            if(game.topTenScores.get(i) >= 0){
+                game.font.draw(game.batch, game.topTenScores.get(i) + "", textStartX + 120, textStartY - i*lineOffset);
             }else{
                 game.greyFont.draw(game.batch, "N/A", textStartX + 120, textStartY - i*lineOffset);
             }

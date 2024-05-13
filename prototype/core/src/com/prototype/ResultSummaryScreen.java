@@ -30,14 +30,14 @@ public class ResultSummaryScreen implements Screen {
 
 		for(int i = 0; i < game.numberOfVulnerabilities; i++){
             yCoordinate = 700 - i*lineOffset;
-            game.font.draw(game.batch, game.testList[i].correctAnswer + ": ", 100, yCoordinate);
-            game.font.draw(game.batch, game.resultSummary.testResults[i] + " / " + game.resultSummary.totalTestInstances[i] , 400, yCoordinate);
-            if(game.resultSummary.percentCorrect[i] > 69){
-                game.goodFont.draw(game.batch, game.resultSummary.percentCorrect[i] + "%", 600, yCoordinate);
-            }else if(game.resultSummary.percentCorrect[i] > 30){
-                game.neutralFont.draw(game.batch, game.resultSummary.percentCorrect[i] + "%", 600, yCoordinate);
+            game.font.draw(game.batch, game.testList.get(i).correctAnswer + ": ", 100, yCoordinate);
+            game.font.draw(game.batch, game.resultSummary.testResults.get(i) + " / " + game.resultSummary.totalTestInstances.get(i) , 400, yCoordinate);
+            if(game.resultSummary.percentCorrect.get(i) > 69){
+                game.goodFont.draw(game.batch, game.resultSummary.percentCorrect.get(i) + "%", 600, yCoordinate);
+            }else if(game.resultSummary.percentCorrect.get(i) > 30){
+                game.neutralFont.draw(game.batch, game.resultSummary.percentCorrect.get(i) + "%", 600, yCoordinate);
             }else{
-                game.badFont.draw(game.batch, game.resultSummary.percentCorrect[i] + "%", 600, yCoordinate);
+                game.badFont.draw(game.batch, game.resultSummary.percentCorrect.get(i) + "%", 600, yCoordinate);
             }
         }
 		

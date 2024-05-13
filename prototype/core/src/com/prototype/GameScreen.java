@@ -239,10 +239,10 @@ public class GameScreen implements Screen {
 			if(interactionObject != null){
 				String objectType = interactionObject.getProperties().get("type", String.class);
 				if(objectType.equals("desk")){
-					if(game.indicesOfTests[Integer.parseInt(interactionObject.getName())] != null){
+					if(game.indicesOfTests.get(Integer.parseInt(interactionObject.getName())) != null){
 						tileMapHelper.toggleExclamationMark(interactionObject.getName());
 						game.pushPreviousScreen(this);
-						game.setScreen(game.interactionScreens[game.indicesOfTests[Integer.parseInt(interactionObject.getName())]]);
+						game.setScreen(game.interactionScreens.get(game.indicesOfTests.get(Integer.parseInt(interactionObject.getName()))));
 					}
 
 				}

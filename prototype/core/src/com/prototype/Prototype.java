@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Array;
 
 import com.badlogic.gdx.graphics.Color;
 
@@ -31,33 +32,24 @@ public class Prototype extends Game {
 	public BitmapFont goodFont;
 	public BitmapFont neutralFont;
 	public BitmapFont badFont;
-	public Screen[] interactionScreens;
+	public Array<Screen> interactionScreens;
 	public Screen usbInteractionScreen;
 	public Screen npcInteractionScreen;
 	public Screen helpScreen;
-	private Screen[] screenStack;
-	public boolean[] testIsFinished;
-	public boolean[] testNeedsChange;
-	public boolean[] testAnsweredCorrectly;
-	public String[] correctVersion;
-	public String[] incorrectVersion;
-	public String[] correctAnswers;
-	public String[] providedAnswers;
-	public String[] testNames;
-	public int[] totalTestScores;
+	public Array<Screen> screenStack;
 	public int numberOfAnsweredTests;
 	public int numberOfCorrectlyAnsweredTests;
 	public int totalScore;
 	public int round;
 	public int totalRounds;
 	public ResultSummary resultSummary;
-	public int[] topTenScores;
-	public TestScenario[] testList;
+	public Array<Integer> topTenScores;
+	public Array<TestScenario> testList;
 	public int numberOfComputerScreens;
 
-	private int[] indicesOfNeededChanges;
-	public int[] indicesOfScreens;
-	public Integer[] indicesOfTests;
+	private Array<Integer> indicesOfNeededChanges;
+	public Array<Integer> indicesOfScreens;
+	public Array<Integer> indicesOfTests;
 	private int screenStackPointer;
 	private int screenStackCapacity;
 	public int numberOfTests;
@@ -65,10 +57,10 @@ public class Prototype extends Game {
 	public int numberOfNeededChanges;
 	public int numberOfVulnerabilities;
 
-	int windowSizeX;
-	int windowSizeY;
-	int tileSize;
-	String[] vulnerabilityTypes;
+	public int windowSizeX;
+	public int windowSizeY;
+	public int tileSize;
+	public Array<String> vulnerabilityTypes;
 
 	public Prototype(int windowSizeX, int windowSizeY){
 		this.windowSizeX = windowSizeX;
@@ -86,16 +78,32 @@ public class Prototype extends Game {
 		numberOfCorrectlyAnsweredTests = 0;
 		numberOfComputerScreens = 18;
 
-		testList = new TestScenario[numberOfTests];
+		testList = new Array<TestScenario>();
 
-		indicesOfNeededChanges = new int[numberOfNeededChanges];
-		interactionScreens = new Screen[numberOfTests];
-		vulnerabilityTypes = new String[numberOfVulnerabilities];
-		screenStack = new Screen[screenStackCapacity];
-		topTenScores = new int[10];
+		indicesOfNeededChanges = new Array<Integer>();
+		interactionScreens = new Array<Screen>();
+		vulnerabilityTypes = new Array<String>();
+		screenStack = new Array<Screen>();
+		topTenScores = new Array<Integer>();
 		resultSummary = new ResultSummary(numberOfVulnerabilities);
-		indicesOfScreens = new int[numberOfTests];
-		indicesOfTests = new Integer[numberOfComputerScreens];
+		indicesOfScreens = new Array<Integer>();
+		indicesOfTests = new Array<Integer>();
+
+		for(int i = 0; i < numberOfTests; i++){
+			indicesOfScreens.add(0);
+		}
+
+		for(int i = 0; i < 10; i++){
+			topTenScores.add(-1);
+		}
+
+		for(int i = 0; i < numberOfComputerScreens; i++){
+			indicesOfTests.add(0);
+		}
+
+		for(int i = 0; i < screenStackCapacity; i++){
+			screenStack.add(null);
+		}
 
 	}
 
@@ -114,39 +122,39 @@ public class Prototype extends Game {
 		badFont = generator.generateFont(parameter);
 		parameter.color = Color.BLACK;
 		blackFont = generator.generateFont(parameter);
-		vulnerabilityTypes[0] = "SQL Injection";
-		vulnerabilityTypes[1] = "Buffer overflow";
-		vulnerabilityTypes[2] = "Side channel attack";
-		vulnerabilityTypes[3] = "Memory leak";
-		testList[0] = new TestScenario(0, "sqlcorrect.png", "sqlincorrect.png", "SQL Injection", "Database handler",
+		vulnerabilityTypes.add("SQL Injection");
+		vulnerabilityTypes.add("Buffer overflow");
+		vulnerabilityTypes.add("Side channel attack");
+		vulnerabilityTypes.add("Memory leak");
+		testList.add(new TestScenario(0, "sqlcorrect.png", "sqlincorrect.png", "SQL Injection", "Database handler",
 		"SQL Injection can happen when SQL statements are produced by concatenating inputs from sources. This can be exploited by users when they include SQL commands in their input.\n"
 		+ "SQL Injection can be prevented when programmers sanitize their inputs to check for illegal characters.\n" + 
 		"In the scenario where a user is to input their username and inputs are not sanitized they could potentially receive a full list of usernames by typing in: username\" OR \"1\" = \"1", 
 		vulnerabilityTypes,
 		"This code takes an unchecked string from the user and appends it to the query string. While the program asks for a single parameter, a " +
 		"malicious user could enter a string which ends the intended query, then they could start their own custom command, for instance inserting " +
-		"or deleting data from the database.");
-		testList[1] = new TestScenario(1, "buffercorrect.png", "bufferincorrect.png", "Buffer overflow", "User input handler",
+		"or deleting data from the database."));
+		testList.add(new TestScenario(1, "buffercorrect.png", "bufferincorrect.png", "Buffer overflow", "User input handler",
 		"Buffer overflow is when a program attempts to write to memory outside the intended range. Many programming languages, such as Java, will prevent the data from actually " + 
 		"being written outside the allocated memory if attempted. Languages such as C, however, will not prevent this. The memory after the intended range ends can belong to other " + 
 		"variables or even the code that will be executed.\n" + 
 		"This vulnerability can be exploited in order to crash programs, bypass authentication, or in other ways alter the way the program works.", vulnerabilityTypes,
 		"This program defines an input limit of size 100, then uses this limit when reading input into a buffer of size 25. This means that the user can " +
-		"write data outside the buffer, affecting parts of the memory which can belong to other variables or even code to be executed.");
-		testList[2] = new TestScenario(1, "sidecorrect.png", "sideincorrect.png", "Side channel attack", "Authenticator",
+		"write data outside the buffer, affecting parts of the memory which can belong to other variables or even code to be executed."));
+		testList.add(new TestScenario(1, "sidecorrect.png", "sideincorrect.png", "Side channel attack", "Authenticator",
 		"A side channel attack is when information surrounding the program can be used to deduct information. " + 
 		"Examples of types of information that can be used are time and sound. The execution time of a program can, in some cases, " + 
 		"reveal information about confidential data. One way to prevent this is by making sure that the execution time does not depend on " + 
 		"the confidential data, for instance by making it constant.", vulnerabilityTypes,
 		"This code example has a subtle vulnerability. The function examines the provided password character by character and returns the value representing an " +
 		"incorrect password as soon as a check fails. This means that there is a correlation between the execution time and the number of correct starting characters in the " +
-		"provided password.");
-		testList[3] = new TestScenario(1, "memorycorrect.png", "memoryincorrect.png", "Memory leak", "Memory handler",
+		"provided password."));
+		testList.add(new TestScenario(1, "memorycorrect.png", "memoryincorrect.png", "Memory leak", "Memory handler",
 		"Memory leaks happen when allocated memory is not freed after its use. This can be exploited if the vulnerability can be recreated by malicious users.\n" + 
 		"Memory leaks can crash systems, lead to denial of service attacks and lead to monetary losses.", vulnerabilityTypes,
 		"In this example, the program allocates memory 10 times within a loop, and stores the pointer to that memory in the same variable each time. " +
 		"After the loop has finished, the allocated memory pointed to by the variable is freed. This will only be the memory allocated in the last loop iteration, " +
-		"however, which means that the program will leak memory every time this function is called.");
+		"however, which means that the program will leak memory every time this function is called."));
 		resetTopTenList();
 		helpScreen = new HelpScreen(this);
 		this.setScreen(new MainMenuScreen(this));
@@ -188,14 +196,14 @@ public class Prototype extends Game {
 			usbInteractionScreen.dispose();
 		}
 		resetScreenStack();
-		for(int i = 0; i < testList.length; i++){
-			if(testList[i] != null){
-				testList[i].dispose();
+		for(int i = 0; i < testList.size; i++){
+			if(testList.get(i) != null){
+				testList.get(i).dispose();
 			}
 		}
-		for(int i = 0; i < interactionScreens.length; i++){
-			if(interactionScreens[i] != null){
-				interactionScreens[i].dispose();
+		for(int i = 0; i < interactionScreens.size; i++){
+			if(interactionScreens.get(i) != null){
+				interactionScreens.get(i).dispose();
 			}
 		}
 	}
@@ -205,20 +213,25 @@ public class Prototype extends Game {
 			numErrors = numberOfTests;
 		}
 		numberOfNeededChanges = numErrors;
+		indicesOfNeededChanges = new Array<Integer>();
+		for(int i = 0; i < numberOfNeededChanges; i++){
+			indicesOfNeededChanges.add(0);
+		}
 		numberOfAnsweredTests = 0;
 		totalRounds = rounds;
-		indicesOfNeededChanges = new int[numberOfNeededChanges];
 		numberOfCorrectlyAnsweredTests = 0;
 		round++;
 		setRandomValues();
 		setLists();
 		resetScreenStack();
 		generateIndicesForScreens();
-		for(int i = 0; i < interactionScreens.length; i++){
-			if(interactionScreens[i] != null){
-				interactionScreens[i].dispose();
+		for(int i = 0; i < interactionScreens.size; i++){
+			if(interactionScreens.get(i) != null){
+				interactionScreens.get(i).dispose();
 			}
-			interactionScreens[i] = new ComputerInteractionScreen(this, testList[i].testNeedsChange, i);
+		}
+		for(int i = 0; i < numberOfTests; i++){
+			interactionScreens.add(new ComputerInteractionScreen(this, testList.get(i).testNeedsChange, i));
 		}
 		if(helpScreen != null){
 			helpScreen.dispose();
@@ -236,22 +249,22 @@ public class Prototype extends Game {
 	public void updateTopTenList(){
 		int newIndex = -1;
 		for(int i = 0; i < 10; i++){
-			if(totalScore > topTenScores[i]){
+			if(totalScore > topTenScores.get(i)){
 				newIndex = i;
 				for(int j = 9; j > i; j--){
-					topTenScores[j] = topTenScores[j-1];
+					topTenScores.set(j, topTenScores.get(j-1));
 				}
 				break;
 			}
 		}
 		if(newIndex >= 0){
-			topTenScores[newIndex] = totalScore;
+			topTenScores.set(newIndex, totalScore);
 		}
 	}
 
 	public void resetTopTenList(){
 		for(int i = 0; i < 10; i++){
-			topTenScores[i] = -1;
+			topTenScores.set(i, -1);
 		}
 	}
 
@@ -265,8 +278,8 @@ public class Prototype extends Game {
 		if(screenStackPointer < 0){
 			return null;
 		}
-		Screen poppedScreen = screenStack[screenStackPointer];
-		screenStack[screenStackPointer] = null;
+		Screen poppedScreen = screenStack.get(screenStackPointer);
+		screenStack.set(screenStackPointer, null);
 		screenStackPointer--;
 		return poppedScreen;
 	}
@@ -278,15 +291,15 @@ public class Prototype extends Game {
 			resetScreenStack();
 			Gdx.app.exit();
 		}
-		screenStack[screenStackPointer] = screen;
+		screenStack.set(screenStackPointer, screen);
 	}
 
 	public void resetScreenStack(){
 		for(int i = 0; i < screenStackCapacity; i++){
-			if(screenStack[i] != null){
-				screenStack[i].dispose();
+			if(screenStack.get(i) != null){
+				screenStack.get(i).dispose();
 			}
-			screenStack[i] = null;
+			screenStack.set(i, null);
 		}
 		screenStackPointer = -1;
 	}
@@ -300,12 +313,12 @@ public class Prototype extends Game {
 				randomNumber = MathUtils.random((numberOfTests - 1));
 				uniqueNumber = true;
 				for(int j = 0; j < i; j++){
-					if(indicesOfNeededChanges[j] == randomNumber){
+					if(indicesOfNeededChanges.get(j) == randomNumber){
 						uniqueNumber = false;
 					}
 				}
 				if(uniqueNumber){
-					indicesOfNeededChanges[i] = randomNumber;
+					indicesOfNeededChanges.set(i, randomNumber);
 				}
 			}
 		}
@@ -320,58 +333,58 @@ public class Prototype extends Game {
 				randomNumber = MathUtils.random((numberOfComputerScreens - 1));
 				uniqueNumber = true;
 				for(int j = 0; j < i; j++){
-					if(indicesOfScreens[j] == randomNumber){
+					if(indicesOfScreens.get(j) == randomNumber){
 						uniqueNumber = false;
 					}
 				}
 				if(uniqueNumber){
-					indicesOfScreens[i] = randomNumber;
+					indicesOfScreens.set(i, randomNumber);
 				}
 			}
 		}
 		for(int i = 0; i < numberOfTests; i++){
-			indicesOfTests[indicesOfScreens[i]] = i;
+			indicesOfTests.set(indicesOfScreens.get(i), i);
 		}
 	}
 
 	private void setLists(){
-		for(int i = 0; i < testList.length; i++){
-			testList[i].resetValues();
+		for(int i = 0; i < testList.size; i++){
+			testList.get(i).resetValues();
 		}
 		for(int i = 0; i < numberOfNeededChanges; i++){
-			testList[indicesOfNeededChanges[i]].testNeedsChange = true;
+			testList.get(indicesOfNeededChanges.get(i)).testNeedsChange = true;
 		}
 		for(int i = 0; i < numberOfComputerScreens; i++){
-			indicesOfTests[i] = null;
+			indicesOfTests.set(i, null);
 		}
 	}
 
 
 	public void registerAnswer(String answer, int index){
-		testList[index].providedAnswer = answer;
-		if(testList[index].testNeedsChange && answer.equals(testList[index].correctAnswer)){
-			testList[index].testAnsweredCorrectly = true;
+		testList.get(index).providedAnswer = answer;
+		if(testList.get(index).testNeedsChange && answer.equals(testList.get(index).correctAnswer)){
+			testList.get(index).testAnsweredCorrectly = true;
 			numberOfCorrectlyAnsweredTests++;
 		}
-		testList[index].testIsFinished = true;
+		testList.get(index).testIsFinished = true;
 		numberOfAnsweredTests++;
 	}
 
 	public void registerAnswer(int index){
-		if(!testList[index].testNeedsChange){
-			testList[index].testAnsweredCorrectly = true;
+		if(!testList.get(index).testNeedsChange){
+			testList.get(index).testAnsweredCorrectly = true;
 			numberOfCorrectlyAnsweredTests++;
 		}
-		testList[index].testIsFinished = true;
+		testList.get(index).testIsFinished = true;
 		numberOfAnsweredTests++;
 	}
 
 	public void resetAnswer(int index){
-		if(testList[index].testAnsweredCorrectly){
-			testList[index].testAnsweredCorrectly = false;
+		if(testList.get(index).testAnsweredCorrectly){
+			testList.get(index).testAnsweredCorrectly = false;
 			numberOfCorrectlyAnsweredTests--;
 		}
-		testList[index].testIsFinished = false;
+		testList.get(index).testIsFinished = false;
 		numberOfAnsweredTests--;
 	}
 
@@ -379,14 +392,14 @@ public class Prototype extends Game {
 		totalScore += numberOfCorrectlyAnsweredTests;
 		resultSummary.totalNumberOfRounds++;
 		for(int i = 0; i < numberOfTests; i++){
-			resultSummary.totalTestInstances[testList[i].vulnerabilityIndex]++;
-			if(testList[i].testAnsweredCorrectly){
-				testList[i].totalTestScore++;
-				resultSummary.testResults[testList[i].vulnerabilityIndex]++;
+			resultSummary.totalTestInstances.set(testList.get(i).vulnerabilityIndex, resultSummary.totalTestInstances.get(testList.get(i).vulnerabilityIndex) + 1);
+			if(testList.get(i).testAnsweredCorrectly){
+				testList.get(i).totalTestScore++;
+				resultSummary.testResults.set(testList.get(i).vulnerabilityIndex, resultSummary.testResults.get(testList.get(i).vulnerabilityIndex));
 			}
 		}
 		for(int i = 0; i < numberOfVulnerabilities; i++){
-			resultSummary.percentCorrect[i] = (int)((resultSummary.testResults[i]*100) / resultSummary.totalTestInstances[i]);
+			resultSummary.percentCorrect.set(i, (int)((resultSummary.testResults.get(i)*100) / resultSummary.totalTestInstances.get(i)));
 		}
 	}
 

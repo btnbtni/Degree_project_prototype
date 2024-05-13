@@ -110,12 +110,12 @@ public class TileMapHelper {
         doorMapObject.getProperties().put("open", !open);
     }
 
-    public void setExclamationMarks(Integer[] testArray){
+    public void setExclamationMarks(Array<Integer> testArray){
         Array<RectangleMapObject> exclamationMarksArray = getExclamationMarks();
 
         for(int i = 0; i < exclamationMarksArray.size; i++){
             if(exclamationMarksArray.get(i).getProperties().get("desk", boolean.class)){
-                if(testArray[Integer.parseInt(exclamationMarksArray.get(i).getName())] == null){
+                if(testArray.get(Integer.parseInt(exclamationMarksArray.get(i).getName())) == null){
                     exclamationMarksArray.get(i).setVisible(false);
                 }
             }
