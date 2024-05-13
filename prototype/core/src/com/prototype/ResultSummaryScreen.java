@@ -28,10 +28,10 @@ public class ResultSummaryScreen implements Screen {
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
 
-		for(int i = 0; i < game.numberOfTests; i++){
+		for(int i = 0; i < game.numberOfVulnerabilities; i++){
             yCoordinate = 700 - i*lineOffset;
-            game.font.draw(game.batch, game.testList[i].testName + ": ", 100, yCoordinate);
-            game.font.draw(game.batch, game.resultSummary.testResults[i] + " / " + game.resultSummary.totalNumberOfRounds , 400, yCoordinate);
+            game.font.draw(game.batch, game.testList[i].correctAnswer + ": ", 100, yCoordinate);
+            game.font.draw(game.batch, game.resultSummary.testResults[i] + " / " + game.resultSummary.totalTestInstances[i] , 400, yCoordinate);
             if(game.resultSummary.percentCorrect[i] > 69){
                 game.goodFont.draw(game.batch, game.resultSummary.percentCorrect[i] + "%", 600, yCoordinate);
             }else if(game.resultSummary.percentCorrect[i] > 30){

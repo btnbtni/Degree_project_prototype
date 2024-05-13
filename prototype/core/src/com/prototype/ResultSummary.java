@@ -3,11 +3,13 @@ package com.prototype;
 public class ResultSummary {
     public int totalNumberOfRounds;
     public int[] testResults;
+    public int[] totalTestInstances;
     public int[] percentCorrect;
 
-    public ResultSummary(int numberOfTests){
-        testResults = new int[numberOfTests];
-        percentCorrect = new int[numberOfTests];
+    public ResultSummary(int numberOfVulnerabilities){
+        testResults = new int[numberOfVulnerabilities];
+        totalTestInstances = new int[numberOfVulnerabilities];
+        percentCorrect = new int[numberOfVulnerabilities];
         resetResults();
     }
 
