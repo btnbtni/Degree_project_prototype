@@ -34,6 +34,7 @@ public class Prototype extends Game {
 	public Screen[] interactionScreens;
 	public Screen usbInteractionScreen;
 	public Screen npcInteractionScreen;
+	public Screen helpScreen;
 	private Screen[] screenStack;
 	public boolean[] testIsFinished;
 	public boolean[] testNeedsChange;
@@ -183,6 +184,7 @@ public class Prototype extends Game {
 		}
 		usbInteractionScreen = new USBInteractionScreen(this);
 		npcInteractionScreen = new NPCInteractionScreen(this);
+		helpScreen = new HelpScreen(this);
 		System.out.println("START OF ARRAY");
 		for(int i = 0; i < indicesOfTests.length; i++){
 			System.out.println(indicesOfTests[i]);
