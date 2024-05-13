@@ -2,14 +2,11 @@ package com.prototype;
 
 import java.util.Random;
 
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
@@ -29,8 +26,11 @@ public class TileMapHelper {
 
     }
 
+    public void dispose(){
+        tilemap.dispose();
+    }
+
     public OrthogonalTiledMapRenderer setupMap(){
-        // tilemap = new TmxMapLoader().load("map/deskmap2.tmx");
         tilemap = new TmxMapLoader().load("tileMap/office.tmx");
         return new OrthogonalTiledMapRenderer(tilemap);
     }

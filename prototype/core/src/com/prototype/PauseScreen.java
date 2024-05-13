@@ -12,7 +12,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.Input;
 
 public class PauseScreen implements Screen {
@@ -63,6 +62,7 @@ public class PauseScreen implements Screen {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
 			if(selectedIndex == 0){
 				game.setScreen(game.popPreviousScreen());
+				dispose();
 			}
 			if(selectedIndex == 1){
 				game.resetScreenStack();
@@ -75,6 +75,7 @@ public class PauseScreen implements Screen {
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			game.setScreen(game.popPreviousScreen());
+			dispose();
 		}
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {

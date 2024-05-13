@@ -12,7 +12,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.Input;
 
 public class StartNewGameScreen implements Screen {
@@ -64,19 +63,23 @@ public class StartNewGameScreen implements Screen {
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
 			if(selectedIndex == 0){
-				game.startNewSession(2, 5);
+				game.startNewSession(1, 5);
 				game.setScreen(new GameScreen(game));
+				dispose();
 			}
 			if(selectedIndex == 1){
-				game.startNewSession(5, 5);
+				game.startNewSession(2, 5);
 				game.setScreen(new GameScreen(game));
+				dispose();
 			}
 			if(selectedIndex == 2){
-				game.startNewSession(8, 5);
+				game.startNewSession(3, 5);
 				game.setScreen(new GameScreen(game));
+				dispose();
 			}
             if(selectedIndex == 3){
 				game.setScreen(game.popPreviousScreen());
+				dispose();
 			}
 		}
 
@@ -95,14 +98,14 @@ public class StartNewGameScreen implements Screen {
 		}
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-			System.out.println(selectedIndex);
+			game.setScreen(game.popPreviousScreen());
+			dispose();
 		}
 
 	}
 
     @Override
     public void dispose(){
-
     }
 
     @Override

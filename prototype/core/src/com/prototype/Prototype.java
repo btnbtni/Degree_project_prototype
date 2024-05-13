@@ -60,7 +60,6 @@ public class Prototype extends Game {
 	public Integer[] indicesOfTests;
 	private int screenStackPointer;
 	private int screenStackCapacity;
-	// private int numberOfInteractions;
 	public int numberOfTests;
 	public int numberOfTotalTests;
 	public int numberOfNeededChanges;
@@ -75,8 +74,7 @@ public class Prototype extends Game {
 		this.windowSizeX = windowSizeX;
 		this.windowSizeY = windowSizeY;
 		this.tileSize = 64;
-		// numberOfInteractions = 10;
-		numberOfTests = 5;
+		numberOfTests = 4;
 		numberOfVulnerabilities = 4;
 		numberOfTotalTests = numberOfTests + 2;
 		numberOfNeededChanges = 5;
@@ -105,9 +103,7 @@ public class Prototype extends Game {
 		batch = new SpriteBatch();
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("joystix monospace.otf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		//font = new BitmapFont();
         font = generator.generateFont(parameter);
-		//greyFont = new BitmapFont();
 		parameter.color = Color.DARK_GRAY;
         greyFont = generator.generateFont(parameter);
 		parameter.color = Color.YELLOW;
@@ -118,41 +114,41 @@ public class Prototype extends Game {
 		badFont = generator.generateFont(parameter);
 		parameter.color = Color.BLACK;
 		blackFont = generator.generateFont(parameter);
-		//greyFont.setColor(Color.DARK_GRAY);
 		vulnerabilityTypes[0] = "SQL Injection";
 		vulnerabilityTypes[1] = "Buffer overflow";
 		vulnerabilityTypes[2] = "Side channel attack";
 		vulnerabilityTypes[3] = "Memory leak";
 		testList[0] = new TestScenario(0, "sqlcorrect.png", "sqlincorrect.png", "SQL Injection", "Database handler",
-		"Explanation of how SQL injections work. Filler text to see how wrapping works, hello, goodbye.", vulnerabilityTypes,
+		"SQL Injection can happen when SQL statements are produced by concatenating inputs from sources. This can be exploited by users when they include SQL commands in their input.\n"
+		+ "SQL Injection can be prevented when programmers sanitize their inputs to check for illegal characters.\n" + 
+		"In the scenario where a user is to input their username and inputs are not sanitized they could potentially receive a full list of usernames by typing in: username\" OR \"1\" = \"1", 
+		vulnerabilityTypes,
 		"This code takes an unchecked string from the user and appends it to the query string. While the program asks for a single parameter, a " +
 		"malicious user could enter a string which ends the intended query, then they could start their own custom command, for instance inserting " +
 		"or deleting data from the database.");
 		testList[1] = new TestScenario(1, "buffercorrect.png", "bufferincorrect.png", "Buffer overflow", "User input handler",
-		"Here will soon be an explanation of how buffer overflow works, as well as how to avoid them.", vulnerabilityTypes,
+		"Buffer overflow is when a program attempts to write to memory outside the intended range. Many programming languages, such as Java, will prevent the data from actually " + 
+		"being written outside the allocated memory if attempted. Languages such as C, however, will not prevent this. The memory after the intended range ends can belong to other " + 
+		"variables or even the code that will be executed.\n" + 
+		"This vulnerability can be exploited in order to crash programs, bypass authentication, or in other ways alter the way the program works.", vulnerabilityTypes,
 		"This program defines an input limit of size 100, then uses this limit when reading input into a buffer of size 25. This means that the user can " +
 		"write data outside the buffer, affecting parts of the memory which can belong to other variables or even code to be executed.");
 		testList[2] = new TestScenario(1, "sidecorrect.png", "sideincorrect.png", "Side channel attack", "Authenticator",
-		"Easy to overlook etc.", vulnerabilityTypes,
+		"A side channel attack is when information surrounding the program can be used to deduct information. " + 
+		"Examples of types of information that can be used are time and sound. The execution time of a program can, in some cases, " + 
+		"reveal information about confidential data. One way to prevent this is by making sure that the execution time does not depend on " + 
+		"the confidential data, for instance by making it constant.", vulnerabilityTypes,
 		"This code example has a subtle vulnerability. The function examines the provided password character by character and returns the value representing an " +
 		"incorrect password as soon as a check fails. This means that there is a correlation between the execution time and the number of correct starting characters in the " +
 		"provided password.");
 		testList[3] = new TestScenario(1, "memorycorrect.png", "memoryincorrect.png", "Memory leak", "Memory handler",
-		"Will mention that it is not usually a very dangerous vulnerability but it can crash servers etc.", vulnerabilityTypes,
+		"Memory leaks happen when allocated memory is not freed after its use. This can be exploited if the vulnerability can be recreated by malicious users.\n" + 
+		"Memory leaks can crash systems, lead to denial of service attacks and lead to monetary losses.", vulnerabilityTypes,
 		"In this example, the program allocates memory 10 times within a loop, and stores the pointer to that memory in the same variable each time. " +
 		"After the loop has finished, the allocated memory pointed to by the variable is freed. This will only be the memory allocated in the last loop iteration, " +
 		"however, which means that the program will leak memory every time this function is called.");
-		testList[4] = new TestScenario(1, "memorycorrect.png", "memoryincorrect.png", "Memory leak", "Memory handler 2",
-		"Will mention that it is not usually a very dangerous vulnerability but it can crash servers etc.", vulnerabilityTypes,
-		"In this example, the program allocates memory 10 times within a loop, and stores the pointer to that memory in the same variable each time. " +
-		"After the loop has finished, the allocated memory pointed to by the variable is freed. This will only be the memory allocated in the last loop iteration, " +
-		"however, which means that the program will leak memory every time this function is called.");
-		// for(int i = 4; i < numberOfTests; i++){
-		// 	vulnerabilityTypes[i] = "Placeholder " + i;
-		// 	testList[i] = new TestScenario(i, "correctcodeexample1.png", "incorrectcodeexample1.png",
-		// 	 "Placeholder " + i, "Sample handler " + i, "Test description for vulnerability number " + i + ".");
-		// }
 		resetTopTenList();
+		helpScreen = new HelpScreen(this);
 		this.setScreen(new MainMenuScreen(this));
 	}
 
@@ -161,8 +157,47 @@ public class Prototype extends Game {
 	}
 
 	public void dispose() {
-		batch.dispose();
-		font.dispose();
+		if(batch != null){
+			batch.dispose();
+		}
+		if(font != null){
+			font.dispose();
+		}
+		if(greyFont != null){
+			greyFont.dispose();
+		}
+		if(blackFont != null){
+			blackFont.dispose();
+		}
+		if(goodFont != null){
+			goodFont.dispose();
+		}
+		if(neutralFont != null){
+			neutralFont.dispose();
+		}
+		if(badFont != null){
+			badFont.dispose();
+		}
+		if(helpScreen != null){
+			helpScreen.dispose();
+		}
+		if(npcInteractionScreen != null){
+			npcInteractionScreen.dispose();
+		}
+		if(usbInteractionScreen != null){
+			usbInteractionScreen.dispose();
+		}
+		resetScreenStack();
+		for(int i = 0; i < testList.length; i++){
+			if(testList[i] != null){
+				testList[i].dispose();
+			}
+		}
+		for(int i = 0; i < interactionScreens.length; i++){
+			if(interactionScreens[i] != null){
+				interactionScreens[i].dispose();
+			}
+		}
 	}
 
 	public void startNewSession(int numErrors, int rounds){
@@ -180,16 +215,22 @@ public class Prototype extends Game {
 		resetScreenStack();
 		generateIndicesForScreens();
 		for(int i = 0; i < interactionScreens.length; i++){
+			if(interactionScreens[i] != null){
+				interactionScreens[i].dispose();
+			}
 			interactionScreens[i] = new ComputerInteractionScreen(this, testList[i].testNeedsChange, i);
+		}
+		if(helpScreen != null){
+			helpScreen.dispose();
+		}
+		if(npcInteractionScreen != null){
+			npcInteractionScreen.dispose();
+		}
+		if(usbInteractionScreen != null){
+			usbInteractionScreen.dispose();
 		}
 		usbInteractionScreen = new USBInteractionScreen(this);
 		npcInteractionScreen = new NPCInteractionScreen(this);
-		helpScreen = new HelpScreen(this);
-		System.out.println("START OF ARRAY");
-		for(int i = 0; i < indicesOfTests.length; i++){
-			System.out.println(indicesOfTests[i]);
-		}
-		System.out.println("END OF ARRAY");
 	}
 
 	public void updateTopTenList(){
@@ -234,16 +275,20 @@ public class Prototype extends Game {
 		screenStackPointer++;
 		if(screenStackPointer >= screenStackCapacity){
 			screenStackPointer--;
-			return;
+			resetScreenStack();
+			Gdx.app.exit();
 		}
 		screenStack[screenStackPointer] = screen;
 	}
 
 	public void resetScreenStack(){
 		for(int i = 0; i < screenStackCapacity; i++){
+			if(screenStack[i] != null){
+				screenStack[i].dispose();
+			}
 			screenStack[i] = null;
-			screenStackPointer = -1;
 		}
+		screenStackPointer = -1;
 	}
 
 	private void setRandomValues(){

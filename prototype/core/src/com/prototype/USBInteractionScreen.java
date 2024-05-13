@@ -7,19 +7,9 @@
 
 package com.prototype;
 
-import java.util.Iterator;
-
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.Input;
@@ -30,9 +20,6 @@ public class USBInteractionScreen implements Screen {
     final Prototype game;
     
 	private Texture backgroundImage;
-	private Texture decisionWindowA;
-	private Texture decisionWindowB;
-	private Texture vulnerabilityWindow;
 
 	private OrthographicCamera camera;
 
@@ -60,11 +47,8 @@ public class USBInteractionScreen implements Screen {
 
 	public USBInteractionScreen(final Prototype game) {
         this.game = game;
+
 		backgroundImage = new Texture(Gdx.files.internal("npcinteractionbackground.png"));
-		decisionWindowA = new Texture(Gdx.files.internal("judgecodeyesbig1.png"));
-		decisionWindowB = new Texture(Gdx.files.internal("judgecodenobig1.png"));
-		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylistbig1.png"));
-		
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
@@ -132,7 +116,6 @@ public class USBInteractionScreen implements Screen {
 
 		StringBuilder quizQuestionBuilder = new StringBuilder();
 		if(screenPhase == 1){
-			//game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 300);
 			for(int i = 0; i < quizQuestions.length; i++){
 				quizQuestionBuilder.setLength(0);
 				if(quizQuestions[i].getSelectedAnswer()){
@@ -226,9 +209,7 @@ public class USBInteractionScreen implements Screen {
 	
 	@Override
 	public void dispose () {
-		
       	backgroundImage.dispose();
-      	// game.batch.dispose();
 	}
 
     @Override
@@ -237,9 +218,6 @@ public class USBInteractionScreen implements Screen {
 
 	@Override
 	public void show() {
-		// start the playback of the background music
-		// when the screen is shown
-		//rainMusic.play();
 	}
 
 	@Override

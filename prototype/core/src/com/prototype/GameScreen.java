@@ -88,14 +88,13 @@ public class GameScreen implements Screen {
 		player = new Rectangle();
 		player.x = (game.windowSizeX / 2) - (game.tileSize/2);
 		player.y = game.windowSizeY/2;
-		//player.x = 128;
-		//player.y = 128;
 		player.width = 42;
 		player.height = 30;
 		movingDirection = 0;
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("joystix monospace.otf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		
         parameter.size = 12;
 		parameter.color = Color.WHITE;
         font = generator.generateFont(parameter);
@@ -270,8 +269,8 @@ public class GameScreen implements Screen {
 			PolygonMapObject interactionObject = tileMapHelper.detectInteraction(player, "interaction");
 			if(interactionObject != null && interactionObject.getName().equals("exitDoor")){
 				game.finishRound();
-				game.pushPreviousScreen(this);
 				game.setScreen(new EndScreen(game));
+				dispose();
 			}
 		}
 
@@ -300,14 +299,17 @@ public class GameScreen implements Screen {
       	playerImageDown.dispose();
 		playerImageUp.dispose();
 		playerImageLeft.dispose();
-		playerImageDown.dispose();
+		playerImageRight.dispose();
 		exclamationMarkImage.dispose();
 		usbImage.dispose();
 		openDoorLeft.dispose();
 		closedDoorLeft.dispose();
 		openDoorRight.dispose();
 		closedDoorRight.dispose();
-      	// game.batch.dispose();
+		orthogonalTiledMapRenderer.dispose();
+		font.dispose();
+		tileMapHelper.dispose();
+
 	}
 
     @Override
@@ -316,9 +318,6 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		// start the playback of the background music
-		// when the screen is shown
-		//rainMusic.play();
 	}
 
 	@Override

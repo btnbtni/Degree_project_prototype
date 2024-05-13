@@ -12,13 +12,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.Input;
 
 public class MainMenuScreen implements Screen {
     
     final Prototype game;
-
 	private Array<String> menuItems;
 	OrthographicCamera camera;
 	private int midAlignX;
@@ -29,7 +27,6 @@ public class MainMenuScreen implements Screen {
 
 	public MainMenuScreen(final Prototype game) {
 		this.game = game;
-
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
 		menuItems = new Array<String>();
@@ -72,7 +69,7 @@ public class MainMenuScreen implements Screen {
 			}
 			if(selectedIndex == 1){
 				game.pushPreviousScreen(this);
-				game.setScreen(new HelpScreen(game));
+				game.setScreen(game.helpScreen);
 			}
 			if(selectedIndex == 2){
 				game.pushPreviousScreen(this);
@@ -103,10 +100,6 @@ public class MainMenuScreen implements Screen {
 			if(selectedIndex < 0){
 				selectedIndex = numOptions - 1;
 			}
-		}
-
-		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-			System.out.println(selectedIndex);
 		}
 
 	}

@@ -12,9 +12,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.Input;
 
 public class HelpScreen implements Screen {
@@ -71,7 +69,7 @@ public class HelpScreen implements Screen {
 
     @Override
     public void dispose(){
-
+		helpScreenIcons.dispose();
     }
 
     @Override

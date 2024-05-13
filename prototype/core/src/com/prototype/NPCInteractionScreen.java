@@ -241,7 +241,11 @@ public class NPCInteractionScreen implements Screen {
 	public void dispose () {
 		
       	backgroundImage.dispose();
-      	// game.batch.dispose();
+		if(phishingImage != null){
+			phishingImage.dispose();
+		}
+		npcImage.dispose();
+
 	}
 
     @Override

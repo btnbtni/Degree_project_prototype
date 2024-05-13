@@ -7,29 +7,15 @@
 
 package com.prototype;
 
-import java.util.Iterator;
-
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 
 public class GameBreakdownScreen implements Screen {
 
     final Prototype game;
-    
-	private Texture backgroundImage;
 
 	private OrthographicCamera camera;
 
@@ -80,26 +66,9 @@ public class GameBreakdownScreen implements Screen {
 		}
 		game.batch.end();
 
-		if(game.round < game.totalRounds){
-			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-				game.setScreen(game.popPreviousScreen());
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-				
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-				
-			}
-		}else{
-            if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-				game.setScreen(game.popPreviousScreen());
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-				
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-				
-			}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+			game.setScreen(game.popPreviousScreen());
+			dispose();
 		}
 
 
@@ -107,9 +76,6 @@ public class GameBreakdownScreen implements Screen {
 	
 	@Override
 	public void dispose () {
-		
-      	backgroundImage.dispose();
-      	// game.batch.dispose();
 	}
 
     @Override
@@ -118,9 +84,6 @@ public class GameBreakdownScreen implements Screen {
 
 	@Override
 	public void show() {
-		// start the playback of the background music
-		// when the screen is shown
-		//rainMusic.play();
 	}
 
 	@Override
