@@ -92,6 +92,15 @@ public class GameScreen implements Screen {
 		player.height = 30;
 		movingDirection = 0;
 
+		/*
+		 * Usage of FreeTypeFontGenerator and FreeTypeFontParameter following this guide:
+		 * https://libgdx.com/wiki/extensions/gdx-freetype
+		 * 
+		 * Font file joystix monospace from:
+		 * https://www.1001fonts.com/pixel-fonts.html
+		 * https://typodermicfonts.com/proportional-joystix/
+		 */
+
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("joystix monospace.otf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		

@@ -117,6 +117,7 @@ public class Prototype extends Game {
 		 * 
 		 * Font file joystix monospace from:
 		 * https://www.1001fonts.com/pixel-fonts.html
+		 * https://typodermicfonts.com/proportional-joystix/
 		 */
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("joystix monospace.otf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
