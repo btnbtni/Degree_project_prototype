@@ -67,8 +67,6 @@ public class EndScreen implements Screen {
 		game.font.draw(game.batch, "Press B to view round breakdown", controlTextStartX, controlTextStartY - 25);
 		
 		if(game.round >= game.totalRounds){
-			// String lastRoundString = "Game over!";
-			// game.font.draw(game.batch, lastRoundString, controlTextStartX, controlTextStartY);
 			game.font.draw(game.batch, "Press enter to return to main menu", controlTextStartX, controlTextStartY);
 			game.font.draw(game.batch, "Press G to view game breakdown", controlTextStartX, controlTextStartY - 50);
 		}else{

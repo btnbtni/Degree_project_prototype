@@ -99,9 +99,6 @@ public class InformationScreen implements Screen {
 
 	@Override
 	public void show() {
-		// start the playback of the background music
-		// when the screen is shown
-		//rainMusic.play();
 	}
 
 	@Override

@@ -150,7 +150,6 @@ public class NPCInteractionScreen implements Screen {
 
 		StringBuilder quizQuestionBuilder = new StringBuilder();
 		if(screenPhase == 1){
-			//game.batch.draw(vulnerabilityWindow, (float)(game.windowSizeX*0.5) - 70, (float)(game.windowSizeY*0.7) - 300);
 			game.batch.draw(npcImage, (float)(game.windowSizeX*0.5) - 70 + 400, (float)(game.windowSizeY*0.7) - 300 + 200);
 			float yOffset = 150;
 			if(phishingQuestion){
