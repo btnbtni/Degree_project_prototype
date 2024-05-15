@@ -25,6 +25,10 @@ public class TestExplanationScreen implements Screen {
     int textStartY;
     int textWidth;
     String explanationIfCorrect;
+	int sourceTextX;
+	int sourceTextOneY;
+	int sourceTextTwoY;
+	int sourceTextThreeY;
 
 
 
@@ -38,6 +42,10 @@ public class TestExplanationScreen implements Screen {
 		textStartY = 650;
         textWidth = 450;
         explanationIfCorrect = "This code does not have a known vulnerability";
+		sourceTextX = 15;
+		sourceTextOneY = 60;
+		sourceTextTwoY = 45;
+		sourceTextThreeY = 30;
 	}
 	
 
@@ -48,9 +56,21 @@ public class TestExplanationScreen implements Screen {
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
         game.batch.draw(backgroundPicture, 0, 0);
+		if(game.testList.get(testIndex).codeSourceThree != null){
+			game.sourceFont.draw(game.batch, game.testList.get(testIndex).codeSourceOne, sourceTextX, sourceTextThreeY);
+		}
+		if(game.testList.get(testIndex).codeSourceTwo != null){
+			game.sourceFont.draw(game.batch, game.testList.get(testIndex).codeSourceTwo, sourceTextX, sourceTextTwoY);
+		}
+		if(game.testList.get(testIndex).codeSourceOne != null){
+			game.sourceFont.draw(game.batch, game.testList.get(testIndex).codeSourceOne, sourceTextX, sourceTextOneY);
+			game.sourceFont.draw(game.batch, "Code sources: ", sourceTextX, sourceTextOneY + 15);
+		}
         if(game.testList.get(testIndex).testNeedsChange){
 			game.batch.draw(game.testList.get(testIndex).incorrectCodeImage, 10, 0);
             game.font.draw(game.batch, game.testList.get(testIndex).explanation, textStartX, textStartY, textWidth, Align.left, true);
+			game.sourceFont.draw(game.batch, "Explanation source:", textStartX, textStartY - 285);
+			game.sourceFont.draw(game.batch, game.testList.get(testIndex).explanationSource, textStartX, textStartY - 300);
 		}else{
 			game.batch.draw(game.testList.get(testIndex).correctCodeImage, 10, 0);
             game.font.draw(game.batch, explanationIfCorrect, textStartX, textStartY, textWidth, Align.left, true);
