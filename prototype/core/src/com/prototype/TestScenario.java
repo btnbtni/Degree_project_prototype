@@ -20,8 +20,14 @@ public class TestScenario implements Screen{
     public String description;
     public int vulnerabilityIndex;
     public String explanation;
+    public String codeSourceOne;
+    public String codeSourceTwo;
+    public String codeSourceThree;
+    public String infoSource;
+    public String explanationSource;
 
-    public TestScenario(int index, String correctPath, String incorrectPath, String correctAnswer, String name, String description, Array<String> vulnList, String explanation){
+    public TestScenario(int index, String correctPath, String incorrectPath, String correctAnswer, String name, String description, Array<String> vulnList, String explanation,
+    String codeSourceOne, String codeSourceTwo, String codeSourceThree, String infoSource, String explanationSource){
         testIndex = index;
         correctCodeImage = new Texture(Gdx.files.internal(correctPath));
         incorrectCodeImage = new Texture(Gdx.files.internal(incorrectPath));
@@ -35,6 +41,11 @@ public class TestScenario implements Screen{
         providedAnswer = null;
         this.description = description;
         vulnerabilityIndex = 0;
+        this.codeSourceOne = codeSourceOne;
+        this.codeSourceTwo = codeSourceTwo;
+        this.codeSourceThree = codeSourceThree;
+        this.explanationSource = explanationSource;
+        this.infoSource = infoSource;
         for(int i = 0; i < vulnList.size; i++){
             if(correctAnswer.equals(vulnList.get(i))){
                 vulnerabilityIndex = i;

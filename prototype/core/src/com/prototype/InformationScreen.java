@@ -60,6 +60,10 @@ public class InformationScreen implements Screen {
             }
         }
         game.blackFont.draw(game.batch, game.testList.get(listPointer).description, descriptionTextStartX, descriptionTextStartY, 660, Align.left, true);
+        game.blackSourceFont.draw(game.batch, "Source:", descriptionTextStartX, 45);
+        if(game.testList.get(listPointer).infoSource != null){
+            game.blackSourceFont.draw(game.batch, game.testList.get(listPointer).infoSource, descriptionTextStartX, 30);
+        }
 		game.batch.end();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){

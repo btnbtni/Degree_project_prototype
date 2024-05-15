@@ -44,6 +44,11 @@ public class ComputerInteractionScreen implements Screen {
 	int infoBoxX;
 	int infoBoxY;
 
+	int sourceTextX;
+	int sourceTextOneY;
+	int sourceTextTwoY;
+	int sourceTextThreeY;
+
 	int screenPhase;
 	boolean yesMarked;
 
@@ -51,11 +56,9 @@ public class ComputerInteractionScreen implements Screen {
         this.game = game;
 		this.hasError = hasError;
 		screenIndex = index;
-		backgroundImage = new Texture(Gdx.files.internal("emptycomputerscreenlarge.png"));
-		decisionWindowA = new Texture(Gdx.files.internal("yesempty1.png"));
-		decisionWindowB = new Texture(Gdx.files.internal("noempty1.png"));
-		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylistbig1.png"));
-		infoTextBox = new Texture(Gdx.files.internal("infotext1.png"));
+
+		loadAssets();
+		
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.windowSizeX, game.windowSizeY);
@@ -72,6 +75,11 @@ public class ComputerInteractionScreen implements Screen {
 		choiceWindowTextY = choiceWindowY + 85;
 		infoBoxX = (int)(game.windowSizeX*0.5) - 100;
 		infoBoxY = (int)(game.windowSizeY*0.5);
+
+		sourceTextX = 15;
+		sourceTextOneY = 60;
+		sourceTextTwoY = 45;
+		sourceTextThreeY = 30;
 
 
 		screenPhase = 0;
@@ -98,6 +106,16 @@ public class ComputerInteractionScreen implements Screen {
 		game.batch.begin();
 		game.batch.draw(backgroundImage, background.x, background.y);
 		game.font.draw(game.batch, game.testList.get(screenIndex).testName, 8, 761);
+		if(game.testList.get(screenIndex).codeSourceThree != null){
+			game.sourceFont.draw(game.batch, game.testList.get(screenIndex).codeSourceOne, sourceTextX, sourceTextThreeY);
+		}
+		if(game.testList.get(screenIndex).codeSourceTwo != null){
+			game.sourceFont.draw(game.batch, game.testList.get(screenIndex).codeSourceTwo, sourceTextX, sourceTextTwoY);
+		}
+		if(game.testList.get(screenIndex).codeSourceOne != null){
+			game.sourceFont.draw(game.batch, game.testList.get(screenIndex).codeSourceOne, sourceTextX, sourceTextOneY);
+			game.sourceFont.draw(game.batch, "Sources: ", sourceTextX, sourceTextOneY + 15);
+		}
 		if(hasError){
 			game.batch.draw(game.testList.get(screenIndex).incorrectCodeImage, 10, 0);
 		}else{
@@ -177,6 +195,14 @@ public class ComputerInteractionScreen implements Screen {
 			}
 		}
 
+	}
+
+	public void loadAssets(){
+		backgroundImage = new Texture(Gdx.files.internal("emptycomputerscreenlarge.png"));
+		decisionWindowA = new Texture(Gdx.files.internal("yesempty1.png"));
+		decisionWindowB = new Texture(Gdx.files.internal("noempty1.png"));
+		vulnerabilityWindow = new Texture(Gdx.files.internal("vulnerabilitylistbig1.png"));
+		infoTextBox = new Texture(Gdx.files.internal("infotext1.png"));
 	}
 	
 	@Override

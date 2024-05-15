@@ -113,6 +113,8 @@ public class USBInteractionScreen implements Screen {
 		game.batch.draw(backgroundImage, background.x, background.y);
 		
 		game.blackFont.draw(game.batch, informationString, startCodeTextX, startCodeTextY);
+		game.blackSourceFont.draw(game.batch, "Source: ", 15, 45);
+		game.blackSourceFont.draw(game.batch, "https://clario.co/blog/how-to-prevent-usb-attacks/", 15, 30);
 
 		StringBuilder quizQuestionBuilder = new StringBuilder();
 		if(screenPhase == 1){

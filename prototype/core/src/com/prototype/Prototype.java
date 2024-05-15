@@ -32,6 +32,8 @@ public class Prototype extends Game {
 	public BitmapFont goodFont;
 	public BitmapFont neutralFont;
 	public BitmapFont badFont;
+	public BitmapFont sourceFont;
+	public BitmapFont blackSourceFont;
 	public Array<Screen> interactionScreens;
 	public Screen usbInteractionScreen;
 	public Screen npcInteractionScreen;
@@ -109,8 +111,18 @@ public class Prototype extends Game {
 
 	public void create() {
 		batch = new SpriteBatch();
+		/*
+		 * Usage of FreeTypeFontGenerator and FreeTypeFontParameter following this guide:
+		 * https://libgdx.com/wiki/extensions/gdx-freetype
+		 * 
+		 * Font file joystix monospace from:
+		 * https://www.1001fonts.com/pixel-fonts.html
+		 */
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("joystix monospace.otf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		sourceFont = new BitmapFont();
+		blackSourceFont = new BitmapFont();
+		blackSourceFont.setColor(Color.BLACK);
         font = generator.generateFont(parameter);
 		parameter.color = Color.DARK_GRAY;
         greyFont = generator.generateFont(parameter);
@@ -126,6 +138,11 @@ public class Prototype extends Game {
 		vulnerabilityTypes.add("Buffer overflow");
 		vulnerabilityTypes.add("Side channel attack");
 		vulnerabilityTypes.add("Memory leak");
+		/*
+		 * Sources for info, code example and explanation below
+		 * https://www.programiz.com/sql/injection
+		 * https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html
+		 */
 		testList.add(new TestScenario(0, "sqlcorrect.png", "sqlincorrect.png", "SQL Injection", "Database handler",
 		"SQL Injection can happen when SQL statements are produced by concatenating inputs from sources. This can be exploited by users when they include SQL commands in their input.\n"
 		+ "SQL Injection can be prevented when programmers sanitize their inputs to check for illegal characters.\n" + 
@@ -133,28 +150,70 @@ public class Prototype extends Game {
 		vulnerabilityTypes,
 		"This code takes an unchecked string from the user and appends it to the query string. While the program asks for a single parameter, a " +
 		"malicious user could enter a string which ends the intended query, then they could start their own custom command, for instance inserting " +
-		"or deleting data from the database."));
+		"or deleting data from the database.",
+		"https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html",
+		null,
+		null,
+		"https://www.programiz.com/sql/injection",
+		"https://www.programiz.com/sql/injection"));
+
+
+		/*
+		 * Sources for info, code example and explanation below
+		 * https://owasp.org/www-community/vulnerabilities/Buffer_Overflow
+		 * https://www.tutorialspoint.com/c_standard_library/c_function_fgets.htm
+		 * https://www.w3schools.com/c/c_user_input.php
+		 */
 		testList.add(new TestScenario(1, "buffercorrect.png", "bufferincorrect.png", "Buffer overflow", "User input handler",
 		"Buffer overflow is when a program attempts to write to memory outside the intended range. Many programming languages, such as Java, will prevent the data from actually " + 
 		"being written outside the allocated memory if attempted. Languages such as C, however, will not prevent this. The memory after the intended range ends can belong to other " + 
 		"variables or even the code that will be executed.\n" + 
 		"This vulnerability can be exploited in order to crash programs, bypass authentication, or in other ways alter the way the program works.", vulnerabilityTypes,
 		"This program defines an input limit of size 100, then uses this limit when reading input into a buffer of size 25. This means that the user can " +
-		"write data outside the buffer, affecting parts of the memory which can belong to other variables or even code to be executed."));
+		"write data outside the buffer, affecting parts of the memory which can belong to other variables or even code to be executed.",
+		"https://owasp.org/www-community/vulnerabilities/Buffer_Overflow",
+		"https://www.tutorialspoint.com/c_standard_library/c_function_fgets.htm",
+		"https://www.w3schools.com/c/c_user_input.php",
+		"https://owasp.org/www-community/vulnerabilities/Buffer_Overflow",
+		"https://owasp.org/www-community/vulnerabilities/Buffer_Overflow"));
+
+
+		/*
+		 * Sources for info, code example and explanation below
+		 * https://youtu.be/-D1gf3omRnw?si=WVvQ6YGOPDWpGeIn
+		 */
 		testList.add(new TestScenario(1, "sidecorrect.png", "sideincorrect.png", "Side channel attack", "Authenticator",
-		"A side channel attack is when information surrounding the program can be used to deduct information. " + 
+		"A side channel attack is when information surrounding the program can be used to gain information. " + 
 		"Examples of types of information that can be used are time and sound. The execution time of a program can, in some cases, " + 
 		"reveal information about confidential data. One way to prevent this is by making sure that the execution time does not depend on " + 
 		"the confidential data, for instance by making it constant.", vulnerabilityTypes,
 		"This code example has a subtle vulnerability. The function examines the provided password character by character and returns the value representing an " +
 		"incorrect password as soon as a check fails. This means that there is a correlation between the execution time and the number of correct starting characters in the " +
-		"provided password."));
+		"provided password.",
+		"https://youtu.be/-D1gf3omRnw?si=WVvQ6YGOPDWpGeIn",
+		null,
+		null,
+		"https://youtu.be/-D1gf3omRnw?si=WVvQ6YGOPDWpGeIn",
+		"https://youtu.be/-D1gf3omRnw?si=WVvQ6YGOPDWpGeIn"));
+
+
+
+		/*
+		 * Sources for info, code example and explanation below
+		 * https://owasp.org/www-community/vulnerabilities/Memory_leak
+		 * https://www.geeksforgeeks.org/what-is-memory-leak-how-can-we-avoid/
+		 */
 		testList.add(new TestScenario(1, "memorycorrect.png", "memoryincorrect.png", "Memory leak", "Memory handler",
 		"Memory leaks happen when allocated memory is not freed after its use. This can be exploited if the vulnerability can be recreated by malicious users.\n" + 
 		"Memory leaks can crash systems, lead to denial of service attacks and lead to monetary losses.", vulnerabilityTypes,
 		"In this example, the program allocates memory 10 times within a loop, and stores the pointer to that memory in the same variable each time. " +
 		"After the loop has finished, the allocated memory pointed to by the variable is freed. This will only be the memory allocated in the last loop iteration, " +
-		"however, which means that the program will leak memory every time this function is called."));
+		"however, which means that the program will leak memory every time this function is called.",
+		"https://owasp.org/www-community/vulnerabilities/Memory_leak",
+		null,
+		null,
+		"https://www.geeksforgeeks.org/what-is-memory-leak-how-can-we-avoid/",
+		"https://owasp.org/www-community/vulnerabilities/Memory_leak"));
 		resetTopTenList();
 		helpScreen = new HelpScreen(this);
 		this.setScreen(new MainMenuScreen(this));
@@ -186,6 +245,9 @@ public class Prototype extends Game {
 		if(badFont != null){
 			badFont.dispose();
 		}
+		if(sourceFont != null){
+			sourceFont.dispose();
+		}
 		if(helpScreen != null){
 			helpScreen.dispose();
 		}
@@ -201,6 +263,7 @@ public class Prototype extends Game {
 				testList.get(i).dispose();
 			}
 		}
+
 		for(int i = 0; i < interactionScreens.size; i++){
 			if(interactionScreens.get(i) != null){
 				interactionScreens.get(i).dispose();
@@ -225,11 +288,13 @@ public class Prototype extends Game {
 		setLists();
 		resetScreenStack();
 		generateIndicesForScreens();
+
 		for(int i = 0; i < interactionScreens.size; i++){
 			if(interactionScreens.get(i) != null){
 				interactionScreens.get(i).dispose();
 			}
 		}
+		interactionScreens = new Array<Screen>();
 		for(int i = 0; i < numberOfTests; i++){
 			interactionScreens.add(new ComputerInteractionScreen(this, testList.get(i).testNeedsChange, i));
 		}
@@ -242,6 +307,7 @@ public class Prototype extends Game {
 		if(usbInteractionScreen != null){
 			usbInteractionScreen.dispose();
 		}
+		helpScreen = new HelpScreen(this);
 		usbInteractionScreen = new USBInteractionScreen(this);
 		npcInteractionScreen = new NPCInteractionScreen(this);
 	}

@@ -117,7 +117,7 @@ public class NPCInteractionScreen implements Screen {
 		question = new NPCQuestion("phishing/phish3.png");
 		question.putOption("This looks like a phishing email.", true);
 		question.putOption("This email looks legitimate.", false);
-		question.setExplanation("It is common to lure victims with the promise of money.");
+		question.setExplanation("You should always verify the email address of the sender!");
 		phishingQuestions.add(question);
 
 		if(MathUtils.random(0,100) % 2 == 0){

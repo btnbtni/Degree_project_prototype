@@ -64,8 +64,9 @@ public class MainMenuScreen implements Screen {
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
 			if(selectedIndex == 0){
-				game.pushPreviousScreen(this);
-				game.setScreen(new StartNewGameScreen(game));
+				game.startNewSession(2, 5);
+				game.setScreen(new GameScreen(game));
+				dispose();
 			}
 			if(selectedIndex == 1){
 				game.pushPreviousScreen(this);
